@@ -1,0 +1,87 @@
+package com.poi.yow_point.application.model;
+
+public enum PoiType {
+    // Food & Drink
+    RESTAURANT,
+    CAFE,
+    BAR,
+    SNACK_FAST_FOOD,
+    BOULANGERIE_PATISSERIE,
+    GLACIER,
+    MARCHE,
+    SUPERMARCHE,
+    CAVE_A_VIN,
+
+    // Accommodation
+    HOTEL,
+    APPARTEMENT_MEUBLE,
+    RESIDENCE,
+    AUBERGE,
+    MAISON_HOTE,
+
+    // Shopping & Retail
+    CENTRE_COMMERCIAL,
+    MAGASIN_VETEMENTS,
+    PHARMACIE,
+    LIBRAIRIE,
+    QUINCAILLERIE,
+    BOUTIQUE_ELECTRONIQUE,
+    MAGASIN_MEUBLES,
+    BOUTIQUE_ARTISANAT,
+
+    // Transportation
+    AEROPORT,
+    GARE_ROUTIERE,
+    ARRET_BUS,
+    STATION_TAXI,
+    AGENCE_LOCATION_VOITURE,
+    STATION_SERVICE,
+    GARE_FERROVIAIRE,
+
+    // Health & Wellness
+    HOPITAL,
+    CLINIQUE,
+    DENTISTE,
+    OPTICIEN,
+    SALLE_SPORT,
+    SPA_SALON_BEAUTE,
+    LABORATOIRE_ANALYSES,
+
+    // Leisure & Culture
+    CINEMA,
+    MUSEE,
+    PARC_JARDIN,
+    SALLE_SPECTACLE,
+    SITE_TOURISTIQUE,
+    BOITE_DE_NUIT,
+    CENTRE_CULTUREL,
+    BIBLIOTHEQUE,
+    ZOO_PARC_ANIMALIER,
+
+    // Public & Admin Services
+    MAIRIE,
+    BUREAU_POSTE,
+    AMBASSADE_CONSULAT,
+    POLICE_GENDARMERIE,
+    CENTRE_IMPOTS,
+    TRIBUNAL,
+
+    // Finance
+    BANQUE,
+    GUICHET_AUTOMATIQUE,
+    BUREAU_CHANGE,
+    MICROFINANCE,
+    TRANSFERT_ARGENT,
+
+    // Education
+    UNIVERSITE,
+    ECOLE,
+    CENTRE_FORMATION,
+    CRECHE_GARDERIE,
+
+    // Worship & Spirituality
+    EGLISE,
+    MOSQUEE,
+    TEMPLE,
+    AUTRE_LIEU_CULTE
+}

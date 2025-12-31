@@ -1,0 +1,152 @@
+@startuml
+' ==============================
+' 1. Types structurés (as notes)
+' ==============================
+
+class address_type << (T,#ADD1DD) >> {
+    +street_number: TEXT
+    +street_name: TEXT
+    +city: TEXT
+    +state_province: TEXT
+    +postal_code: TEXT
+    +country: TEXT
+    +informal_address: TEXT
+}
+
+class contact_person_type << (T,#ADD1DD) >> {
+    +name: TEXT
+    +role: TEXT
+    +phone: TEXT
+    +email: TEXT
+}
+
+' ========================================
+' 2. Organisation (tenant) et utilisateurs
+' ========================================
+class organization {
+    +organization_id: UUID <<PK>>
+    +org_name: TEXT
+    +org_code: TEXT
+    +org_type: TEXT
+    +created_at: TIMESTAMPTZ
+    +is_active: BOOLEAN
+}
+
+class app_user {
+    +user_id: UUID <<PK>>
+    +org_id: UUID <<FK>>
+    +username: TEXT
+    +email: TEXT
+    +phone: TEXT
+    +password_hash: TEXT
+    +role: TEXT
+    +is_active: BOOLEAN
+    +created_at: TIMESTAMPTZ
+}
+
+organization "1" --o "0..*" app_user : users
+
+' ========================================
+' 3. Points d'Intérêt (POI)
+' ========================================
+class point_of_interest {
+    +poi_id: UUID <<PK>>
+    +org_id: UUID <<FK>>
+    +town_id: UUID
+    +created_by_user_id: UUID <<FK>>
+    +poi_name: TEXT
+    +poi_type: TEXT
+    +poi_category: TEXT
+    +poi_long_name: TEXT
+    +poi_short_name: TEXT
+    +poi_friendly_name: TEXT
+    +poi_description: TEXT
+    +poi_logo: BYTEA
+    +poi_images: TEXT[]
+    +location_geog: GEOGRAPHY(Point, 4326)
+    +poi_address: address_type
+    +phone_number: TEXT
+    +website_url: TEXT
+    +poi_amenities: TEXT[]
+    +poi_keywords: TEXT[]
+    +poi_type_tags: TEXT[]
+    +operation_time_plan: JSONB
+    +poi_contacts: contact_person_type[]
+    +popularity_score: FLOAT
+    +is_active: BOOLEAN
+    +deactivation_reason: TEXT
+    +deactivated_by_user_id: UUID <<FK>>
+    +created_at: TIMESTAMPTZ
+    +updated_by_user_id: UUID
+    +updated_at: TIMESTAMPTZ
+}
+
+organization "1" --o "0..*" point_of_interest : pois
+app_user "1" --o "0..*" point_of_interest : created
+app_user "1" --o "0..*" point_of_interest : deactivated
+
+' ========================================
+' 4. POI Reviews
+' ========================================
+class poi_review {
+    +review_id: UUID <<PK>>
+    +poi_id: UUID <<FK>>
+    +user_id: UUID <<FK>>
+    +organization_id: UUID <<FK>>
+    +platform_type: TEXT
+    +rating: INT
+    +review_text: TEXT
+    +created_at: TIMESTAMPTZ
+    +likes: INT
+    +dislikes: INT
+}
+
+organization "1" --o "0..*" poi_review
+app_user "1" --o "0..*" poi_review
+point_of_interest "1" --o "0..*" poi_review
+
+' ========================================
+' 5. POI Access Logs (analytics brutes)
+' ========================================
+class poi_access_log {
+    +access_id: UUID <<PK>>
+    +poi_id: UUID <<FK>>
+    +organization_id: UUID <<FK>>
+    +platform_type: TEXT
+    +user_id: UUID
+    +access_type: TEXT
+    +access_datetime: TIMESTAMPTZ
+    +metadata: JSONB
+}
+
+organization "1" --o "0..*" poi_access_log
+point_of_interest "1" --o "0..*" poi_access_log
+
+' ========================================
+' 6. Statistiques analytiques par plateforme/organisation
+' ========================================
+class poi_platform_stat {
+    +stat_id: UUID <<PK>>
+    +org_id: UUID <<FK>>
+    +poi_id: UUID <<FK>>
+    +platform_type: TEXT
+    +stat_date: DATE
+    +views: INT
+    +reviews: INT
+    +likes: INT
+    +dislikes: INT
+}
+
+organization "1" --o "0..*" poi_platform_stat
+point_of_interest "1" --o "0..*" poi_platform_stat
+
+' ========================================
+' 7. Notes (types structurés utilisés)
+' ========================================
+note right of point_of_interest
+  *poi_address* : address_type
+  *poi_contacts* : contact_person_type[]
+end note
+
+@enduml
+

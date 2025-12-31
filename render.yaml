@@ -1,0 +1,32 @@
+services:
+  # Définition du Service Web (Spring Boot)
+  - type: web
+    name: yowpoint-api
+    runtime: docker
+    dockerfilePath: ./Dockerfile
+    plan: starter
+    branch: main
+    # --- FIX 1: Health check properties are now top-level ---
+    healthCheckPath: /actuator/health
+    # initialDelaySeconds: 90
+    envVars:
+      - key: SPRING_R2DBC_URL
+        fromDatabase:
+          name: yowpoint-db # Doit correspondre au nom de la DB
+          property: connectionString
+      - key: SPRING_R2DBC_USERNAME
+        fromDatabase:
+          name: yowpoint-db
+          property: user
+      - key: SPRING_R2DBC_PASSWORD
+        fromDatabase:
+          name: yowpoint-db
+          property: password
+
+databases:
+  # Définition de la Base de Données PostgreSQL
+  - name: yowpoint-db
+    databaseName: yowpointdb
+    user: yowpoint_user
+    # --- FIX 2: Removed 'postgisEnabled' as it's not a valid field.
+    # PostGIS is enabled by default on Render for all PostgreSQL databases.

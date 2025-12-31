@@ -1,0 +1,532 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report.xsd" version="3.0.2" name="com.poi.yow_point.presentation.controllers.PointOfInterestControllerIntegrationTest" time="4.617" tests="1" errors="0" skipped="0" failures="0">
+  <properties>
+    <property name="jdk.tls.rejectClientInitiatedRenegotiation" value="true"/>
+    <property name="java.specification.version" value="21"/>
+    <property name="sun.jnu.encoding" value="UTF-8"/>
+    <property name="java.class.path" value="/home/varnel/Desktop/New Folder/api_poi/target/test-classes:/home/varnel/Desktop/New Folder/api_poi/target/classes:/home/varnel/.m2/repository/org/testcontainers/junit-jupiter/1.19.3/junit-jupiter-1.19.3.jar:/home/varnel/.m2/repository/org/testcontainers/testcontainers/1.19.3/testcontainers-1.19.3.jar:/home/varnel/.m2/repository/junit/junit/4.13.2/junit-4.13.2.jar:/home/varnel/.m2/repository/org/hamcrest/hamcrest-core/3.0/hamcrest-core-3.0.jar:/home/varnel/.m2/repository/org/apache/commons/commons-compress/1.24.0/commons-compress-1.24.0.jar:/home/varnel/.m2/repository/org/rnorth/duct-tape/duct-tape/1.0.8/duct-tape-1.0.8.jar:/home/varnel/.m2/repository/org/jetbrains/annotations/17.0.0/annotations-17.0.0.jar:/home/varnel/.m2/repository/com/github/docker-java/docker-java-api/3.3.4/docker-java-api-3.3.4.jar:/home/varnel/.m2/repository/com/github/docker-java/docker-java-transport-zerodep/3.3.4/docker-java-transport-zerodep-3.3.4.jar:/home/varnel/.m2/repository/com/github/docker-java/docker-java-transport/3.3.4/docker-java-transport-3.3.4.jar:/home/varnel/.m2/repository/net/java/dev/jna/jna/5.13.0/jna-5.13.0.jar:/home/varnel/.m2/repository/org/testcontainers/postgresql/1.19.3/postgresql-1.19.3.jar:/home/varnel/.m2/repository/org/testcontainers/jdbc/1.19.3/jdbc-1.19.3.jar:/home/varnel/.m2/repository/org/testcontainers/database-commons/1.19.3/database-commons-1.19.3.jar:/home/varnel/.m2/repository/org/springframework/boot/spring-boot-starter-actuator/3.5.0/spring-boot-starter-actuator-3.5.0.jar:/home/varnel/.m2/repository/org/springframework/boot/spring-boot-starter/3.5.0/spring-boot-starter-3.5.0.jar:/home/varnel/.m2/repository/org/springframework/boot/spring-boot-starter-logging/3.5.0/spring-boot-starter-logging-3.5.0.jar:/home/varnel/.m2/repository/org/apache/logging/log4j/log4j-to-slf4j/2.24.3/log4j-to-slf4j-2.24.3.jar:/home/varnel/.m2/repository/org/apache/logging/log4j/log4j-api/2.24.3/log4j-api-2.24.3.jar:/home/varnel/.m2/repository/org/slf4j/jul-to-slf4j/2.0.17/jul-to-slf4j-2.0.17.jar:/home/varnel/.m2/repository/jakarta/annotation/jakarta.annotation-api/2.1.1/jakarta.annotation-api-2.1.1.jar:/home/varnel/.m2/repository/org/yaml/snakeyaml/2.4/snakeyaml-2.4.jar:/home/varnel/.m2/repository/org/springframework/boot/spring-boot-actuator-autoconfigure/3.5.0/spring-boot-actuator-autoconfigure-3.5.0.jar:/home/varnel/.m2/repository/org/springframework/boot/spring-boot-actuator/3.5.0/spring-boot-actuator-3.5.0.jar:/home/varnel/.m2/repository/io/micrometer/micrometer-observation/1.15.0/micrometer-observation-1.15.0.jar:/home/varnel/.m2/repository/io/micrometer/micrometer-commons/1.15.0/micrometer-commons-1.15.0.jar:/home/varnel/.m2/repository/io/micrometer/micrometer-jakarta9/1.15.0/micrometer-jakarta9-1.15.0.jar:/home/varnel/.m2/repository/io/micrometer/micrometer-core/1.15.0/micrometer-core-1.15.0.jar:/home/varnel/.m2/repository/org/hdrhistogram/HdrHistogram/2.2.2/HdrHistogram-2.2.2.jar:/home/varnel/.m2/repository/org/latencyutils/LatencyUtils/2.0.3/LatencyUtils-2.0.3.jar:/home/varnel/.m2/repository/org/springframework/boot/spring-boot-starter-security/3.5.0/spring-boot-starter-security-3.5.0.jar:/home/varnel/.m2/repository/org/springframework/spring-aop/6.2.7/spring-aop-6.2.7.jar:/home/varnel/.m2/repository/org/springframework/spring-beans/6.2.7/spring-beans-6.2.7.jar:/home/varnel/.m2/repository/org/springframework/security/spring-security-config/6.5.0/spring-security-config-6.5.0.jar:/home/varnel/.m2/repository/org/springframework/security/spring-security-core/6.5.0/spring-security-core-6.5.0.jar:/home/varnel/.m2/repository/org/springframework/security/spring-security-crypto/6.5.0/spring-security-crypto-6.5.0.jar:/home/varnel/.m2/repository/org/springframework/security/spring-security-web/6.5.0/spring-security-web-6.5.0.jar:/home/varnel/.m2/repository/org/springframework/spring-expression/6.2.7/spring-expression-6.2.7.jar:/home/varnel/.m2/repository/org/springframework/boot/spring-boot-starter-webflux/3.5.0/spring-boot-starter-webflux-3.5.0.jar:/home/varnel/.m2/repository/org/springframework/boot/spring-boot-starter-json/3.5.0/spring-boot-starter-json-3.5.0.jar:/home/varnel/.m2/repository/com/fasterxml/jackson/datatype/jackson-datatype-jdk8/2.19.0/jackson-datatype-jdk8-2.19.0.jar:/home/varnel/.m2/repository/com/fasterxml/jackson/module/jackson-module-parameter-names/2.19.0/jackson-module-parameter-names-2.19.0.jar:/home/varnel/.m2/repository/org/springframework/boot/spring-boot-starter-reactor-netty/3.5.0/spring-boot-starter-reactor-netty-3.5.0.jar:/home/varnel/.m2/repository/io/projectreactor/netty/reactor-netty-http/1.2.6/reactor-netty-http-1.2.6.jar:/home/varnel/.m2/repository/io/netty/netty-codec-http/4.1.121.Final/netty-codec-http-4.1.121.Final.jar:/home/varnel/.m2/repository/io/netty/netty-codec-http2/4.1.121.Final/netty-codec-http2-4.1.121.Final.jar:/home/varnel/.m2/repository/org/springframework/spring-web/6.2.7/spring-web-6.2.7.jar:/home/varnel/.m2/repository/org/springframework/spring-webflux/6.2.7/spring-webflux-6.2.7.jar:/home/varnel/.m2/repository/org/springframework/boot/spring-boot-starter-data-r2dbc/3.5.0/spring-boot-starter-data-r2dbc-3.5.0.jar:/home/varnel/.m2/repository/org/springframework/data/spring-data-r2dbc/3.5.0/spring-data-r2dbc-3.5.0.jar:/home/varnel/.m2/repository/org/springframework/data/spring-data-relational/3.5.0/spring-data-relational-3.5.0.jar:/home/varnel/.m2/repository/org/springframework/data/spring-data-commons/3.5.0/spring-data-commons-3.5.0.jar:/home/varnel/.m2/repository/org/springframework/spring-jdbc/6.2.7/spring-jdbc-6.2.7.jar:/home/varnel/.m2/repository/org/springframework/spring-r2dbc/6.2.7/spring-r2dbc-6.2.7.jar:/home/varnel/.m2/repository/org/postgresql/r2dbc-postgresql/1.0.7.RELEASE/r2dbc-postgresql-1.0.7.RELEASE.jar:/home/varnel/.m2/repository/com/ongres/scram/client/2.1/client-2.1.jar:/home/varnel/.m2/repository/com/ongres/scram/common/2.1/common-2.1.jar:/home/varnel/.m2/repository/com/ongres/stringprep/saslprep/1.1/saslprep-1.1.jar:/home/varnel/.m2/repository/com/ongres/stringprep/stringprep/1.1/stringprep-1.1.jar:/home/varnel/.m2/repository/io/projectreactor/reactor-core/3.7.6/reactor-core-3.7.6.jar:/home/varnel/.m2/repository/io/projectreactor/netty/reactor-netty-core/1.2.6/reactor-netty-core-1.2.6.jar:/home/varnel/.m2/repository/io/netty/netty-handler/4.1.121.Final/netty-handler-4.1.121.Final.jar:/home/varnel/.m2/repository/io/netty/netty-common/4.1.121.Final/netty-common-4.1.121.Final.jar:/home/varnel/.m2/repository/io/netty/netty-resolver/4.1.121.Final/netty-resolver-4.1.121.Final.jar:/home/varnel/.m2/repository/io/netty/netty-buffer/4.1.121.Final/netty-buffer-4.1.121.Final.jar:/home/varnel/.m2/repository/io/netty/netty-transport/4.1.121.Final/netty-transport-4.1.121.Final.jar:/home/varnel/.m2/repository/io/netty/netty-transport-native-unix-common/4.1.121.Final/netty-transport-native-unix-common-4.1.121.Final.jar:/home/varnel/.m2/repository/io/netty/netty-codec/4.1.121.Final/netty-codec-4.1.121.Final.jar:/home/varnel/.m2/repository/io/netty/netty-handler-proxy/4.1.121.Final/netty-handler-proxy-4.1.121.Final.jar:/home/varnel/.m2/repository/io/netty/netty-codec-socks/4.1.121.Final/netty-codec-socks-4.1.121.Final.jar:/home/varnel/.m2/repository/io/netty/netty-resolver-dns/4.1.121.Final/netty-resolver-dns-4.1.121.Final.jar:/home/varnel/.m2/repository/io/netty/netty-codec-dns/4.1.121.Final/netty-codec-dns-4.1.121.Final.jar:/home/varnel/.m2/repository/io/netty/netty-resolver-dns-native-macos/4.1.121.Final/netty-resolver-dns-native-macos-4.1.121.Final-osx-x86_64.jar:/home/varnel/.m2/repository/io/netty/netty-resolver-dns-classes-macos/4.1.121.Final/netty-resolver-dns-classes-macos-4.1.121.Final.jar:/home/varnel/.m2/repository/io/netty/netty-transport-native-epoll/4.1.121.Final/netty-transport-native-epoll-4.1.121.Final-linux-x86_64.jar:/home/varnel/.m2/repository/io/netty/netty-transport-classes-epoll/4.1.121.Final/netty-transport-classes-epoll-4.1.121.Final.jar:/home/varnel/.m2/repository/net/postgis/postgis-jdbc/2.5.0/postgis-jdbc-2.5.0.jar:/home/varnel/.m2/repository/net/postgis/postgis-geometry/2.5.0/postgis-geometry-2.5.0.jar:/home/varnel/.m2/repository/org/slf4j/slf4j-api/2.0.17/slf4j-api-2.0.17.jar:/home/varnel/.m2/repository/org/postgresql/postgresql/42.7.5/postgresql-42.7.5.jar:/home/varnel/.m2/repository/org/checkerframework/checker-qual/3.48.3/checker-qual-3.48.3.jar:/home/varnel/.m2/repository/io/r2dbc/r2dbc-pool/1.0.2.RELEASE/r2dbc-pool-1.0.2.RELEASE.jar:/home/varnel/.m2/repository/io/projectreactor/addons/reactor-pool/1.1.2/reactor-pool-1.1.2.jar:/home/varnel/.m2/repository/io/r2dbc/r2dbc-spi/1.0.0.RELEASE/r2dbc-spi-1.0.0.RELEASE.jar:/home/varnel/.m2/repository/org/reactivestreams/reactive-streams/1.0.4/reactive-streams-1.0.4.jar:/home/varnel/.m2/repository/com/fasterxml/jackson/core/jackson-databind/2.19.0/jackson-databind-2.19.0.jar:/home/varnel/.m2/repository/com/fasterxml/jackson/core/jackson-annotations/2.19.0/jackson-annotations-2.19.0.jar:/home/varnel/.m2/repository/com/fasterxml/jackson/core/jackson-core/2.19.0/jackson-core-2.19.0.jar:/home/varnel/.m2/repository/com/fasterxml/jackson/datatype/jackson-datatype-jsr310/2.19.0/jackson-datatype-jsr310-2.19.0.jar:/home/varnel/.m2/repository/org/springframework/boot/spring-boot-starter-validation/3.5.0/spring-boot-starter-validation-3.5.0.jar:/home/varnel/.m2/repository/org/apache/tomcat/embed/tomcat-embed-el/10.1.41/tomcat-embed-el-10.1.41.jar:/home/varnel/.m2/repository/org/hibernate/validator/hibernate-validator/8.0.2.Final/hibernate-validator-8.0.2.Final.jar:/home/varnel/.m2/repository/jakarta/validation/jakarta.validation-api/3.0.2/jakarta.validation-api-3.0.2.jar:/home/varnel/.m2/repository/org/jboss/logging/jboss-logging/3.6.1.Final/jboss-logging-3.6.1.Final.jar:/home/varnel/.m2/repository/com/fasterxml/classmate/1.7.0/classmate-1.7.0.jar:/home/varnel/.m2/repository/org/springframework/boot/spring-boot-devtools/3.5.0/spring-boot-devtools-3.5.0.jar:/home/varnel/.m2/repository/org/springframework/boot/spring-boot/3.5.0/spring-boot-3.5.0.jar:/home/varnel/.m2/repository/org/springframework/boot/spring-boot-autoconfigure/3.5.0/spring-boot-autoconfigure-3.5.0.jar:/home/varnel/.m2/repository/org/locationtech/jts/jts-core/1.19.0/jts-core-1.19.0.jar:/home/varnel/.m2/repository/org/springframework/boot/spring-boot-starter-websocket/3.5.0/spring-boot-starter-websocket-3.5.0.jar:/home/varnel/.m2/repository/org/springframework/boot/spring-boot-starter-web/3.5.0/spring-boot-starter-web-3.5.0.jar:/home/varnel/.m2/repository/org/springframework/boot/spring-boot-starter-tomcat/3.5.0/spring-boot-starter-tomcat-3.5.0.jar:/home/varnel/.m2/repository/org/apache/tomcat/embed/tomcat-embed-core/10.1.41/tomcat-embed-core-10.1.41.jar:/home/varnel/.m2/repository/org/apache/tomcat/embed/tomcat-embed-websocket/10.1.41/tomcat-embed-websocket-10.1.41.jar:/home/varnel/.m2/repository/org/springframework/spring-webmvc/6.2.7/spring-webmvc-6.2.7.jar:/home/varnel/.m2/repository/org/springframework/spring-messaging/6.2.7/spring-messaging-6.2.7.jar:/home/varnel/.m2/repository/org/springframework/spring-websocket/6.2.7/spring-websocket-6.2.7.jar:/home/varnel/.m2/repository/org/projectlombok/lombok/1.18.32/lombok-1.18.32.jar:/home/varnel/.m2/repository/org/mapstruct/mapstruct/1.5.5.Final/mapstruct-1.5.5.Final.jar:/home/varnel/.m2/repository/org/mapstruct/mapstruct-processor/1.5.5.Final/mapstruct-processor-1.5.5.Final.jar:/home/varnel/.m2/repository/org/springframework/boot/spring-boot-starter-test/3.5.0/spring-boot-starter-test-3.5.0.jar:/home/varnel/.m2/repository/org/springframework/boot/spring-boot-test/3.5.0/spring-boot-test-3.5.0.jar:/home/varnel/.m2/repository/org/springframework/boot/spring-boot-test-autoconfigure/3.5.0/spring-boot-test-autoconfigure-3.5.0.jar:/home/varnel/.m2/repository/com/jayway/jsonpath/json-path/2.9.0/json-path-2.9.0.jar:/home/varnel/.m2/repository/jakarta/xml/bind/jakarta.xml.bind-api/4.0.2/jakarta.xml.bind-api-4.0.2.jar:/home/varnel/.m2/repository/jakarta/activation/jakarta.activation-api/2.1.3/jakarta.activation-api-2.1.3.jar:/home/varnel/.m2/repository/net/minidev/json-smart/2.5.2/json-smart-2.5.2.jar:/home/varnel/.m2/repository/net/minidev/accessors-smart/2.5.2/accessors-smart-2.5.2.jar:/home/varnel/.m2/repository/org/ow2/asm/asm/9.7.1/asm-9.7.1.jar:/home/varnel/.m2/repository/org/assertj/assertj-core/3.27.3/assertj-core-3.27.3.jar:/home/varnel/.m2/repository/net/bytebuddy/byte-buddy/1.17.5/byte-buddy-1.17.5.jar:/home/varnel/.m2/repository/org/awaitility/awaitility/4.3.0/awaitility-4.3.0.jar:/home/varnel/.m2/repository/org/hamcrest/hamcrest/3.0/hamcrest-3.0.jar:/home/varnel/.m2/repository/org/junit/jupiter/junit-jupiter/5.12.2/junit-jupiter-5.12.2.jar:/home/varnel/.m2/repository/org/junit/jupiter/junit-jupiter-params/5.12.2/junit-jupiter-params-5.12.2.jar:/home/varnel/.m2/repository/org/junit/jupiter/junit-jupiter-engine/5.12.2/junit-jupiter-engine-5.12.2.jar:/home/varnel/.m2/repository/org/mockito/mockito-core/5.17.0/mockito-core-5.17.0.jar:/home/varnel/.m2/repository/net/bytebuddy/byte-buddy-agent/1.17.5/byte-buddy-agent-1.17.5.jar:/home/varnel/.m2/repository/org/objenesis/objenesis/3.3/objenesis-3.3.jar:/home/varnel/.m2/repository/org/mockito/mockito-junit-jupiter/5.17.0/mockito-junit-jupiter-5.17.0.jar:/home/varnel/.m2/repository/org/skyscreamer/jsonassert/1.5.3/jsonassert-1.5.3.jar:/home/varnel/.m2/repository/com/vaadin/external/google/android-json/0.0.20131108.vaadin1/android-json-0.0.20131108.vaadin1.jar:/home/varnel/.m2/repository/org/springframework/spring-core/6.2.7/spring-core-6.2.7.jar:/home/varnel/.m2/repository/org/springframework/spring-jcl/6.2.7/spring-jcl-6.2.7.jar:/home/varnel/.m2/repository/org/springframework/spring-test/6.2.7/spring-test-6.2.7.jar:/home/varnel/.m2/repository/org/xmlunit/xmlunit-core/2.10.1/xmlunit-core-2.10.1.jar:/home/varnel/.m2/repository/io/projectreactor/reactor-test/3.7.6/reactor-test-3.7.6.jar:/home/varnel/.m2/repository/io/r2dbc/r2dbc-h2/1.0.0.RELEASE/r2dbc-h2-1.0.0.RELEASE.jar:/home/varnel/.m2/repository/com/h2database/h2/2.3.232/h2-2.3.232.jar:/home/varnel/.m2/repository/org/springdoc/springdoc-openapi-starter-webflux-ui/2.5.0/springdoc-openapi-starter-webflux-ui-2.5.0.jar:/home/varnel/.m2/repository/org/springdoc/springdoc-openapi-starter-webflux-api/2.5.0/springdoc-openapi-starter-webflux-api-2.5.0.jar:/home/varnel/.m2/repository/org/springdoc/springdoc-openapi-starter-common/2.5.0/springdoc-openapi-starter-common-2.5.0.jar:/home/varnel/.m2/repository/io/swagger/core/v3/swagger-core-jakarta/2.2.21/swagger-core-jakarta-2.2.21.jar:/home/varnel/.m2/repository/org/apache/commons/commons-lang3/3.17.0/commons-lang3-3.17.0.jar:/home/varnel/.m2/repository/io/swagger/core/v3/swagger-annotations-jakarta/2.2.21/swagger-annotations-jakarta-2.2.21.jar:/home/varnel/.m2/repository/io/swagger/core/v3/swagger-models-jakarta/2.2.21/swagger-models-jakarta-2.2.21.jar:/home/varnel/.m2/repository/com/fasterxml/jackson/dataformat/jackson-dataformat-yaml/2.19.0/jackson-dataformat-yaml-2.19.0.jar:/home/varnel/.m2/repository/org/webjars/swagger-ui/5.13.0/swagger-ui-5.13.0.jar:/home/varnel/.m2/repository/org/springframework/kafka/spring-kafka/3.3.6/spring-kafka-3.3.6.jar:/home/varnel/.m2/repository/org/springframework/spring-context/6.2.7/spring-context-6.2.7.jar:/home/varnel/.m2/repository/org/springframework/spring-tx/6.2.7/spring-tx-6.2.7.jar:/home/varnel/.m2/repository/org/springframework/retry/spring-retry/2.0.12/spring-retry-2.0.12.jar:/home/varnel/.m2/repository/org/apache/kafka/kafka-clients/3.9.1/kafka-clients-3.9.1.jar:/home/varnel/.m2/repository/com/github/luben/zstd-jni/1.5.6-4/zstd-jni-1.5.6-4.jar:/home/varnel/.m2/repository/org/lz4/lz4-java/1.8.0/lz4-java-1.8.0.jar:/home/varnel/.m2/repository/org/xerial/snappy/snappy-java/1.1.10.5/snappy-java-1.1.10.5.jar:/home/varnel/.m2/repository/org/springframework/kafka/spring-kafka-test/3.3.6/spring-kafka-test-3.3.6.jar:/home/varnel/.m2/repository/org/apache/zookeeper/zookeeper/3.8.4/zookeeper-3.8.4.jar:/home/varnel/.m2/repository/org/apache/zookeeper/zookeeper-jute/3.8.4/zookeeper-jute-3.8.4.jar:/home/varnel/.m2/repository/org/apache/yetus/audience-annotations/0.12.0/audience-annotations-0.12.0.jar:/home/varnel/.m2/repository/io/netty/netty-transport-native-epoll/4.1.121.Final/netty-transport-native-epoll-4.1.121.Final.jar:/home/varnel/.m2/repository/ch/qos/logback/logback-core/1.5.18/logback-core-1.5.18.jar:/home/varnel/.m2/repository/ch/qos/logback/logback-classic/1.5.18/logback-classic-1.5.18.jar:/home/varnel/.m2/repository/commons-io/commons-io/2.11.0/commons-io-2.11.0.jar:/home/varnel/.m2/repository/org/apache/kafka/kafka-clients/3.9.1/kafka-clients-3.9.1-test.jar:/home/varnel/.m2/repository/org/apache/kafka/kafka-server/3.9.1/kafka-server-3.9.1.jar:/home/varnel/.m2/repository/org/apache/kafka/kafka-storage/3.9.1/kafka-storage-3.9.1.jar:/home/varnel/.m2/repository/com/github/ben-manes/caffeine/caffeine/3.2.0/caffeine-3.2.0.jar:/home/varnel/.m2/repository/org/jspecify/jspecify/1.0.0/jspecify-1.0.0.jar:/home/varnel/.m2/repository/com/google/errorprone/error_prone_annotations/2.36.0/error_prone_annotations-2.36.0.jar:/home/varnel/.m2/repository/org/apache/kafka/kafka-group-coordinator/3.9.1/kafka-group-coordinator-3.9.1.jar:/home/varnel/.m2/repository/org/apache/kafka/kafka-transaction-coordinator/3.9.1/kafka-transaction-coordinator-3.9.1.jar:/home/varnel/.m2/repository/org/apache/kafka/kafka-raft/3.9.1/kafka-raft-3.9.1.jar:/home/varnel/.m2/repository/com/yammer/metrics/metrics-core/2.2.0/metrics-core-2.2.0.jar:/home/varnel/.m2/repository/org/apache/kafka/kafka-metadata/3.9.1/kafka-metadata-3.9.1.jar:/home/varnel/.m2/repository/org/apache/kafka/kafka-server-common/3.9.1/kafka-server-common-3.9.1.jar:/home/varnel/.m2/repository/net/sf/jopt-simple/jopt-simple/5.0.4/jopt-simple-5.0.4.jar:/home/varnel/.m2/repository/org/pcollections/pcollections/4.0.1/pcollections-4.0.1.jar:/home/varnel/.m2/repository/org/apache/kafka/kafka-server-common/3.9.1/kafka-server-common-3.9.1-test.jar:/home/varnel/.m2/repository/org/apache/kafka/kafka-streams-test-utils/3.9.1/kafka-streams-test-utils-3.9.1.jar:/home/varnel/.m2/repository/org/apache/kafka/kafka-streams/3.9.1/kafka-streams-3.9.1.jar:/home/varnel/.m2/repository/org/rocksdb/rocksdbjni/7.9.2/rocksdbjni-7.9.2.jar:/home/varnel/.m2/repository/org/apache/kafka/kafka_2.13/3.9.1/kafka_2.13-3.9.1.jar:/home/varnel/.m2/repository/org/scala-lang/scala-library/2.13.15/scala-library-2.13.15.jar:/home/varnel/.m2/repository/org/apache/kafka/kafka-group-coordinator-api/3.9.1/kafka-group-coordinator-api-3.9.1.jar:/home/varnel/.m2/repository/org/apache/kafka/kafka-storage-api/3.9.1/kafka-storage-api-3.9.1.jar:/home/varnel/.m2/repository/org/apache/kafka/kafka-tools-api/3.9.1/kafka-tools-api-3.9.1.jar:/home/varnel/.m2/repository/net/sourceforge/argparse4j/argparse4j/0.7.0/argparse4j-0.7.0.jar:/home/varnel/.m2/repository/commons-validator/commons-validator/1.7/commons-validator-1.7.jar:/home/varnel/.m2/repository/commons-beanutils/commons-beanutils/1.9.4/commons-beanutils-1.9.4.jar:/home/varnel/.m2/repository/commons-digester/commons-digester/2.1/commons-digester-2.1.jar:/home/varnel/.m2/repository/commons-collections/commons-collections/3.2.2/commons-collections-3.2.2.jar:/home/varnel/.m2/repository/com/fasterxml/jackson/module/jackson-module-scala_2.13/2.19.0/jackson-module-scala_2.13-2.19.0.jar:/home/varnel/.m2/repository/com/thoughtworks/paranamer/paranamer/2.8.3/paranamer-2.8.3.jar:/home/varnel/.m2/repository/com/fasterxml/jackson/dataformat/jackson-dataformat-csv/2.19.0/jackson-dataformat-csv-2.19.0.jar:/home/varnel/.m2/repository/org/bitbucket/b_c/jose4j/0.9.4/jose4j-0.9.4.jar:/home/varnel/.m2/repository/org/scala-lang/modules/scala-collection-compat_2.13/2.10.0/scala-collection-compat_2.13-2.10.0.jar:/home/varnel/.m2/repository/org/scala-lang/modules/scala-java8-compat_2.13/1.0.2/scala-java8-compat_2.13-1.0.2.jar:/home/varnel/.m2/repository/org/scala-lang/scala-reflect/2.13.15/scala-reflect-2.13.15.jar:/home/varnel/.m2/repository/com/typesafe/scala-logging/scala-logging_2.13/3.9.5/scala-logging_2.13-3.9.5.jar:/home/varnel/.m2/repository/io/dropwizard/metrics/metrics-core/4.1.12.1/metrics-core-4.1.12.1.jar:/home/varnel/.m2/repository/commons-cli/commons-cli/1.4/commons-cli-1.4.jar:/home/varnel/.m2/repository/org/apache/kafka/kafka_2.13/3.9.1/kafka_2.13-3.9.1-test.jar:/home/varnel/.m2/repository/org/junit/jupiter/junit-jupiter-api/5.12.2/junit-jupiter-api-5.12.2.jar:/home/varnel/.m2/repository/org/opentest4j/opentest4j/1.3.0/opentest4j-1.3.0.jar:/home/varnel/.m2/repository/org/junit/platform/junit-platform-commons/1.12.2/junit-platform-commons-1.12.2.jar:/home/varnel/.m2/repository/org/apiguardian/apiguardian-api/1.1.2/apiguardian-api-1.1.2.jar:/home/varnel/.m2/repository/org/junit/platform/junit-platform-launcher/1.12.2/junit-platform-launcher-1.12.2.jar:/home/varnel/.m2/repository/org/junit/platform/junit-platform-engine/1.12.2/junit-platform-engine-1.12.2.jar:/home/varnel/.m2/repository/org/springframework/boot/spring-boot-starter-data-elasticsearch/3.5.0/spring-boot-starter-data-elasticsearch-3.5.0.jar:/home/varnel/.m2/repository/org/springframework/data/spring-data-elasticsearch/5.5.0/spring-data-elasticsearch-5.5.0.jar:/home/varnel/.m2/repository/co/elastic/clients/elasticsearch-java/8.18.1/elasticsearch-java-8.18.1.jar:/home/varnel/.m2/repository/com/google/code/findbugs/jsr305/3.0.2/jsr305-3.0.2.jar:/home/varnel/.m2/repository/jakarta/json/jakarta.json-api/2.1.3/jakarta.json-api-2.1.3.jar:/home/varnel/.m2/repository/org/eclipse/parsson/parsson/1.0.5/parsson-1.0.5.jar:/home/varnel/.m2/repository/io/opentelemetry/opentelemetry-api/1.49.0/opentelemetry-api-1.49.0.jar:/home/varnel/.m2/repository/io/opentelemetry/opentelemetry-context/1.49.0/opentelemetry-context-1.49.0.jar:/home/varnel/.m2/repository/org/elasticsearch/client/elasticsearch-rest-client/8.18.1/elasticsearch-rest-client-8.18.1.jar:/home/varnel/.m2/repository/org/apache/httpcomponents/httpclient/4.5.14/httpclient-4.5.14.jar:/home/varnel/.m2/repository/org/apache/httpcomponents/httpcore/4.4.16/httpcore-4.4.16.jar:/home/varnel/.m2/repository/org/apache/httpcomponents/httpasyncclient/4.1.5/httpasyncclient-4.1.5.jar:/home/varnel/.m2/repository/org/apache/httpcomponents/httpcore-nio/4.4.16/httpcore-nio-4.4.16.jar:/home/varnel/.m2/repository/commons-codec/commons-codec/1.18.0/commons-codec-1.18.0.jar:"/>
+    <property name="java.vm.vendor" value="Ubuntu"/>
+    <property name="sun.arch.data.model" value="64"/>
+    <property name="java.vendor.url" value="https://ubuntu.com/"/>
+    <property name="catalina.useNaming" value="false"/>
+    <property name="user.timezone" value="Africa/Douala"/>
+    <property name="org.jboss.logging.provider" value="slf4j"/>
+    <property name="os.name" value="Linux"/>
+    <property name="java.vm.specification.version" value="21"/>
+    <property name="APPLICATION_NAME" value="yow_point"/>
+    <property name="sun.java.launcher" value="SUN_STANDARD"/>
+    <property name="user.country" value="US"/>
+    <property name="sun.boot.library.path" value="/usr/lib/jvm/java-21-openjdk-amd64/lib"/>
+    <property name="sun.java.command" value="/home/varnel/Desktop/New Folder/api_poi/target/surefire/surefirebooter-20251202025351943_3.jar /home/varnel/Desktop/New Folder/api_poi/target/surefire 2025-12-02T02-53-51_830-jvmRun1 surefire-20251202025351943_1tmp surefire_0-20251202025351943_2tmp"/>
+    <property name="jdk.debug" value="release"/>
+    <property name="surefire.test.class.path" value="/home/varnel/Desktop/New Folder/api_poi/target/test-classes:/home/varnel/Desktop/New Folder/api_poi/target/classes:/home/varnel/.m2/repository/org/testcontainers/junit-jupiter/1.19.3/junit-jupiter-1.19.3.jar:/home/varnel/.m2/repository/org/testcontainers/testcontainers/1.19.3/testcontainers-1.19.3.jar:/home/varnel/.m2/repository/junit/junit/4.13.2/junit-4.13.2.jar:/home/varnel/.m2/repository/org/hamcrest/hamcrest-core/3.0/hamcrest-core-3.0.jar:/home/varnel/.m2/repository/org/apache/commons/commons-compress/1.24.0/commons-compress-1.24.0.jar:/home/varnel/.m2/repository/org/rnorth/duct-tape/duct-tape/1.0.8/duct-tape-1.0.8.jar:/home/varnel/.m2/repository/org/jetbrains/annotations/17.0.0/annotations-17.0.0.jar:/home/varnel/.m2/repository/com/github/docker-java/docker-java-api/3.3.4/docker-java-api-3.3.4.jar:/home/varnel/.m2/repository/com/github/docker-java/docker-java-transport-zerodep/3.3.4/docker-java-transport-zerodep-3.3.4.jar:/home/varnel/.m2/repository/com/github/docker-java/docker-java-transport/3.3.4/docker-java-transport-3.3.4.jar:/home/varnel/.m2/repository/net/java/dev/jna/jna/5.13.0/jna-5.13.0.jar:/home/varnel/.m2/repository/org/testcontainers/postgresql/1.19.3/postgresql-1.19.3.jar:/home/varnel/.m2/repository/org/testcontainers/jdbc/1.19.3/jdbc-1.19.3.jar:/home/varnel/.m2/repository/org/testcontainers/database-commons/1.19.3/database-commons-1.19.3.jar:/home/varnel/.m2/repository/org/springframework/boot/spring-boot-starter-actuator/3.5.0/spring-boot-starter-actuator-3.5.0.jar:/home/varnel/.m2/repository/org/springframework/boot/spring-boot-starter/3.5.0/spring-boot-starter-3.5.0.jar:/home/varnel/.m2/repository/org/springframework/boot/spring-boot-starter-logging/3.5.0/spring-boot-starter-logging-3.5.0.jar:/home/varnel/.m2/repository/org/apache/logging/log4j/log4j-to-slf4j/2.24.3/log4j-to-slf4j-2.24.3.jar:/home/varnel/.m2/repository/org/apache/logging/log4j/log4j-api/2.24.3/log4j-api-2.24.3.jar:/home/varnel/.m2/repository/org/slf4j/jul-to-slf4j/2.0.17/jul-to-slf4j-2.0.17.jar:/home/varnel/.m2/repository/jakarta/annotation/jakarta.annotation-api/2.1.1/jakarta.annotation-api-2.1.1.jar:/home/varnel/.m2/repository/org/yaml/snakeyaml/2.4/snakeyaml-2.4.jar:/home/varnel/.m2/repository/org/springframework/boot/spring-boot-actuator-autoconfigure/3.5.0/spring-boot-actuator-autoconfigure-3.5.0.jar:/home/varnel/.m2/repository/org/springframework/boot/spring-boot-actuator/3.5.0/spring-boot-actuator-3.5.0.jar:/home/varnel/.m2/repository/io/micrometer/micrometer-observation/1.15.0/micrometer-observation-1.15.0.jar:/home/varnel/.m2/repository/io/micrometer/micrometer-commons/1.15.0/micrometer-commons-1.15.0.jar:/home/varnel/.m2/repository/io/micrometer/micrometer-jakarta9/1.15.0/micrometer-jakarta9-1.15.0.jar:/home/varnel/.m2/repository/io/micrometer/micrometer-core/1.15.0/micrometer-core-1.15.0.jar:/home/varnel/.m2/repository/org/hdrhistogram/HdrHistogram/2.2.2/HdrHistogram-2.2.2.jar:/home/varnel/.m2/repository/org/latencyutils/LatencyUtils/2.0.3/LatencyUtils-2.0.3.jar:/home/varnel/.m2/repository/org/springframework/boot/spring-boot-starter-security/3.5.0/spring-boot-starter-security-3.5.0.jar:/home/varnel/.m2/repository/org/springframework/spring-aop/6.2.7/spring-aop-6.2.7.jar:/home/varnel/.m2/repository/org/springframework/spring-beans/6.2.7/spring-beans-6.2.7.jar:/home/varnel/.m2/repository/org/springframework/security/spring-security-config/6.5.0/spring-security-config-6.5.0.jar:/home/varnel/.m2/repository/org/springframework/security/spring-security-core/6.5.0/spring-security-core-6.5.0.jar:/home/varnel/.m2/repository/org/springframework/security/spring-security-crypto/6.5.0/spring-security-crypto-6.5.0.jar:/home/varnel/.m2/repository/org/springframework/security/spring-security-web/6.5.0/spring-security-web-6.5.0.jar:/home/varnel/.m2/repository/org/springframework/spring-expression/6.2.7/spring-expression-6.2.7.jar:/home/varnel/.m2/repository/org/springframework/boot/spring-boot-starter-webflux/3.5.0/spring-boot-starter-webflux-3.5.0.jar:/home/varnel/.m2/repository/org/springframework/boot/spring-boot-starter-json/3.5.0/spring-boot-starter-json-3.5.0.jar:/home/varnel/.m2/repository/com/fasterxml/jackson/datatype/jackson-datatype-jdk8/2.19.0/jackson-datatype-jdk8-2.19.0.jar:/home/varnel/.m2/repository/com/fasterxml/jackson/module/jackson-module-parameter-names/2.19.0/jackson-module-parameter-names-2.19.0.jar:/home/varnel/.m2/repository/org/springframework/boot/spring-boot-starter-reactor-netty/3.5.0/spring-boot-starter-reactor-netty-3.5.0.jar:/home/varnel/.m2/repository/io/projectreactor/netty/reactor-netty-http/1.2.6/reactor-netty-http-1.2.6.jar:/home/varnel/.m2/repository/io/netty/netty-codec-http/4.1.121.Final/netty-codec-http-4.1.121.Final.jar:/home/varnel/.m2/repository/io/netty/netty-codec-http2/4.1.121.Final/netty-codec-http2-4.1.121.Final.jar:/home/varnel/.m2/repository/org/springframework/spring-web/6.2.7/spring-web-6.2.7.jar:/home/varnel/.m2/repository/org/springframework/spring-webflux/6.2.7/spring-webflux-6.2.7.jar:/home/varnel/.m2/repository/org/springframework/boot/spring-boot-starter-data-r2dbc/3.5.0/spring-boot-starter-data-r2dbc-3.5.0.jar:/home/varnel/.m2/repository/org/springframework/data/spring-data-r2dbc/3.5.0/spring-data-r2dbc-3.5.0.jar:/home/varnel/.m2/repository/org/springframework/data/spring-data-relational/3.5.0/spring-data-relational-3.5.0.jar:/home/varnel/.m2/repository/org/springframework/data/spring-data-commons/3.5.0/spring-data-commons-3.5.0.jar:/home/varnel/.m2/repository/org/springframework/spring-jdbc/6.2.7/spring-jdbc-6.2.7.jar:/home/varnel/.m2/repository/org/springframework/spring-r2dbc/6.2.7/spring-r2dbc-6.2.7.jar:/home/varnel/.m2/repository/org/postgresql/r2dbc-postgresql/1.0.7.RELEASE/r2dbc-postgresql-1.0.7.RELEASE.jar:/home/varnel/.m2/repository/com/ongres/scram/client/2.1/client-2.1.jar:/home/varnel/.m2/repository/com/ongres/scram/common/2.1/common-2.1.jar:/home/varnel/.m2/repository/com/ongres/stringprep/saslprep/1.1/saslprep-1.1.jar:/home/varnel/.m2/repository/com/ongres/stringprep/stringprep/1.1/stringprep-1.1.jar:/home/varnel/.m2/repository/io/projectreactor/reactor-core/3.7.6/reactor-core-3.7.6.jar:/home/varnel/.m2/repository/io/projectreactor/netty/reactor-netty-core/1.2.6/reactor-netty-core-1.2.6.jar:/home/varnel/.m2/repository/io/netty/netty-handler/4.1.121.Final/netty-handler-4.1.121.Final.jar:/home/varnel/.m2/repository/io/netty/netty-common/4.1.121.Final/netty-common-4.1.121.Final.jar:/home/varnel/.m2/repository/io/netty/netty-resolver/4.1.121.Final/netty-resolver-4.1.121.Final.jar:/home/varnel/.m2/repository/io/netty/netty-buffer/4.1.121.Final/netty-buffer-4.1.121.Final.jar:/home/varnel/.m2/repository/io/netty/netty-transport/4.1.121.Final/netty-transport-4.1.121.Final.jar:/home/varnel/.m2/repository/io/netty/netty-transport-native-unix-common/4.1.121.Final/netty-transport-native-unix-common-4.1.121.Final.jar:/home/varnel/.m2/repository/io/netty/netty-codec/4.1.121.Final/netty-codec-4.1.121.Final.jar:/home/varnel/.m2/repository/io/netty/netty-handler-proxy/4.1.121.Final/netty-handler-proxy-4.1.121.Final.jar:/home/varnel/.m2/repository/io/netty/netty-codec-socks/4.1.121.Final/netty-codec-socks-4.1.121.Final.jar:/home/varnel/.m2/repository/io/netty/netty-resolver-dns/4.1.121.Final/netty-resolver-dns-4.1.121.Final.jar:/home/varnel/.m2/repository/io/netty/netty-codec-dns/4.1.121.Final/netty-codec-dns-4.1.121.Final.jar:/home/varnel/.m2/repository/io/netty/netty-resolver-dns-native-macos/4.1.121.Final/netty-resolver-dns-native-macos-4.1.121.Final-osx-x86_64.jar:/home/varnel/.m2/repository/io/netty/netty-resolver-dns-classes-macos/4.1.121.Final/netty-resolver-dns-classes-macos-4.1.121.Final.jar:/home/varnel/.m2/repository/io/netty/netty-transport-native-epoll/4.1.121.Final/netty-transport-native-epoll-4.1.121.Final-linux-x86_64.jar:/home/varnel/.m2/repository/io/netty/netty-transport-classes-epoll/4.1.121.Final/netty-transport-classes-epoll-4.1.121.Final.jar:/home/varnel/.m2/repository/net/postgis/postgis-jdbc/2.5.0/postgis-jdbc-2.5.0.jar:/home/varnel/.m2/repository/net/postgis/postgis-geometry/2.5.0/postgis-geometry-2.5.0.jar:/home/varnel/.m2/repository/org/slf4j/slf4j-api/2.0.17/slf4j-api-2.0.17.jar:/home/varnel/.m2/repository/org/postgresql/postgresql/42.7.5/postgresql-42.7.5.jar:/home/varnel/.m2/repository/org/checkerframework/checker-qual/3.48.3/checker-qual-3.48.3.jar:/home/varnel/.m2/repository/io/r2dbc/r2dbc-pool/1.0.2.RELEASE/r2dbc-pool-1.0.2.RELEASE.jar:/home/varnel/.m2/repository/io/projectreactor/addons/reactor-pool/1.1.2/reactor-pool-1.1.2.jar:/home/varnel/.m2/repository/io/r2dbc/r2dbc-spi/1.0.0.RELEASE/r2dbc-spi-1.0.0.RELEASE.jar:/home/varnel/.m2/repository/org/reactivestreams/reactive-streams/1.0.4/reactive-streams-1.0.4.jar:/home/varnel/.m2/repository/com/fasterxml/jackson/core/jackson-databind/2.19.0/jackson-databind-2.19.0.jar:/home/varnel/.m2/repository/com/fasterxml/jackson/core/jackson-annotations/2.19.0/jackson-annotations-2.19.0.jar:/home/varnel/.m2/repository/com/fasterxml/jackson/core/jackson-core/2.19.0/jackson-core-2.19.0.jar:/home/varnel/.m2/repository/com/fasterxml/jackson/datatype/jackson-datatype-jsr310/2.19.0/jackson-datatype-jsr310-2.19.0.jar:/home/varnel/.m2/repository/org/springframework/boot/spring-boot-starter-validation/3.5.0/spring-boot-starter-validation-3.5.0.jar:/home/varnel/.m2/repository/org/apache/tomcat/embed/tomcat-embed-el/10.1.41/tomcat-embed-el-10.1.41.jar:/home/varnel/.m2/repository/org/hibernate/validator/hibernate-validator/8.0.2.Final/hibernate-validator-8.0.2.Final.jar:/home/varnel/.m2/repository/jakarta/validation/jakarta.validation-api/3.0.2/jakarta.validation-api-3.0.2.jar:/home/varnel/.m2/repository/org/jboss/logging/jboss-logging/3.6.1.Final/jboss-logging-3.6.1.Final.jar:/home/varnel/.m2/repository/com/fasterxml/classmate/1.7.0/classmate-1.7.0.jar:/home/varnel/.m2/repository/org/springframework/boot/spring-boot-devtools/3.5.0/spring-boot-devtools-3.5.0.jar:/home/varnel/.m2/repository/org/springframework/boot/spring-boot/3.5.0/spring-boot-3.5.0.jar:/home/varnel/.m2/repository/org/springframework/boot/spring-boot-autoconfigure/3.5.0/spring-boot-autoconfigure-3.5.0.jar:/home/varnel/.m2/repository/org/locationtech/jts/jts-core/1.19.0/jts-core-1.19.0.jar:/home/varnel/.m2/repository/org/springframework/boot/spring-boot-starter-websocket/3.5.0/spring-boot-starter-websocket-3.5.0.jar:/home/varnel/.m2/repository/org/springframework/boot/spring-boot-starter-web/3.5.0/spring-boot-starter-web-3.5.0.jar:/home/varnel/.m2/repository/org/springframework/boot/spring-boot-starter-tomcat/3.5.0/spring-boot-starter-tomcat-3.5.0.jar:/home/varnel/.m2/repository/org/apache/tomcat/embed/tomcat-embed-core/10.1.41/tomcat-embed-core-10.1.41.jar:/home/varnel/.m2/repository/org/apache/tomcat/embed/tomcat-embed-websocket/10.1.41/tomcat-embed-websocket-10.1.41.jar:/home/varnel/.m2/repository/org/springframework/spring-webmvc/6.2.7/spring-webmvc-6.2.7.jar:/home/varnel/.m2/repository/org/springframework/spring-messaging/6.2.7/spring-messaging-6.2.7.jar:/home/varnel/.m2/repository/org/springframework/spring-websocket/6.2.7/spring-websocket-6.2.7.jar:/home/varnel/.m2/repository/org/projectlombok/lombok/1.18.32/lombok-1.18.32.jar:/home/varnel/.m2/repository/org/mapstruct/mapstruct/1.5.5.Final/mapstruct-1.5.5.Final.jar:/home/varnel/.m2/repository/org/mapstruct/mapstruct-processor/1.5.5.Final/mapstruct-processor-1.5.5.Final.jar:/home/varnel/.m2/repository/org/springframework/boot/spring-boot-starter-test/3.5.0/spring-boot-starter-test-3.5.0.jar:/home/varnel/.m2/repository/org/springframework/boot/spring-boot-test/3.5.0/spring-boot-test-3.5.0.jar:/home/varnel/.m2/repository/org/springframework/boot/spring-boot-test-autoconfigure/3.5.0/spring-boot-test-autoconfigure-3.5.0.jar:/home/varnel/.m2/repository/com/jayway/jsonpath/json-path/2.9.0/json-path-2.9.0.jar:/home/varnel/.m2/repository/jakarta/xml/bind/jakarta.xml.bind-api/4.0.2/jakarta.xml.bind-api-4.0.2.jar:/home/varnel/.m2/repository/jakarta/activation/jakarta.activation-api/2.1.3/jakarta.activation-api-2.1.3.jar:/home/varnel/.m2/repository/net/minidev/json-smart/2.5.2/json-smart-2.5.2.jar:/home/varnel/.m2/repository/net/minidev/accessors-smart/2.5.2/accessors-smart-2.5.2.jar:/home/varnel/.m2/repository/org/ow2/asm/asm/9.7.1/asm-9.7.1.jar:/home/varnel/.m2/repository/org/assertj/assertj-core/3.27.3/assertj-core-3.27.3.jar:/home/varnel/.m2/repository/net/bytebuddy/byte-buddy/1.17.5/byte-buddy-1.17.5.jar:/home/varnel/.m2/repository/org/awaitility/awaitility/4.3.0/awaitility-4.3.0.jar:/home/varnel/.m2/repository/org/hamcrest/hamcrest/3.0/hamcrest-3.0.jar:/home/varnel/.m2/repository/org/junit/jupiter/junit-jupiter/5.12.2/junit-jupiter-5.12.2.jar:/home/varnel/.m2/repository/org/junit/jupiter/junit-jupiter-params/5.12.2/junit-jupiter-params-5.12.2.jar:/home/varnel/.m2/repository/org/junit/jupiter/junit-jupiter-engine/5.12.2/junit-jupiter-engine-5.12.2.jar:/home/varnel/.m2/repository/org/mockito/mockito-core/5.17.0/mockito-core-5.17.0.jar:/home/varnel/.m2/repository/net/bytebuddy/byte-buddy-agent/1.17.5/byte-buddy-agent-1.17.5.jar:/home/varnel/.m2/repository/org/objenesis/objenesis/3.3/objenesis-3.3.jar:/home/varnel/.m2/repository/org/mockito/mockito-junit-jupiter/5.17.0/mockito-junit-jupiter-5.17.0.jar:/home/varnel/.m2/repository/org/skyscreamer/jsonassert/1.5.3/jsonassert-1.5.3.jar:/home/varnel/.m2/repository/com/vaadin/external/google/android-json/0.0.20131108.vaadin1/android-json-0.0.20131108.vaadin1.jar:/home/varnel/.m2/repository/org/springframework/spring-core/6.2.7/spring-core-6.2.7.jar:/home/varnel/.m2/repository/org/springframework/spring-jcl/6.2.7/spring-jcl-6.2.7.jar:/home/varnel/.m2/repository/org/springframework/spring-test/6.2.7/spring-test-6.2.7.jar:/home/varnel/.m2/repository/org/xmlunit/xmlunit-core/2.10.1/xmlunit-core-2.10.1.jar:/home/varnel/.m2/repository/io/projectreactor/reactor-test/3.7.6/reactor-test-3.7.6.jar:/home/varnel/.m2/repository/io/r2dbc/r2dbc-h2/1.0.0.RELEASE/r2dbc-h2-1.0.0.RELEASE.jar:/home/varnel/.m2/repository/com/h2database/h2/2.3.232/h2-2.3.232.jar:/home/varnel/.m2/repository/org/springdoc/springdoc-openapi-starter-webflux-ui/2.5.0/springdoc-openapi-starter-webflux-ui-2.5.0.jar:/home/varnel/.m2/repository/org/springdoc/springdoc-openapi-starter-webflux-api/2.5.0/springdoc-openapi-starter-webflux-api-2.5.0.jar:/home/varnel/.m2/repository/org/springdoc/springdoc-openapi-starter-common/2.5.0/springdoc-openapi-starter-common-2.5.0.jar:/home/varnel/.m2/repository/io/swagger/core/v3/swagger-core-jakarta/2.2.21/swagger-core-jakarta-2.2.21.jar:/home/varnel/.m2/repository/org/apache/commons/commons-lang3/3.17.0/commons-lang3-3.17.0.jar:/home/varnel/.m2/repository/io/swagger/core/v3/swagger-annotations-jakarta/2.2.21/swagger-annotations-jakarta-2.2.21.jar:/home/varnel/.m2/repository/io/swagger/core/v3/swagger-models-jakarta/2.2.21/swagger-models-jakarta-2.2.21.jar:/home/varnel/.m2/repository/com/fasterxml/jackson/dataformat/jackson-dataformat-yaml/2.19.0/jackson-dataformat-yaml-2.19.0.jar:/home/varnel/.m2/repository/org/webjars/swagger-ui/5.13.0/swagger-ui-5.13.0.jar:/home/varnel/.m2/repository/org/springframework/kafka/spring-kafka/3.3.6/spring-kafka-3.3.6.jar:/home/varnel/.m2/repository/org/springframework/spring-context/6.2.7/spring-context-6.2.7.jar:/home/varnel/.m2/repository/org/springframework/spring-tx/6.2.7/spring-tx-6.2.7.jar:/home/varnel/.m2/repository/org/springframework/retry/spring-retry/2.0.12/spring-retry-2.0.12.jar:/home/varnel/.m2/repository/org/apache/kafka/kafka-clients/3.9.1/kafka-clients-3.9.1.jar:/home/varnel/.m2/repository/com/github/luben/zstd-jni/1.5.6-4/zstd-jni-1.5.6-4.jar:/home/varnel/.m2/repository/org/lz4/lz4-java/1.8.0/lz4-java-1.8.0.jar:/home/varnel/.m2/repository/org/xerial/snappy/snappy-java/1.1.10.5/snappy-java-1.1.10.5.jar:/home/varnel/.m2/repository/org/springframework/kafka/spring-kafka-test/3.3.6/spring-kafka-test-3.3.6.jar:/home/varnel/.m2/repository/org/apache/zookeeper/zookeeper/3.8.4/zookeeper-3.8.4.jar:/home/varnel/.m2/repository/org/apache/zookeeper/zookeeper-jute/3.8.4/zookeeper-jute-3.8.4.jar:/home/varnel/.m2/repository/org/apache/yetus/audience-annotations/0.12.0/audience-annotations-0.12.0.jar:/home/varnel/.m2/repository/io/netty/netty-transport-native-epoll/4.1.121.Final/netty-transport-native-epoll-4.1.121.Final.jar:/home/varnel/.m2/repository/ch/qos/logback/logback-core/1.5.18/logback-core-1.5.18.jar:/home/varnel/.m2/repository/ch/qos/logback/logback-classic/1.5.18/logback-classic-1.5.18.jar:/home/varnel/.m2/repository/commons-io/commons-io/2.11.0/commons-io-2.11.0.jar:/home/varnel/.m2/repository/org/apache/kafka/kafka-clients/3.9.1/kafka-clients-3.9.1-test.jar:/home/varnel/.m2/repository/org/apache/kafka/kafka-server/3.9.1/kafka-server-3.9.1.jar:/home/varnel/.m2/repository/org/apache/kafka/kafka-storage/3.9.1/kafka-storage-3.9.1.jar:/home/varnel/.m2/repository/com/github/ben-manes/caffeine/caffeine/3.2.0/caffeine-3.2.0.jar:/home/varnel/.m2/repository/org/jspecify/jspecify/1.0.0/jspecify-1.0.0.jar:/home/varnel/.m2/repository/com/google/errorprone/error_prone_annotations/2.36.0/error_prone_annotations-2.36.0.jar:/home/varnel/.m2/repository/org/apache/kafka/kafka-group-coordinator/3.9.1/kafka-group-coordinator-3.9.1.jar:/home/varnel/.m2/repository/org/apache/kafka/kafka-transaction-coordinator/3.9.1/kafka-transaction-coordinator-3.9.1.jar:/home/varnel/.m2/repository/org/apache/kafka/kafka-raft/3.9.1/kafka-raft-3.9.1.jar:/home/varnel/.m2/repository/com/yammer/metrics/metrics-core/2.2.0/metrics-core-2.2.0.jar:/home/varnel/.m2/repository/org/apache/kafka/kafka-metadata/3.9.1/kafka-metadata-3.9.1.jar:/home/varnel/.m2/repository/org/apache/kafka/kafka-server-common/3.9.1/kafka-server-common-3.9.1.jar:/home/varnel/.m2/repository/net/sf/jopt-simple/jopt-simple/5.0.4/jopt-simple-5.0.4.jar:/home/varnel/.m2/repository/org/pcollections/pcollections/4.0.1/pcollections-4.0.1.jar:/home/varnel/.m2/repository/org/apache/kafka/kafka-server-common/3.9.1/kafka-server-common-3.9.1-test.jar:/home/varnel/.m2/repository/org/apache/kafka/kafka-streams-test-utils/3.9.1/kafka-streams-test-utils-3.9.1.jar:/home/varnel/.m2/repository/org/apache/kafka/kafka-streams/3.9.1/kafka-streams-3.9.1.jar:/home/varnel/.m2/repository/org/rocksdb/rocksdbjni/7.9.2/rocksdbjni-7.9.2.jar:/home/varnel/.m2/repository/org/apache/kafka/kafka_2.13/3.9.1/kafka_2.13-3.9.1.jar:/home/varnel/.m2/repository/org/scala-lang/scala-library/2.13.15/scala-library-2.13.15.jar:/home/varnel/.m2/repository/org/apache/kafka/kafka-group-coordinator-api/3.9.1/kafka-group-coordinator-api-3.9.1.jar:/home/varnel/.m2/repository/org/apache/kafka/kafka-storage-api/3.9.1/kafka-storage-api-3.9.1.jar:/home/varnel/.m2/repository/org/apache/kafka/kafka-tools-api/3.9.1/kafka-tools-api-3.9.1.jar:/home/varnel/.m2/repository/net/sourceforge/argparse4j/argparse4j/0.7.0/argparse4j-0.7.0.jar:/home/varnel/.m2/repository/commons-validator/commons-validator/1.7/commons-validator-1.7.jar:/home/varnel/.m2/repository/commons-beanutils/commons-beanutils/1.9.4/commons-beanutils-1.9.4.jar:/home/varnel/.m2/repository/commons-digester/commons-digester/2.1/commons-digester-2.1.jar:/home/varnel/.m2/repository/commons-collections/commons-collections/3.2.2/commons-collections-3.2.2.jar:/home/varnel/.m2/repository/com/fasterxml/jackson/module/jackson-module-scala_2.13/2.19.0/jackson-module-scala_2.13-2.19.0.jar:/home/varnel/.m2/repository/com/thoughtworks/paranamer/paranamer/2.8.3/paranamer-2.8.3.jar:/home/varnel/.m2/repository/com/fasterxml/jackson/dataformat/jackson-dataformat-csv/2.19.0/jackson-dataformat-csv-2.19.0.jar:/home/varnel/.m2/repository/org/bitbucket/b_c/jose4j/0.9.4/jose4j-0.9.4.jar:/home/varnel/.m2/repository/org/scala-lang/modules/scala-collection-compat_2.13/2.10.0/scala-collection-compat_2.13-2.10.0.jar:/home/varnel/.m2/repository/org/scala-lang/modules/scala-java8-compat_2.13/1.0.2/scala-java8-compat_2.13-1.0.2.jar:/home/varnel/.m2/repository/org/scala-lang/scala-reflect/2.13.15/scala-reflect-2.13.15.jar:/home/varnel/.m2/repository/com/typesafe/scala-logging/scala-logging_2.13/3.9.5/scala-logging_2.13-3.9.5.jar:/home/varnel/.m2/repository/io/dropwizard/metrics/metrics-core/4.1.12.1/metrics-core-4.1.12.1.jar:/home/varnel/.m2/repository/commons-cli/commons-cli/1.4/commons-cli-1.4.jar:/home/varnel/.m2/repository/org/apache/kafka/kafka_2.13/3.9.1/kafka_2.13-3.9.1-test.jar:/home/varnel/.m2/repository/org/junit/jupiter/junit-jupiter-api/5.12.2/junit-jupiter-api-5.12.2.jar:/home/varnel/.m2/repository/org/opentest4j/opentest4j/1.3.0/opentest4j-1.3.0.jar:/home/varnel/.m2/repository/org/junit/platform/junit-platform-commons/1.12.2/junit-platform-commons-1.12.2.jar:/home/varnel/.m2/repository/org/apiguardian/apiguardian-api/1.1.2/apiguardian-api-1.1.2.jar:/home/varnel/.m2/repository/org/junit/platform/junit-platform-launcher/1.12.2/junit-platform-launcher-1.12.2.jar:/home/varnel/.m2/repository/org/junit/platform/junit-platform-engine/1.12.2/junit-platform-engine-1.12.2.jar:/home/varnel/.m2/repository/org/springframework/boot/spring-boot-starter-data-elasticsearch/3.5.0/spring-boot-starter-data-elasticsearch-3.5.0.jar:/home/varnel/.m2/repository/org/springframework/data/spring-data-elasticsearch/5.5.0/spring-data-elasticsearch-5.5.0.jar:/home/varnel/.m2/repository/co/elastic/clients/elasticsearch-java/8.18.1/elasticsearch-java-8.18.1.jar:/home/varnel/.m2/repository/com/google/code/findbugs/jsr305/3.0.2/jsr305-3.0.2.jar:/home/varnel/.m2/repository/jakarta/json/jakarta.json-api/2.1.3/jakarta.json-api-2.1.3.jar:/home/varnel/.m2/repository/org/eclipse/parsson/parsson/1.0.5/parsson-1.0.5.jar:/home/varnel/.m2/repository/io/opentelemetry/opentelemetry-api/1.49.0/opentelemetry-api-1.49.0.jar:/home/varnel/.m2/repository/io/opentelemetry/opentelemetry-context/1.49.0/opentelemetry-context-1.49.0.jar:/home/varnel/.m2/repository/org/elasticsearch/client/elasticsearch-rest-client/8.18.1/elasticsearch-rest-client-8.18.1.jar:/home/varnel/.m2/repository/org/apache/httpcomponents/httpclient/4.5.14/httpclient-4.5.14.jar:/home/varnel/.m2/repository/org/apache/httpcomponents/httpcore/4.4.16/httpcore-4.4.16.jar:/home/varnel/.m2/repository/org/apache/httpcomponents/httpasyncclient/4.1.5/httpasyncclient-4.1.5.jar:/home/varnel/.m2/repository/org/apache/httpcomponents/httpcore-nio/4.4.16/httpcore-nio-4.4.16.jar:/home/varnel/.m2/repository/commons-codec/commons-codec/1.18.0/commons-codec-1.18.0.jar:"/>
+    <property name="sun.cpu.endian" value="little"/>
+    <property name="user.home" value="/home/varnel"/>
+    <property name="user.language" value="en"/>
+    <property name="java.specification.vendor" value="Oracle Corporation"/>
+    <property name="java.version.date" value="2025-10-21"/>
+    <property name="java.home" value="/usr/lib/jvm/java-21-openjdk-amd64"/>
+    <property name="zookeeper.forceSync" value="no"/>
+    <property name="file.separator" value="/"/>
+    <property name="basedir" value="/home/varnel/Desktop/New Folder/api_poi"/>
+    <property name="java.vm.compressedOopsMode" value="Zero based"/>
+    <property name="line.separator" value="&#10;"/>
+    <property name="java.vm.specification.vendor" value="Oracle Corporation"/>
+    <property name="java.specification.name" value="Java Platform API Specification"/>
+    <property name="FILE_LOG_CHARSET" value="UTF-8"/>
+    <property name="java.awt.headless" value="true"/>
+    <property name="surefire.real.class.path" value="/home/varnel/Desktop/New Folder/api_poi/target/surefire/surefirebooter-20251202025351943_3.jar"/>
+    <property name="sun.management.compiler" value="HotSpot 64-Bit Tiered Compilers"/>
+    <property name="java.runtime.version" value="21.0.9+10-Ubuntu-124.04"/>
+    <property name="user.name" value="varnel"/>
+    <property name="stdout.encoding" value="UTF-8"/>
+    <property name="path.separator" value=":"/>
+    <property name="os.version" value="6.14.0-36-generic"/>
+    <property name="java.runtime.name" value="OpenJDK Runtime Environment"/>
+    <property name="file.encoding" value="UTF-8"/>
+    <property name="java.vm.name" value="OpenJDK 64-Bit Server VM"/>
+    <property name="localRepository" value="/home/varnel/.m2/repository"/>
+    <property name="java.vendor.url.bug" value="https://bugs.launchpad.net/ubuntu/+source/openjdk-21"/>
+    <property name="java.io.tmpdir" value="/tmp"/>
+    <property name="catalina.home" value="/tmp/tomcat.0.14270826425205365524"/>
+    <property name="java.version" value="21.0.9"/>
+    <property name="user.dir" value="/home/varnel/Desktop/New Folder/api_poi"/>
+    <property name="os.arch" value="amd64"/>
+    <property name="java.vm.specification.name" value="Java Virtual Machine Specification"/>
+    <property name="PID" value="95966"/>
+    <property name="CONSOLE_LOG_CHARSET" value="UTF-8"/>
+    <property name="catalina.base" value="/tmp/tomcat.0.14270826425205365524"/>
+    <property name="native.encoding" value="UTF-8"/>
+    <property name="java.library.path" value="/usr/java/packages/lib:/usr/lib/x86_64-linux-gnu/jni:/lib/x86_64-linux-gnu:/usr/lib/x86_64-linux-gnu:/usr/lib/jni:/lib:/usr/lib"/>
+    <property name="java.vm.info" value="mixed mode, sharing"/>
+    <property name="stderr.encoding" value="UTF-8"/>
+    <property name="java.vendor" value="Ubuntu"/>
+    <property name="java.vm.version" value="21.0.9+10-Ubuntu-124.04"/>
+    <property name="sun.io.unicode.encoding" value="UnicodeLittle"/>
+    <property name="java.class.version" value="65.0"/>
+    <property name="LOGGED_APPLICATION_NAME" value="[yow_point] "/>
+  </properties>
+  <testcase name="testFullPoiLifecycle" classname="com.poi.yow_point.presentation.controllers.PointOfInterestControllerIntegrationTest" time="1.14">
+    <system-out><![CDATA[2025-12-02T02:54:19.173+01:00  INFO 95966 --- [yow_point] [           main] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [com.poi.yow_point.presentation.controllers.PointOfInterestControllerIntegrationTest]: PointOfInterestControllerIntegrationTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2025-12-02T02:54:19.225+01:00  INFO 95966 --- [yow_point] [           main] .b.t.c.SpringBootTestContextBootstrapper : Found @SpringBootConfiguration com.poi.yow_point.YowPointApplication for test class com.poi.yow_point.presentation.controllers.PointOfInterestControllerIntegrationTest
+2025-12-02T02:54:19.233+01:00  INFO 95966 --- [yow_point] [           main] o.s.b.d.r.RestartApplicationListener     : Restart disabled due to context in which it is running
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+
+ :: Spring Boot ::                (v3.5.0)
+
+2025-12-02T02:54:19.357+01:00  INFO 95966 --- [yow_point] [           main] PointOfInterestControllerIntegrationTest : Starting PointOfInterestControllerIntegrationTest using Java 21.0.9 with PID 95966 (started by varnel in /home/varnel/Desktop/New Folder/api_poi)
+2025-12-02T02:54:19.358+01:00 DEBUG 95966 --- [yow_point] [           main] PointOfInterestControllerIntegrationTest : Running with Spring Boot v3.5.0, Spring v6.2.7
+2025-12-02T02:54:19.358+01:00  INFO 95966 --- [yow_point] [           main] PointOfInterestControllerIntegrationTest : The following 2 profiles are active: "test", "postgres-test"
+2025-12-02T02:54:19.362+01:00  INFO 95966 --- [yow_point] [ SessionTracker] o.a.zookeeper.server.SessionTrackerImpl  : SessionTrackerImpl exited loop!
+2025-12-02T02:54:19.875+01:00  INFO 95966 --- [yow_point] [           main] .s.d.r.c.RepositoryConfigurationDelegate : Multiple Spring Data modules found, entering strict repository configuration mode
+2025-12-02T02:54:19.876+01:00  INFO 95966 --- [yow_point] [           main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data R2DBC repositories in DEFAULT mode.
+2025-12-02T02:54:19.891+01:00  INFO 95966 --- [yow_point] [           main] .RepositoryConfigurationExtensionSupport : Spring Data R2DBC - Could not safely identify store assignment for repository candidate interface com.poi.yow_point.infrastructure.repositories.poiDocument.PoiDocumentRepository; If you want this repository to be a R2DBC repository, consider annotating your entities with one of these annotations: org.springframework.data.relational.core.mapping.Table (preferred), or consider extending one of the following types with your repository: org.springframework.data.r2dbc.repository.R2dbcRepository
+2025-12-02T02:54:19.931+01:00  INFO 95966 --- [yow_point] [           main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 52 ms. Found 8 R2DBC repository interfaces.
+2025-12-02T02:54:20.749+01:00  INFO 95966 --- [yow_point] [           main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 0 (http)
+2025-12-02T02:54:20.781+01:00  INFO 95966 --- [yow_point] [           main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2025-12-02T02:54:20.782+01:00  INFO 95966 --- [yow_point] [           main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.41]
+2025-12-02T02:54:21.583+01:00  INFO 95966 --- [yow_point] [           main] ctiveUserDetailsServiceAutoConfiguration : 
+
+Using generated security password: 0a763a8d-59f9-4489-b326-b78b78123652
+
+2025-12-02T02:54:22.019+01:00  INFO 95966 --- [yow_point] [           main] o.s.b.a.e.web.EndpointLinksResolver      : Exposing 1 endpoint beneath base path '/actuator'
+2025-12-02T02:54:22.444+01:00  INFO 95966 --- [yow_point] [           main] o.a.k.clients.admin.AdminClientConfig    : AdminClientConfig values: 
+	auto.include.jmx.reporter = true
+	bootstrap.controllers = []
+	bootstrap.servers = [localhost:9092]
+	client.dns.lookup = use_all_dns_ips
+	client.id = yow_point-admin-1
+	connections.max.idle.ms = 300000
+	default.api.timeout.ms = 60000
+	enable.metrics.push = true
+	metadata.max.age.ms = 300000
+	metadata.recovery.strategy = none
+	metric.reporters = []
+	metrics.num.samples = 2
+	metrics.recording.level = INFO
+	metrics.sample.window.ms = 30000
+	receive.buffer.bytes = 65536
+	reconnect.backoff.max.ms = 1000
+	reconnect.backoff.ms = 50
+	request.timeout.ms = 30000
+	retries = 2147483647
+	retry.backoff.max.ms = 1000
+	retry.backoff.ms = 100
+	sasl.client.callback.handler.class = null
+	sasl.jaas.config = null
+	sasl.kerberos.kinit.cmd = /usr/bin/kinit
+	sasl.kerberos.min.time.before.relogin = 60000
+	sasl.kerberos.service.name = null
+	sasl.kerberos.ticket.renew.jitter = 0.05
+	sasl.kerberos.ticket.renew.window.factor = 0.8
+	sasl.login.callback.handler.class = null
+	sasl.login.class = null
+	sasl.login.connect.timeout.ms = null
+	sasl.login.read.timeout.ms = null
+	sasl.login.refresh.buffer.seconds = 300
+	sasl.login.refresh.min.period.seconds = 60
+	sasl.login.refresh.window.factor = 0.8
+	sasl.login.refresh.window.jitter = 0.05
+	sasl.login.retry.backoff.max.ms = 10000
+	sasl.login.retry.backoff.ms = 100
+	sasl.mechanism = GSSAPI
+	sasl.oauthbearer.clock.skew.seconds = 30
+	sasl.oauthbearer.expected.audience = null
+	sasl.oauthbearer.expected.issuer = null
+	sasl.oauthbearer.header.urlencode = false
+	sasl.oauthbearer.jwks.endpoint.refresh.ms = 3600000
+	sasl.oauthbearer.jwks.endpoint.retry.backoff.max.ms = 10000
+	sasl.oauthbearer.jwks.endpoint.retry.backoff.ms = 100
+	sasl.oauthbearer.jwks.endpoint.url = null
+	sasl.oauthbearer.scope.claim.name = scope
+	sasl.oauthbearer.sub.claim.name = sub
+	sasl.oauthbearer.token.endpoint.url = null
+	security.protocol = PLAINTEXT
+	security.providers = null
+	send.buffer.bytes = 131072
+	socket.connection.setup.timeout.max.ms = 30000
+	socket.connection.setup.timeout.ms = 10000
+	ssl.cipher.suites = null
+	ssl.enabled.protocols = [TLSv1.2, TLSv1.3]
+	ssl.endpoint.identification.algorithm = https
+	ssl.engine.factory.class = null
+	ssl.key.password = null
+	ssl.keymanager.algorithm = SunX509
+	ssl.keystore.certificate.chain = null
+	ssl.keystore.key = null
+	ssl.keystore.location = null
+	ssl.keystore.password = null
+	ssl.keystore.type = JKS
+	ssl.protocol = TLSv1.3
+	ssl.provider = null
+	ssl.secure.random.implementation = null
+	ssl.trustmanager.algorithm = PKIX
+	ssl.truststore.certificates = null
+	ssl.truststore.location = null
+	ssl.truststore.password = null
+	ssl.truststore.type = JKS
+
+2025-12-02T02:54:22.449+01:00  INFO 95966 --- [yow_point] [           main] o.a.kafka.common.utils.AppInfoParser     : Kafka version: 3.9.1
+2025-12-02T02:54:22.449+01:00  INFO 95966 --- [yow_point] [           main] o.a.kafka.common.utils.AppInfoParser     : Kafka commitId: f745dfdcee2b9851
+2025-12-02T02:54:22.449+01:00  INFO 95966 --- [yow_point] [           main] o.a.kafka.common.utils.AppInfoParser     : Kafka startTimeMs: 1764640462449
+2025-12-02T02:54:22.468+01:00  INFO 95966 --- [yow_point] [w_point-admin-1] o.a.kafka.common.utils.AppInfoParser     : App info kafka.admin.client for yow_point-admin-1 unregistered
+2025-12-02T02:54:22.471+01:00  INFO 95966 --- [yow_point] [w_point-admin-1] o.apache.kafka.common.metrics.Metrics    : Metrics scheduler closed
+2025-12-02T02:54:22.471+01:00  INFO 95966 --- [yow_point] [w_point-admin-1] o.apache.kafka.common.metrics.Metrics    : Closing reporter org.apache.kafka.common.metrics.JmxReporter
+2025-12-02T02:54:22.472+01:00  INFO 95966 --- [yow_point] [w_point-admin-1] o.apache.kafka.common.metrics.Metrics    : Metrics reporters closed
+2025-12-02T02:54:22.493+01:00  INFO 95966 --- [yow_point] [           main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 36597 (http)
+2025-12-02T02:54:22.512+01:00  INFO 95966 --- [yow_point] [           main] o.a.k.clients.consumer.ConsumerConfig    : ConsumerConfig values: 
+	allow.auto.create.topics = true
+	auto.commit.interval.ms = 5000
+	auto.include.jmx.reporter = true
+	auto.offset.reset = latest
+	bootstrap.servers = [localhost:9092]
+	check.crcs = true
+	client.dns.lookup = use_all_dns_ips
+	client.id = consumer-yow_point_group-5
+	client.rack = 
+	connections.max.idle.ms = 540000
+	default.api.timeout.ms = 60000
+	enable.auto.commit = false
+	enable.metrics.push = true
+	exclude.internal.topics = true
+	fetch.max.bytes = 52428800
+	fetch.max.wait.ms = 500
+	fetch.min.bytes = 1
+	group.id = yow_point_group
+	group.instance.id = null
+	group.protocol = classic
+	group.remote.assignor = null
+	heartbeat.interval.ms = 3000
+	interceptor.classes = []
+	internal.leave.group.on.close = true
+	internal.throw.on.fetch.stable.offset.unsupported = false
+	isolation.level = read_uncommitted
+	key.deserializer = class org.apache.kafka.common.serialization.StringDeserializer
+	max.partition.fetch.bytes = 1048576
+	max.poll.interval.ms = 300000
+	max.poll.records = 500
+	metadata.max.age.ms = 300000
+	metadata.recovery.strategy = none
+	metric.reporters = []
+	metrics.num.samples = 2
+	metrics.recording.level = INFO
+	metrics.sample.window.ms = 30000
+	partition.assignment.strategy = [class org.apache.kafka.clients.consumer.RangeAssignor, class org.apache.kafka.clients.consumer.CooperativeStickyAssignor]
+	receive.buffer.bytes = 65536
+	reconnect.backoff.max.ms = 1000
+	reconnect.backoff.ms = 50
+	request.timeout.ms = 30000
+	retry.backoff.max.ms = 1000
+	retry.backoff.ms = 100
+	sasl.client.callback.handler.class = null
+	sasl.jaas.config = null
+	sasl.kerberos.kinit.cmd = /usr/bin/kinit
+	sasl.kerberos.min.time.before.relogin = 60000
+	sasl.kerberos.service.name = null
+	sasl.kerberos.ticket.renew.jitter = 0.05
+	sasl.kerberos.ticket.renew.window.factor = 0.8
+	sasl.login.callback.handler.class = null
+	sasl.login.class = null
+	sasl.login.connect.timeout.ms = null
+	sasl.login.read.timeout.ms = null
+	sasl.login.refresh.buffer.seconds = 300
+	sasl.login.refresh.min.period.seconds = 60
+	sasl.login.refresh.window.factor = 0.8
+	sasl.login.refresh.window.jitter = 0.05
+	sasl.login.retry.backoff.max.ms = 10000
+	sasl.login.retry.backoff.ms = 100
+	sasl.mechanism = GSSAPI
+	sasl.oauthbearer.clock.skew.seconds = 30
+	sasl.oauthbearer.expected.audience = null
+	sasl.oauthbearer.expected.issuer = null
+	sasl.oauthbearer.header.urlencode = false
+	sasl.oauthbearer.jwks.endpoint.refresh.ms = 3600000
+	sasl.oauthbearer.jwks.endpoint.retry.backoff.max.ms = 10000
+	sasl.oauthbearer.jwks.endpoint.retry.backoff.ms = 100
+	sasl.oauthbearer.jwks.endpoint.url = null
+	sasl.oauthbearer.scope.claim.name = scope
+	sasl.oauthbearer.sub.claim.name = sub
+	sasl.oauthbearer.token.endpoint.url = null
+	security.protocol = PLAINTEXT
+	security.providers = null
+	send.buffer.bytes = 131072
+	session.timeout.ms = 45000
+	socket.connection.setup.timeout.max.ms = 30000
+	socket.connection.setup.timeout.ms = 10000
+	ssl.cipher.suites = null
+	ssl.enabled.protocols = [TLSv1.2, TLSv1.3]
+	ssl.endpoint.identification.algorithm = https
+	ssl.engine.factory.class = null
+	ssl.key.password = null
+	ssl.keymanager.algorithm = SunX509
+	ssl.keystore.certificate.chain = null
+	ssl.keystore.key = null
+	ssl.keystore.location = null
+	ssl.keystore.password = null
+	ssl.keystore.type = JKS
+	ssl.protocol = TLSv1.3
+	ssl.provider = null
+	ssl.secure.random.implementation = null
+	ssl.trustmanager.algorithm = PKIX
+	ssl.truststore.certificates = null
+	ssl.truststore.location = null
+	ssl.truststore.password = null
+	ssl.truststore.type = JKS
+	value.deserializer = class org.springframework.kafka.support.serializer.JsonDeserializer
+
+2025-12-02T02:54:22.512+01:00  INFO 95966 --- [yow_point] [           main] o.a.k.c.t.i.KafkaMetricsCollector        : initializing Kafka metrics collector
+2025-12-02T02:54:22.521+01:00  INFO 95966 --- [yow_point] [           main] o.a.k.clients.consumer.ConsumerConfig    : These configurations '[spring.json.trusted.packages, spring.json.value.default.type]' were supplied but are not used yet.
+2025-12-02T02:54:22.521+01:00  INFO 95966 --- [yow_point] [           main] o.a.kafka.common.utils.AppInfoParser     : Kafka version: 3.9.1
+2025-12-02T02:54:22.521+01:00  INFO 95966 --- [yow_point] [           main] o.a.kafka.common.utils.AppInfoParser     : Kafka commitId: f745dfdcee2b9851
+2025-12-02T02:54:22.522+01:00  INFO 95966 --- [yow_point] [           main] o.a.kafka.common.utils.AppInfoParser     : Kafka startTimeMs: 1764640462521
+2025-12-02T02:54:22.522+01:00  INFO 95966 --- [yow_point] [           main] o.a.k.c.c.i.ClassicKafkaConsumer         : [Consumer clientId=consumer-yow_point_group-5, groupId=yow_point_group] Subscribed to topic(s): poi-deleted
+2025-12-02T02:54:22.526+01:00  INFO 95966 --- [yow_point] [           main] o.a.k.clients.consumer.ConsumerConfig    : ConsumerConfig values: 
+	allow.auto.create.topics = true
+	auto.commit.interval.ms = 5000
+	auto.include.jmx.reporter = true
+	auto.offset.reset = latest
+	bootstrap.servers = [localhost:9092]
+	check.crcs = true
+	client.dns.lookup = use_all_dns_ips
+	client.id = consumer-yow_point_group-6
+	client.rack = 
+	connections.max.idle.ms = 540000
+	default.api.timeout.ms = 60000
+	enable.auto.commit = false
+	enable.metrics.push = true
+	exclude.internal.topics = true
+	fetch.max.bytes = 52428800
+	fetch.max.wait.ms = 500
+	fetch.min.bytes = 1
+	group.id = yow_point_group
+	group.instance.id = null
+	group.protocol = classic
+	group.remote.assignor = null
+	heartbeat.interval.ms = 3000
+	interceptor.classes = []
+	internal.leave.group.on.close = true
+	internal.throw.on.fetch.stable.offset.unsupported = false
+	isolation.level = read_uncommitted
+	key.deserializer = class org.apache.kafka.common.serialization.StringDeserializer
+	max.partition.fetch.bytes = 1048576
+	max.poll.interval.ms = 300000
+	max.poll.records = 500
+	metadata.max.age.ms = 300000
+	metadata.recovery.strategy = none
+	metric.reporters = []
+	metrics.num.samples = 2
+	metrics.recording.level = INFO
+	metrics.sample.window.ms = 30000
+	partition.assignment.strategy = [class org.apache.kafka.clients.consumer.RangeAssignor, class org.apache.kafka.clients.consumer.CooperativeStickyAssignor]
+	receive.buffer.bytes = 65536
+	reconnect.backoff.max.ms = 1000
+	reconnect.backoff.ms = 50
+	request.timeout.ms = 30000
+	retry.backoff.max.ms = 1000
+	retry.backoff.ms = 100
+	sasl.client.callback.handler.class = null
+	sasl.jaas.config = null
+	sasl.kerberos.kinit.cmd = /usr/bin/kinit
+	sasl.kerberos.min.time.before.relogin = 60000
+	sasl.kerberos.service.name = null
+	sasl.kerberos.ticket.renew.jitter = 0.05
+	sasl.kerberos.ticket.renew.window.factor = 0.8
+	sasl.login.callback.handler.class = null
+	sasl.login.class = null
+	sasl.login.connect.timeout.ms = null
+	sasl.login.read.timeout.ms = null
+	sasl.login.refresh.buffer.seconds = 300
+	sasl.login.refresh.min.period.seconds = 60
+	sasl.login.refresh.window.factor = 0.8
+	sasl.login.refresh.window.jitter = 0.05
+	sasl.login.retry.backoff.max.ms = 10000
+	sasl.login.retry.backoff.ms = 100
+	sasl.mechanism = GSSAPI
+	sasl.oauthbearer.clock.skew.seconds = 30
+	sasl.oauthbearer.expected.audience = null
+	sasl.oauthbearer.expected.issuer = null
+	sasl.oauthbearer.header.urlencode = false
+	sasl.oauthbearer.jwks.endpoint.refresh.ms = 3600000
+	sasl.oauthbearer.jwks.endpoint.retry.backoff.max.ms = 10000
+	sasl.oauthbearer.jwks.endpoint.retry.backoff.ms = 100
+	sasl.oauthbearer.jwks.endpoint.url = null
+	sasl.oauthbearer.scope.claim.name = scope
+	sasl.oauthbearer.sub.claim.name = sub
+	sasl.oauthbearer.token.endpoint.url = null
+	security.protocol = PLAINTEXT
+	security.providers = null
+	send.buffer.bytes = 131072
+	session.timeout.ms = 45000
+	socket.connection.setup.timeout.max.ms = 30000
+	socket.connection.setup.timeout.ms = 10000
+	ssl.cipher.suites = null
+	ssl.enabled.protocols = [TLSv1.2, TLSv1.3]
+	ssl.endpoint.identification.algorithm = https
+	ssl.engine.factory.class = null
+	ssl.key.password = null
+	ssl.keymanager.algorithm = SunX509
+	ssl.keystore.certificate.chain = null
+	ssl.keystore.key = null
+	ssl.keystore.location = null
+	ssl.keystore.password = null
+	ssl.keystore.type = JKS
+	ssl.protocol = TLSv1.3
+	ssl.provider = null
+	ssl.secure.random.implementation = null
+	ssl.trustmanager.algorithm = PKIX
+	ssl.truststore.certificates = null
+	ssl.truststore.location = null
+	ssl.truststore.password = null
+	ssl.truststore.type = JKS
+	value.deserializer = class org.springframework.kafka.support.serializer.JsonDeserializer
+
+2025-12-02T02:54:22.526+01:00  INFO 95966 --- [yow_point] [           main] o.a.k.c.t.i.KafkaMetricsCollector        : initializing Kafka metrics collector
+2025-12-02T02:54:22.534+01:00  INFO 95966 --- [yow_point] [ntainer#2-0-C-1] org.apache.kafka.clients.Metadata        : [Consumer clientId=consumer-yow_point_group-5, groupId=yow_point_group] Cluster ID: 4jI8XeSMQV-cF8WrmofhRA
+2025-12-02T02:54:22.534+01:00  INFO 95966 --- [yow_point] [ntainer#2-0-C-1] o.a.k.c.c.internals.ConsumerCoordinator  : [Consumer clientId=consumer-yow_point_group-5, groupId=yow_point_group] Discovered group coordinator localhost:9092 (id: 2147483646 rack: null)
+2025-12-02T02:54:22.535+01:00  INFO 95966 --- [yow_point] [ntainer#2-0-C-1] o.a.k.c.c.internals.ConsumerCoordinator  : [Consumer clientId=consumer-yow_point_group-5, groupId=yow_point_group] (Re-)joining group
+2025-12-02T02:54:22.536+01:00  INFO 95966 --- [yow_point] [           main] o.a.k.clients.consumer.ConsumerConfig    : These configurations '[spring.json.trusted.packages, spring.json.value.default.type]' were supplied but are not used yet.
+2025-12-02T02:54:22.536+01:00  INFO 95966 --- [yow_point] [           main] o.a.kafka.common.utils.AppInfoParser     : Kafka version: 3.9.1
+2025-12-02T02:54:22.536+01:00  INFO 95966 --- [yow_point] [           main] o.a.kafka.common.utils.AppInfoParser     : Kafka commitId: f745dfdcee2b9851
+2025-12-02T02:54:22.536+01:00  INFO 95966 --- [yow_point] [           main] o.a.kafka.common.utils.AppInfoParser     : Kafka startTimeMs: 1764640462536
+2025-12-02T02:54:22.537+01:00  INFO 95966 --- [yow_point] [           main] o.a.k.c.c.i.ClassicKafkaConsumer         : [Consumer clientId=consumer-yow_point_group-6, groupId=yow_point_group] Subscribed to topic(s): poi-created
+2025-12-02T02:54:22.540+01:00  INFO 95966 --- [yow_point] [           main] o.a.k.clients.consumer.ConsumerConfig    : ConsumerConfig values: 
+	allow.auto.create.topics = true
+	auto.commit.interval.ms = 5000
+	auto.include.jmx.reporter = true
+	auto.offset.reset = latest
+	bootstrap.servers = [localhost:9092]
+	check.crcs = true
+	client.dns.lookup = use_all_dns_ips
+	client.id = consumer-yow_point_group-7
+	client.rack = 
+	connections.max.idle.ms = 540000
+	default.api.timeout.ms = 60000
+	enable.auto.commit = false
+	enable.metrics.push = true
+	exclude.internal.topics = true
+	fetch.max.bytes = 52428800
+	fetch.max.wait.ms = 500
+	fetch.min.bytes = 1
+	group.id = yow_point_group
+	group.instance.id = null
+	group.protocol = classic
+	group.remote.assignor = null
+	heartbeat.interval.ms = 3000
+	interceptor.classes = []
+	internal.leave.group.on.close = true
+	internal.throw.on.fetch.stable.offset.unsupported = false
+	isolation.level = read_uncommitted
+	key.deserializer = class org.apache.kafka.common.serialization.StringDeserializer
+	max.partition.fetch.bytes = 1048576
+	max.poll.interval.ms = 300000
+	max.poll.records = 500
+	metadata.max.age.ms = 300000
+	metadata.recovery.strategy = none
+	metric.reporters = []
+	metrics.num.samples = 2
+	metrics.recording.level = INFO
+	metrics.sample.window.ms = 30000
+	partition.assignment.strategy = [class org.apache.kafka.clients.consumer.RangeAssignor, class org.apache.kafka.clients.consumer.CooperativeStickyAssignor]
+	receive.buffer.bytes = 65536
+	reconnect.backoff.max.ms = 1000
+	reconnect.backoff.ms = 50
+	request.timeout.ms = 30000
+	retry.backoff.max.ms = 1000
+	retry.backoff.ms = 100
+	sasl.client.callback.handler.class = null
+	sasl.jaas.config = null
+	sasl.kerberos.kinit.cmd = /usr/bin/kinit
+	sasl.kerberos.min.time.before.relogin = 60000
+	sasl.kerberos.service.name = null
+	sasl.kerberos.ticket.renew.jitter = 0.05
+	sasl.kerberos.ticket.renew.window.factor = 0.8
+	sasl.login.callback.handler.class = null
+	sasl.login.class = null
+	sasl.login.connect.timeout.ms = null
+	sasl.login.read.timeout.ms = null
+	sasl.login.refresh.buffer.seconds = 300
+	sasl.login.refresh.min.period.seconds = 60
+	sasl.login.refresh.window.factor = 0.8
+	sasl.login.refresh.window.jitter = 0.05
+	sasl.login.retry.backoff.max.ms = 10000
+	sasl.login.retry.backoff.ms = 100
+	sasl.mechanism = GSSAPI
+	sasl.oauthbearer.clock.skew.seconds = 30
+	sasl.oauthbearer.expected.audience = null
+	sasl.oauthbearer.expected.issuer = null
+	sasl.oauthbearer.header.urlencode = false
+	sasl.oauthbearer.jwks.endpoint.refresh.ms = 3600000
+	sasl.oauthbearer.jwks.endpoint.retry.backoff.max.ms = 10000
+	sasl.oauthbearer.jwks.endpoint.retry.backoff.ms = 100
+	sasl.oauthbearer.jwks.endpoint.url = null
+	sasl.oauthbearer.scope.claim.name = scope
+	sasl.oauthbearer.sub.claim.name = sub
+	sasl.oauthbearer.token.endpoint.url = null
+	security.protocol = PLAINTEXT
+	security.providers = null
+	send.buffer.bytes = 131072
+	session.timeout.ms = 45000
+	socket.connection.setup.timeout.max.ms = 30000
+	socket.connection.setup.timeout.ms = 10000
+	ssl.cipher.suites = null
+	ssl.enabled.protocols = [TLSv1.2, TLSv1.3]
+	ssl.endpoint.identification.algorithm = https
+	ssl.engine.factory.class = null
+	ssl.key.password = null
+	ssl.keymanager.algorithm = SunX509
+	ssl.keystore.certificate.chain = null
+	ssl.keystore.key = null
+	ssl.keystore.location = null
+	ssl.keystore.password = null
+	ssl.keystore.type = JKS
+	ssl.protocol = TLSv1.3
+	ssl.provider = null
+	ssl.secure.random.implementation = null
+	ssl.trustmanager.algorithm = PKIX
+	ssl.truststore.certificates = null
+	ssl.truststore.location = null
+	ssl.truststore.password = null
+	ssl.truststore.type = JKS
+	value.deserializer = class org.springframework.kafka.support.serializer.JsonDeserializer
+
+2025-12-02T02:54:22.541+01:00  INFO 95966 --- [yow_point] [           main] o.a.k.c.t.i.KafkaMetricsCollector        : initializing Kafka metrics collector
+2025-12-02T02:54:22.543+01:00  INFO 95966 --- [yow_point] [ntainer#2-0-C-1] o.a.k.c.c.internals.ConsumerCoordinator  : [Consumer clientId=consumer-yow_point_group-5, groupId=yow_point_group] Request joining group due to: need to re-join with the given member-id: consumer-yow_point_group-5-0a94a1eb-eb3f-40db-a632-d4720ac3cd7d
+2025-12-02T02:54:22.543+01:00  INFO 95966 --- [yow_point] [ntainer#2-0-C-1] o.a.k.c.c.internals.ConsumerCoordinator  : [Consumer clientId=consumer-yow_point_group-5, groupId=yow_point_group] (Re-)joining group
+2025-12-02T02:54:22.546+01:00  INFO 95966 --- [yow_point] [ntainer#0-0-C-1] org.apache.kafka.clients.Metadata        : [Consumer clientId=consumer-yow_point_group-6, groupId=yow_point_group] Cluster ID: 4jI8XeSMQV-cF8WrmofhRA
+2025-12-02T02:54:22.547+01:00  INFO 95966 --- [yow_point] [ntainer#0-0-C-1] o.a.k.c.c.internals.ConsumerCoordinator  : [Consumer clientId=consumer-yow_point_group-6, groupId=yow_point_group] Discovered group coordinator localhost:9092 (id: 2147483646 rack: null)
+2025-12-02T02:54:22.548+01:00  INFO 95966 --- [yow_point] [ntainer#0-0-C-1] o.a.k.c.c.internals.ConsumerCoordinator  : [Consumer clientId=consumer-yow_point_group-6, groupId=yow_point_group] (Re-)joining group
+2025-12-02T02:54:22.549+01:00  INFO 95966 --- [yow_point] [           main] o.a.k.clients.consumer.ConsumerConfig    : These configurations '[spring.json.trusted.packages, spring.json.value.default.type]' were supplied but are not used yet.
+2025-12-02T02:54:22.550+01:00  INFO 95966 --- [yow_point] [           main] o.a.kafka.common.utils.AppInfoParser     : Kafka version: 3.9.1
+2025-12-02T02:54:22.550+01:00  INFO 95966 --- [yow_point] [           main] o.a.kafka.common.utils.AppInfoParser     : Kafka commitId: f745dfdcee2b9851
+2025-12-02T02:54:22.550+01:00  INFO 95966 --- [yow_point] [           main] o.a.kafka.common.utils.AppInfoParser     : Kafka startTimeMs: 1764640462550
+2025-12-02T02:54:22.550+01:00  INFO 95966 --- [yow_point] [           main] o.a.k.c.c.i.ClassicKafkaConsumer         : [Consumer clientId=consumer-yow_point_group-7, groupId=yow_point_group] Subscribed to topic(s): poi-updated
+2025-12-02T02:54:22.555+01:00  INFO 95966 --- [yow_point] [ntainer#0-0-C-1] o.a.k.c.c.internals.ConsumerCoordinator  : [Consumer clientId=consumer-yow_point_group-6, groupId=yow_point_group] Request joining group due to: need to re-join with the given member-id: consumer-yow_point_group-6-41f77a35-0561-42ac-8f58-724974d05eeb
+2025-12-02T02:54:22.555+01:00  INFO 95966 --- [yow_point] [ntainer#0-0-C-1] o.a.k.c.c.internals.ConsumerCoordinator  : [Consumer clientId=consumer-yow_point_group-6, groupId=yow_point_group] (Re-)joining group
+2025-12-02T02:54:22.563+01:00  INFO 95966 --- [yow_point] [ntainer#1-0-C-1] org.apache.kafka.clients.Metadata        : [Consumer clientId=consumer-yow_point_group-7, groupId=yow_point_group] Cluster ID: 4jI8XeSMQV-cF8WrmofhRA
+2025-12-02T02:54:22.563+01:00  INFO 95966 --- [yow_point] [ntainer#1-0-C-1] o.a.k.c.c.internals.ConsumerCoordinator  : [Consumer clientId=consumer-yow_point_group-7, groupId=yow_point_group] Discovered group coordinator localhost:9092 (id: 2147483646 rack: null)
+2025-12-02T02:54:22.565+01:00  INFO 95966 --- [yow_point] [ntainer#1-0-C-1] o.a.k.c.c.internals.ConsumerCoordinator  : [Consumer clientId=consumer-yow_point_group-7, groupId=yow_point_group] (Re-)joining group
+2025-12-02T02:54:22.574+01:00  INFO 95966 --- [yow_point] [ntainer#1-0-C-1] o.a.k.c.c.internals.ConsumerCoordinator  : [Consumer clientId=consumer-yow_point_group-7, groupId=yow_point_group] Request joining group due to: need to re-join with the given member-id: consumer-yow_point_group-7-5431b0bf-4161-4b25-b086-50b20d63bbde
+2025-12-02T02:54:22.574+01:00  INFO 95966 --- [yow_point] [ntainer#1-0-C-1] o.a.k.c.c.internals.ConsumerCoordinator  : [Consumer clientId=consumer-yow_point_group-7, groupId=yow_point_group] (Re-)joining group
+2025-12-02T02:54:22.580+01:00  INFO 95966 --- [yow_point] [           main] PointOfInterestControllerIntegrationTest : Started PointOfInterestControllerIntegrationTest in 3.348 seconds (process running for 30.53)
+2025-12-02T02:54:23.445+01:00  INFO 95966 --- [yow_point] [     parallel-4] c.p.y.p.c.PointOfInterestController      : REST request to create POI: Test POI
+2025-12-02T02:54:23.451+01:00  WARN 95966 --- [yow_point] [     parallel-4] io.r2dbc.h2.H2Connection                 : Option{name='readOnly', sensitive=false} + isn't supported in H2 at the transaction level. You must set it on conenction URL. See http://www.h2database.com/html/features.html#read_only
+2025-12-02T02:54:23.454+01:00  INFO 95966 --- [yow_point] [     parallel-4] c.p.y.a.s.p.PointOfInterestServiceImpl   : POI created successfully with ID: 6f65bb07-79b5-4517-9014-a321b62aaac1. Publishing WebSocket event...
+2025-12-02T02:54:23.645+01:00 DEBUG 95966 --- [yow_point] [     parallel-5] c.p.y.p.c.PointOfInterestController      : REST request to get POI: 6f65bb07-79b5-4517-9014-a321b62aaac1
+2025-12-02T02:54:23.648+01:00 DEBUG 95966 --- [yow_point] [     parallel-5] c.p.y.a.s.p.PointOfInterestServiceImpl   : Found POI: 6f65bb07-79b5-4517-9014-a321b62aaac1
+2025-12-02T02:54:23.725+01:00  INFO 95966 --- [yow_point] [     parallel-6] c.p.y.p.c.PointOfInterestController      : REST request to update POI: 6f65bb07-79b5-4517-9014-a321b62aaac1
+2025-12-02T02:54:23.728+01:00  WARN 95966 --- [yow_point] [     parallel-6] io.r2dbc.h2.H2Connection                 : Option{name='readOnly', sensitive=false} + isn't supported in H2 at the transaction level. You must set it on conenction URL. See http://www.h2database.com/html/features.html#read_only
+2025-12-02T02:54:23.733+01:00  INFO 95966 --- [yow_point] [     parallel-6] c.p.y.a.s.p.PointOfInterestServiceImpl   : POI updated successfully: 6f65bb07-79b5-4517-9014-a321b62aaac1,  Publishing WebSocket event...
+2025-12-02T02:54:23.749+01:00  INFO 95966 --- [yow_point] [     parallel-7] c.p.y.p.c.PointOfInterestController      : REST request to delete POI: 6f65bb07-79b5-4517-9014-a321b62aaac1
+2025-12-02T02:54:23.751+01:00  WARN 95966 --- [yow_point] [     parallel-7] io.r2dbc.h2.H2Connection                 : Option{name='readOnly', sensitive=false} + isn't supported in H2 at the transaction level. You must set it on conenction URL. See http://www.h2database.com/html/features.html#read_only
+2025-12-02T02:54:23.753+01:00  INFO 95966 --- [yow_point] [     parallel-7] c.p.y.a.s.p.PointOfInterestServiceImpl   : POI 6f65bb07-79b5-4517-9014-a321b62aaac1 deleted successfully. Publishing WebSocket event...
+2025-12-02T02:54:23.771+01:00 DEBUG 95966 --- [yow_point] [     parallel-8] c.p.y.p.c.PointOfInterestController      : REST request to get POI: 6f65bb07-79b5-4517-9014-a321b62aaac1
+2025-12-02T02:54:23.772+01:00 DEBUG 95966 --- [yow_point] [     parallel-8] c.p.y.a.s.p.PointOfInterestServiceImpl   : Found POI: null
+]]></system-out>
+  </testcase>
+</testsuite>
