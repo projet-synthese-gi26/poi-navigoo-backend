@@ -1,5 +1,4 @@
-/home/varnel/Desktop/New Folder/api_poi/src/test/java/com/poi/yow_point/ElasticsearchIntegrationTest.java
-/home/varnel/Desktop/New Folder/api_poi/src/test/java/com/poi/yow_point/KafkaIntegrationTest.java
-/home/varnel/Desktop/New Folder/api_poi/src/test/java/com/poi/yow_point/config/PostgresTestR2dbcConfig.java
-/home/varnel/Desktop/New Folder/api_poi/src/test/java/com/poi/yow_point/config/TestR2dbcConfig.java
-/home/varnel/Desktop/New Folder/api_poi/src/test/java/com/poi/yow_point/presentation/controllers/PointOfInterestControllerIntegrationTest.java
+/home/varnel/Desktop/Synthese_reseau/api/api_poi/src/test/java/com/poi/yow_point/KafkaIntegrationTest.java
+/home/varnel/Desktop/Synthese_reseau/api/api_poi/src/test/java/com/poi/yow_point/config/PostgresTestR2dbcConfig.java
+/home/varnel/Desktop/Synthese_reseau/api/api_poi/src/test/java/com/poi/yow_point/config/TestR2dbcConfig.java
+/home/varnel/Desktop/Synthese_reseau/api/api_poi/src/test/java/com/poi/yow_point/presentation/controllers/PointOfInterestControllerIntegrationTest.java

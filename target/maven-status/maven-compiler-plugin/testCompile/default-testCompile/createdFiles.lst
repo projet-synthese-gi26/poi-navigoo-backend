@@ -1,6 +1,5 @@
 com/poi/yow_point/config/TestR2dbcConfig.class
 com/poi/yow_point/KafkaIntegrationTest$KafkaTestConsumerConfiguration.class
-com/poi/yow_point/ElasticsearchIntegrationTest.class
 com/poi/yow_point/config/PostgresTestR2dbcConfig.class
 com/poi/yow_point/presentation/controllers/PointOfInterestControllerIntegrationTest.class
 com/poi/yow_point/KafkaIntegrationTest$TestConsumer.class

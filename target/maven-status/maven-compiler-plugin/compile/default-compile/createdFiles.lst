@@ -18,8 +18,8 @@ com/poi/yow_point/presentation/dto/PointOfInterestDTO$PointOfInterestDTOBuilder.
 com/poi/yow_point/infrastructure/entities/PointOfInterest.class
 com/poi/yow_point/config/json_Converter/StringToJsonConverter.class
 com/poi/yow_point/infrastructure/repositories/poiReview/PoiReviewRepositoryImpl.class
+com/poi/yow_point/config/RedisConfig.class
 com/poi/yow_point/presentation/dto/AddressTypeDTO.class
-com/poi/yow_point/infrastructure/repositories/poiDocument/PoiDocumentRepository.class
 com/poi/yow_point/application/mappers/PoiAccessLogMapperImpl.class
 com/poi/yow_point/config/PasswordConfig.class
 com/poi/yow_point/application/validation/PointOfInterestValidator.class
@@ -63,10 +63,8 @@ com/poi/yow_point/infrastructure/repositories/podcast/PodcastRepositoryCustom.cl
 com/poi/yow_point/infrastructure/repositories/organization/OrganizationRepository.class
 com/poi/yow_point/application/model/OrganizationType.class
 com/poi/yow_point/infrastructure/repositories/poiPlatformStat/PoiPlatformStatRepositoryImpl.class
-com/poi/yow_point/application/services/indexing/IndexingService.class
 com/poi/yow_point/application/services/poiReview/PoiReviewServiceImpl.class
 com/poi/yow_point/application/mappers/PoiPlatformStatMapperImpl.class
-com/poi/yow_point/infrastructure/document/PoiDocument.class
 com/poi/yow_point/presentation/dto/OrganizationDTO.class
 com/poi/yow_point/presentation/dto/PoiPlatformStatDTO$PoiPlatformStatDTOBuilder.class
 com/poi/yow_point/config/json_Converter/JsonToJsonNodeConverter.class
@@ -92,7 +90,6 @@ com/poi/yow_point/application/services/point_of_interest/PointOfInterestService.
 com/poi/yow_point/presentation/dto/blogDto/UpdateBlogRequest.class
 com/poi/yow_point/application/services/poiPlatformStat/PoiPlatformStatService.class
 com/poi/yow_point/application/validation/OrganizationValidator.class
-com/poi/yow_point/infrastructure/document/PoiDocument$PoiDocumentBuilder.class
 com/poi/yow_point/infrastructure/entities/PoiPlatformStat$PoiPlatformStatBuilder.class
 com/poi/yow_point/infrastructure/entities/AppUser$AppUserBuilder.class
 com/poi/yow_point/presentation/controllers/PointOfInterestController.class

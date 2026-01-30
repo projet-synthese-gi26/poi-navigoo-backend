@@ -10,6 +10,7 @@ import com.poi.yow_point.presentation.dto.websocketDTO.PoiEvent;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.redis.core.ReactiveRedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.BeanPropertyBindingResult;
@@ -17,6 +18,7 @@ import org.springframework.validation.Errors;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
+import java.time.Duration;
 import java.time.Instant;
 import java.util.UUID;
 
@@ -31,6 +33,10 @@ public class PointOfInterestServiceImpl implements PointOfInterestService {
     private final PointOfInterestValidator validator;
     private final PoiEventPublisher eventPublisher;
     private final KafkaProducerService kafkaProducerService;
+    private final ReactiveRedisTemplate<String, PointOfInterestDTO> redisTemplate;
+
+    private static final String CACHE_KEY_PREFIX = "poi:";
+    private static final Duration CACHE_TTL = Duration.ofHours(1);
 
     @Override
     @Transactional
@@ -71,7 +77,8 @@ public class PointOfInterestServiceImpl implements PointOfInterestService {
     @Override
     @Transactional
     public Mono<PointOfInterestDTO> updatePoi(UUID poiId, PointOfInterestDTO dto) {
-        return validateDto(dto)
+        return redisTemplate.opsForValue().delete(CACHE_KEY_PREFIX + poiId)
+                .then(validateDto(dto))
                 .flatMap(validatedDto -> repository.findById(poiId))
                 .switchIfEmpty(Mono.error(new RuntimeException("POI not found with ID: " + poiId)))
                 .flatMap(existingEntity -> {
@@ -107,11 +114,36 @@ public class PointOfInterestServiceImpl implements PointOfInterestService {
 
     @Override
     public Mono<PointOfInterestDTO> findById(UUID poiId) {
-        return repository.findById(poiId)
-                .map(mapper::toDto)
-                .doOnSuccess(dto -> log.debug("Found POI: {}", dto != null ? dto.getPoiId() : "null"))
-                .doOnError(error -> log.error("Error finding POI {}: {}", poiId, error.getMessage()));
+        String cacheKey = CACHE_KEY_PREFIX + poiId;
+
+        return redisTemplate.opsForValue()
+                .get(cacheKey)
+                .onErrorResume(e -> {
+                    log.warn("Redis unavailable (GET), falling back to DB for POI {}: {}", poiId, e.getMessage());
+                    return Mono.empty(); // 🔥 tolérance Redis
+                })
+                .doOnNext(dto -> log.debug("Cache hit for POI: {}", poiId))
+                .switchIfEmpty(
+                        repository.findById(poiId)
+                                .map(mapper::toDto)
+                                .flatMap(dto ->
+                                        redisTemplate.opsForValue()
+                                                .set(cacheKey, dto, CACHE_TTL)
+                                                .onErrorResume(e -> {
+                                                    log.warn("Redis unavailable (SET) for POI {}: {}", poiId, e.getMessage());
+                                                    return Mono.empty(); // 🔥 Redis non bloquant
+                                                })
+                                                .thenReturn(dto)
+                                )
+                                .doOnNext(dto ->
+                                        log.debug("Cache miss for POI: {}, saved to cache with TTL {}", poiId, CACHE_TTL)
+                                )
+                )
+                .doOnError(error ->
+                        log.error("Error finding POI {} (DB level): {}", poiId, error.getMessage())
+                );
     }
+
 
     @Override
     public Flux<PointOfInterestDTO> findActiveByOrganizationId(UUID organizationId) {
@@ -185,7 +217,8 @@ public class PointOfInterestServiceImpl implements PointOfInterestService {
     @Override
     @Transactional
     public Mono<Void> deactivatePoi(UUID poiId) {
-        return repository.deactivateById(poiId)
+        return redisTemplate.opsForValue().delete(CACHE_KEY_PREFIX + poiId)
+                .then(repository.deactivateById(poiId))
                 .defaultIfEmpty((long) 0)
                 .flatMap(count -> {
                     if (count > 0) {
@@ -207,7 +240,8 @@ public class PointOfInterestServiceImpl implements PointOfInterestService {
     @Override
     @Transactional
     public Mono<Void> activatePoi(UUID poiId) {
-        return repository.activateById(poiId)
+        return redisTemplate.opsForValue().delete(CACHE_KEY_PREFIX + poiId)
+                .then(repository.activateById(poiId))
                 .defaultIfEmpty((long) 0)
                 .flatMap(count -> {
                     if (count > 0) {
@@ -229,7 +263,8 @@ public class PointOfInterestServiceImpl implements PointOfInterestService {
     @Override
     @Transactional
     public Mono<Void> deletePoi(UUID poiId) {
-        return repository.findById(poiId)
+        return redisTemplate.opsForValue().delete(CACHE_KEY_PREFIX + poiId)
+                .then(repository.findById(poiId))
                 .switchIfEmpty(Mono.error(new RuntimeException("POI not found with ID: " + poiId)))
                 .flatMap(poi -> repository.deleteById(poiId).thenReturn(poi))
                 .doOnSuccess(poi -> {
@@ -244,7 +279,8 @@ public class PointOfInterestServiceImpl implements PointOfInterestService {
     @Override
     @Transactional
     public Mono<Void> updatePopularityScore(UUID poiId, Float score) {
-        return repository.updatePopularityScore(poiId, score)
+        return redisTemplate.opsForValue().delete(CACHE_KEY_PREFIX + poiId)
+                .then(repository.updatePopularityScore(poiId, score))
                 .defaultIfEmpty((long) 0)
                 .doOnSuccess(count -> {
                     if (count > 0) {
@@ -283,6 +319,14 @@ public class PointOfInterestServiceImpl implements PointOfInterestService {
                 .doOnSuccess(exists -> log.debug("POI name '{}' exists in organization {}: {}",
                         name, organizationId, exists))
                 .doOnError(error -> log.error("Error checking POI name existence: {}", error.getMessage()));
+    }
+
+    @Override
+    public Flux<PointOfInterestDTO> findAll() {
+        return repository.findAll()
+                .map(mapper::toDto)
+                .doOnComplete(() -> log.debug("Retrieved all POIs"))
+                .doOnError(error -> log.error("Error retrieving all POIs: {}", error.getMessage()));
     }
 
     private Mono<PointOfInterestDTO> validateDto(PointOfInterestDTO dto) {

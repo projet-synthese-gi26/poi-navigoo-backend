@@ -43,4 +43,6 @@ public interface PointOfInterestService {
     Flux<PointOfInterestDTO> findByCity(String city);
 
     Mono<Boolean> existsByNameAndOrganization(String name, UUID organizationId, UUID excludeId);
+
+    Flux<PointOfInterestDTO> findAll();
 }

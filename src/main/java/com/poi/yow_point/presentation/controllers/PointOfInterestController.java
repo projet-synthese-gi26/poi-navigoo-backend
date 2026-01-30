@@ -32,6 +32,22 @@ public class PointOfInterestController {
 
         private final PointOfInterestService poiService;
 
+        @GetMapping
+        @Operation(summary = "Get all POIs", description = "Retrieves all Points of Interest")
+        @ApiResponses(value = {
+                        @ApiResponse(responseCode = "200", description = "List of all POIs", content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE, schema = @Schema(implementation = PointOfInterestDTO.class))),
+                        @ApiResponse(responseCode = "500", description = "Internal server error", content = @Content)
+        })
+        public Flux<PointOfInterestDTO> getAllPois() {
+                log.info("REST request to get all POIs");
+                return poiService.findAll()
+                                .onErrorResume(Exception.class,
+                                                ex -> {
+                                                        log.error("Error retrieving all POIs", ex);
+                                                        return Flux.empty();
+                                                });
+        }
+
         @PostMapping
         @Operation(summary = "Create a new POI", description = "Creates a new Point of Interest with the provided information")
         @ApiResponses(value = {

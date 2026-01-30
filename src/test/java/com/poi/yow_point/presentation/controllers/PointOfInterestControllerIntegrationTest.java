@@ -5,7 +5,6 @@ import com.poi.yow_point.application.model.PoiType;
 import com.poi.yow_point.infrastructure.entities.PointOfInterest;
 import com.poi.yow_point.infrastructure.kafka.KafkaProducerService;
 import com.poi.yow_point.infrastructure.repositories.PointOfInterest.PointOfInterestRepository;
-import com.poi.yow_point.infrastructure.repositories.poiDocument.PoiDocumentRepository;
 import com.poi.yow_point.presentation.dto.PointOfInterestDTO;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -41,10 +40,10 @@ class PointOfInterestControllerIntegrationTest {
     private PointOfInterestRepository pointOfInterestRepository;
 
     @MockBean
-    private PoiDocumentRepository poiDocumentRepository;
+    private KafkaProducerService kafkaProducerService;
 
     @MockBean
-    private KafkaProducerService kafkaProducerService;
+    private org.springframework.data.redis.core.ReactiveRedisTemplate<String, PointOfInterestDTO> redisTemplate;
 
     private PointOfInterestDTO testPoiDto;
     private final UUID organizationId = UUID.randomUUID();
@@ -104,6 +103,13 @@ class PointOfInterestControllerIntegrationTest {
 
         // Mock deleteById
         Mockito.when(pointOfInterestRepository.deleteById(poiId)).thenReturn(Mono.empty());
+
+        // Mock Redis Template
+        org.springframework.data.redis.core.ReactiveValueOperations<String, PointOfInterestDTO> opsForValue = Mockito.mock(org.springframework.data.redis.core.ReactiveValueOperations.class);
+        Mockito.when(redisTemplate.opsForValue()).thenReturn(opsForValue);
+        Mockito.when(opsForValue.get(any())).thenReturn(Mono.empty());
+        Mockito.when(opsForValue.set(any(), any(), any())).thenReturn(Mono.just(true));
+        Mockito.when(opsForValue.delete(any())).thenReturn(Mono.just(true));
 
 
         // 1. Create POI
