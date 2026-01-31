@@ -1,0 +1,259 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+    http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+    <changeSet id="00-extensions" author="yowpoint">
+        <sql>CREATE EXTENSION IF NOT EXISTS postgis;</sql>
+        <sql>CREATE EXTENSION IF NOT EXISTS "uuid-ossp";</sql>
+    </changeSet>
+
+    <changeSet id="01-create-organization-table" author="yowpoint">
+        <createTable tableName="organization">
+            <column name="organization_id" type="UUID" defaultValueComputed="uuid_generate_v4()">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="org_name" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="org_code" type="VARCHAR(50)">
+                 <constraints unique="true"/>
+            </column>
+            <column name="org_type" type="VARCHAR(50)"/>
+            <column name="created_at" type="TIMESTAMP WITH TIME ZONE" defaultValueComputed="NOW()"/>
+            <column name="is_active" type="BOOLEAN" defaultValueBoolean="true"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="02-create-app-user-table" author="yowpoint">
+        <createTable tableName="app_user">
+            <column name="user_id" type="UUID" defaultValueComputed="uuid_generate_v4()">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="organization_id" type="UUID">
+                <constraints nullable="false" foreignKeyName="fk_user_org" references="organization(organization_id)" deleteCascade="true"/>
+            </column>
+            <column name="username" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="email" type="VARCHAR(255)"/>
+            <column name="phone" type="VARCHAR(50)"/>
+            <column name="password_hash" type="VARCHAR(255)"/>
+            <column name="role" type="VARCHAR(50)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="is_active" type="BOOLEAN" defaultValueBoolean="true"/>
+            <column name="created_at" type="TIMESTAMP WITH TIME ZONE" defaultValueComputed="NOW()"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="03-create-point-of-interest-table" author="yowpoint">
+        <createTable tableName="point_of_interest">
+            <column name="poi_id" type="UUID" defaultValueComputed="uuid_generate_v4()">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="organization_id" type="UUID">
+                 <constraints foreignKeyName="fk_poi_org" references="organization(organization_id)"/>
+            </column>
+            <column name="town_id" type="UUID"/>
+            <column name="created_by_user_id" type="UUID">
+                <constraints foreignKeyName="fk_poi_user" references="app_user(user_id)"/>
+            </column>
+            <column name="poi_name" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="poi_type" type="VARCHAR(50)">
+                 <constraints nullable="false"/>
+            </column>
+            <column name="poi_category" type="VARCHAR(50)">
+                 <constraints nullable="false"/>
+            </column>
+            <column name="poi_long_name" type="VARCHAR(255)"/>
+            <column name="poi_short_name" type="VARCHAR(100)"/>
+            <column name="poi_friendly_name" type="VARCHAR(100)"/>
+            <column name="poi_description" type="TEXT"/>
+            <column name="poi_logo" type="BYTEA"/>
+            
+            <column name="location_geog" type="GEOMETRY(Point, 4326)">
+                <constraints nullable="false"/>
+            </column>
+            
+            <column name="address_street_number" type="VARCHAR(50)"/>
+            <column name="address_street_name" type="VARCHAR(255)"/>
+            <column name="address_city" type="VARCHAR(100)"/>
+            <column name="address_state_province" type="VARCHAR(100)"/>
+            <column name="address_postal_code" type="VARCHAR(20)"/>
+            <column name="address_country" type="VARCHAR(100)"/>
+            <column name="address_informal" type="VARCHAR(255)"/>
+            <column name="website_url" type="VARCHAR(255)"/>
+            
+            <column name="operation_time_plan" type="JSONB"/>
+            <column name="poi_contacts" type="JSONB"/>
+            
+            <column name="poi_images_urls" type="TEXT"/>
+            <column name="poi_amenities" type="TEXT"/>
+            <column name="poi_keywords" type="TEXT"/>
+            <column name="poi_type_tags" type="TEXT"/>
+            
+            <column name="popularity_score" type="FLOAT" defaultValueNumeric="0"/>
+            <column name="is_active" type="BOOLEAN" defaultValueBoolean="true"/>
+            <column name="deactivation_reason" type="VARCHAR(255)"/>
+            <column name="deactivated_by_user_id" type="UUID">
+                 <constraints foreignKeyName="fk_poi_deactivated_by" references="app_user(user_id)"/>
+            </column>
+            
+            <column name="created_at" type="TIMESTAMP WITH TIME ZONE" defaultValueComputed="NOW()"/>
+            <column name="updated_by_user_id" type="UUID">
+                 <constraints foreignKeyName="fk_poi_updated_by" references="app_user(user_id)"/>
+            </column>
+            <column name="updated_at" type="TIMESTAMP WITH TIME ZONE" defaultValueComputed="NOW()"/>
+        </createTable>
+
+        <createIndex tableName="point_of_interest" indexName="idx_poi_org_id">
+            <column name="organization_id"/>
+        </createIndex>
+        <createIndex tableName="point_of_interest" indexName="idx_poi_type">
+            <column name="poi_type"/>
+        </createIndex>
+        <createIndex tableName="point_of_interest" indexName="idx_poi_category">
+            <column name="poi_category"/>
+        </createIndex>
+        <createIndex tableName="point_of_interest" indexName="idx_poi_name">
+            <column name="poi_name"/>
+        </createIndex>
+         <createIndex tableName="point_of_interest" indexName="idx_poi_is_active">
+            <column name="is_active"/>
+        </createIndex>
+        <!-- GIST index not natively supported by createIndex tag in standard XML without extension often, simpler to use sql tag for it -->
+        <sql>CREATE INDEX idx_poi_location_geog ON point_of_interest USING GIST (location_geog);</sql>
+    </changeSet>
+
+    <changeSet id="04-create-blog-table" author="yowpoint">
+        <createTable tableName="blog">
+             <column name="blog_id" type="UUID" defaultValueComputed="uuid_generate_v4()">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="user_id" type="UUID">
+                 <constraints nullable="false" foreignKeyName="fk_blog_user" references="app_user(user_id)" deleteCascade="true"/>
+            </column>
+            <column name="poi_id" type="UUID">
+                 <constraints nullable="false" foreignKeyName="fk_blog_poi" references="point_of_interest(poi_id)" deleteCascade="true"/>
+            </column>
+            <column name="title" type="VARCHAR(255)">
+                 <constraints nullable="false"/>
+            </column>
+            <column name="description" type="TEXT"/>
+            <column name="cover_image_url" type="VARCHAR(255)"/>
+            <column name="content" type="TEXT"/>
+            <column name="is_active" type="BOOLEAN" defaultValueBoolean="true"/>
+            <column name="created_at" type="TIMESTAMP WITH TIME ZONE" defaultValueComputed="NOW()"/>
+            <column name="updated_at" type="TIMESTAMP WITH TIME ZONE" defaultValueComputed="NOW()"/>
+        </createTable>
+        <createIndex tableName="blog" indexName="idx_blog_poi_id">
+            <column name="poi_id"/>
+        </createIndex>
+    </changeSet>
+
+    <changeSet id="05-create-podcast-table" author="yowpoint">
+        <createTable tableName="podcast">
+             <column name="podcast_id" type="UUID" defaultValueComputed="uuid_generate_v4()">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="user_id" type="UUID">
+                 <constraints nullable="false" foreignKeyName="fk_podcast_user" references="app_user(user_id)" deleteCascade="true"/>
+            </column>
+            <column name="poi_id" type="UUID">
+                 <constraints nullable="false" foreignKeyName="fk_podcast_poi" references="point_of_interest(poi_id)" deleteCascade="true"/>
+            </column>
+            <column name="title" type="VARCHAR(255)">
+                 <constraints nullable="false"/>
+            </column>
+            <column name="description" type="TEXT"/>
+            <column name="cover_image_url" type="VARCHAR(255)"/>
+            <column name="audio_file_url" type="VARCHAR(255)"/>
+            <column name="duration_seconds" type="INTEGER"/>
+            <column name="is_active" type="BOOLEAN" defaultValueBoolean="true"/>
+            <column name="created_at" type="TIMESTAMP WITH TIME ZONE" defaultValueComputed="NOW()"/>
+            <column name="updated_at" type="TIMESTAMP WITH TIME ZONE" defaultValueComputed="NOW()"/>
+        </createTable>
+         <createIndex tableName="podcast" indexName="idx_podcast_poi_id">
+            <column name="poi_id"/>
+        </createIndex>
+    </changeSet>
+
+    <changeSet id="06-create-poi-review-table" author="yowpoint">
+         <createTable tableName="poi_review">
+            <column name="review_id" type="UUID" defaultValueComputed="uuid_generate_v4()">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="poi_id" type="UUID">
+                 <constraints nullable="false" foreignKeyName="fk_review_poi" references="point_of_interest(poi_id)" deleteCascade="true"/>
+            </column>
+            <column name="user_id" type="UUID">
+                 <constraints nullable="false" foreignKeyName="fk_review_user" references="app_user(user_id)"/>
+            </column>
+            <column name="organization_id" type="UUID">
+                 <constraints nullable="false" foreignKeyName="fk_review_org" references="organization(organization_id)" deleteCascade="true"/>
+            </column>
+            <column name="platform_type" type="VARCHAR(50)">
+                 <constraints nullable="false"/>
+            </column>
+            <column name="rating" type="INTEGER"/>
+            <column name="review_text" type="TEXT"/>
+            <column name="created_at" type="TIMESTAMP WITH TIME ZONE" defaultValueComputed="NOW()"/>
+            <column name="likes" type="INTEGER" defaultValueNumeric="0"/>
+            <column name="dislikes" type="INTEGER" defaultValueNumeric="0"/>
+        </createTable>
+        <sql>ALTER TABLE poi_review ADD CONSTRAINT chk_rating CHECK (rating >= 1 AND rating &lt;= 5);</sql>
+    </changeSet>
+
+    <changeSet id="07-create-poi-access-log-table" author="yowpoint">
+        <createTable tableName="poi_access_log">
+            <column name="access_id" type="UUID" defaultValueComputed="uuid_generate_v4()">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="poi_id" type="UUID">
+                 <constraints nullable="false" foreignKeyName="fk_log_poi" references="point_of_interest(poi_id)" deleteCascade="true"/>
+            </column>
+            <column name="organization_id" type="UUID">
+                 <constraints nullable="false" foreignKeyName="fk_log_org" references="organization(organization_id)" deleteCascade="true"/>
+            </column>
+            <column name="platform_type" type="VARCHAR(50)">
+                 <constraints nullable="false"/>
+            </column>
+            <column name="user_id" type="UUID">
+                 <constraints foreignKeyName="fk_log_user" references="app_user(user_id)"/>
+            </column>
+            <column name="access_type" type="VARCHAR(50)"/>
+            <column name="access_datetime" type="TIMESTAMP WITH TIME ZONE" defaultValueComputed="NOW()"/>
+            <column name="metadata" type="JSONB"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="08-create-poi-platform-stat-table" author="yowpoint">
+        <createTable tableName="poi_platform_stat">
+            <column name="stat_id" type="UUID" defaultValueComputed="uuid_generate_v4()">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="org_id" type="UUID">
+                 <constraints nullable="false" foreignKeyName="fk_stat_org" references="organization(organization_id)" deleteCascade="true"/>
+            </column>
+            <column name="poi_id" type="UUID">
+                 <constraints foreignKeyName="fk_stat_poi" references="point_of_interest(poi_id)" deleteCascade="true"/>
+            </column>
+            <column name="platform_type" type="VARCHAR(50)">
+                 <constraints nullable="false"/>
+            </column>
+            <column name="stat_date" type="DATE">
+                 <constraints nullable="false"/>
+            </column>
+            <column name="views" type="INTEGER" defaultValueNumeric="0"/>
+            <column name="reviews" type="INTEGER" defaultValueNumeric="0"/>
+            <column name="likes" type="INTEGER" defaultValueNumeric="0"/>
+            <column name="dislikes" type="INTEGER" defaultValueNumeric="0"/>
+        </createTable>
+    </changeSet>
+
+</databaseChangeLog>

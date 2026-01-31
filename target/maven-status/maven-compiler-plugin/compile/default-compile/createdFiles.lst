@@ -85,6 +85,7 @@ com/poi/yow_point/application/services/poiPlatformStat/PoiPlatformStatServiceImp
 com/poi/yow_point/application/services/appUser/AppUserServiceImpl.class
 com/poi/yow_point/presentation/controllers/PoiReviewController$1.class
 com/poi/yow_point/application/mappers/PoiReviewMapperImpl.class
+com/poi/yow_point/infrastructure/configuration/LiquibaseConfiguration.class
 com/poi/yow_point/application/mappers/PointOfInterestMapperImpl.class
 com/poi/yow_point/application/services/point_of_interest/PointOfInterestService.class
 com/poi/yow_point/presentation/dto/blogDto/UpdateBlogRequest.class
