@@ -54,7 +54,7 @@
 /home/varnel/poi_navigoo/poi-navigoo-backend/src/main/java/com/poi/yow_point/config/postGIS_Converter/PointToStringConverter.java
 /home/varnel/poi_navigoo/poi-navigoo-backend/src/main/java/com/poi/yow_point/config/postGIS_Converter/PostgresqlGeographyToPointConverter.java
 /home/varnel/poi_navigoo/poi-navigoo-backend/src/main/java/com/poi/yow_point/config/postGIS_Converter/StringToPointConverter.java
-/home/varnel/poi_navigoo/poi-navigoo-backend/src/main/java/com/poi/yow_point/infrastructure/configuration/LiquibaseConfiguration.java
+/home/varnel/poi_navigoo/poi-navigoo-backend/src/main/java/com/poi/yow_point/infrastructure/configuration/CorsConfiguration.java
 /home/varnel/poi_navigoo/poi-navigoo-backend/src/main/java/com/poi/yow_point/infrastructure/embeddable/AddressType.java
 /home/varnel/poi_navigoo/poi-navigoo-backend/src/main/java/com/poi/yow_point/infrastructure/embeddable/ContactPersonType.java
 /home/varnel/poi_navigoo/poi-navigoo-backend/src/main/java/com/poi/yow_point/infrastructure/entities/AppUser.java
