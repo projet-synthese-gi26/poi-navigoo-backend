@@ -38,6 +38,7 @@ com/poi/yow_point/application/validation/PoiReviewValidator.class
 com/poi/yow_point/presentation/dto/podcastDto/PodcastDTO$PodcastDTOBuilder.class
 com/poi/yow_point/infrastructure/entities/PoiAccessLog.class
 com/poi/yow_point/config/postGIS_Converter/PointToPostgresqlGeographyConverter.class
+com/poi/yow_point/infrastructure/configuration/OpenApiConfig.class
 com/poi/yow_point/infrastructure/repositories/PointOfInterest/PointOfInterestRepository.class
 com/poi/yow_point/config/SecurityConfig.class
 com/poi/yow_point/infrastructure/repositories/podcast/PodcastRepository.class
