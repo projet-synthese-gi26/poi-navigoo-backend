@@ -1,4 +1,5 @@
 /home/varnel/poi_navigoo/poi-navigoo-backend/src/main/java/com/poi/yow_point/YowPointApplication.java
+/home/varnel/poi_navigoo/poi-navigoo-backend/src/main/java/com/poi/yow_point/application/exceptions/ResourceNotFoundException.java
 /home/varnel/poi_navigoo/poi-navigoo-backend/src/main/java/com/poi/yow_point/application/mappers/AppUserMapper.java
 /home/varnel/poi_navigoo/poi-navigoo-backend/src/main/java/com/poi/yow_point/application/mappers/BlogMapper.java
 /home/varnel/poi_navigoo/poi-navigoo-backend/src/main/java/com/poi/yow_point/application/mappers/MapperUtils.java

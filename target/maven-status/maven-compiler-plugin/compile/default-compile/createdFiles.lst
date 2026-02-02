@@ -105,6 +105,7 @@ com/poi/yow_point/application/services/poiPlatformStat/PoiPlatformStatService.cl
 com/poi/yow_point/application/validation/OrganizationValidator.class
 com/poi/yow_point/infrastructure/entities/PoiPlatformStat$PoiPlatformStatBuilder.class
 com/poi/yow_point/application/services/digest/DigestRecommendationService.class
+com/poi/yow_point/application/exceptions/ResourceNotFoundException.class
 com/poi/yow_point/infrastructure/entities/AppUser$AppUserBuilder.class
 com/poi/yow_point/presentation/controllers/PointOfInterestController.class
 com/poi/yow_point/presentation/dto/AddressTypeDTO$AddressTypeDTOBuilder.class

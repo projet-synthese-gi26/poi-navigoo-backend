@@ -1,5 +1,6 @@
 package com.poi.yow_point.presentation.controllers;
 
+import com.poi.yow_point.application.exceptions.ResourceNotFoundException;
 import com.poi.yow_point.application.services.point_of_interest.PointOfInterestService;
 import com.poi.yow_point.presentation.dto.PointOfInterestDTO;
 
@@ -89,14 +90,14 @@ public class PointOfInterestController {
                                 .map(updatedDto -> ResponseEntity.ok(updatedDto))
                                 .onErrorResume(IllegalArgumentException.class,
                                                 ex -> Mono.just(ResponseEntity.badRequest().build()))
-                                .onErrorResume(RuntimeException.class,
+                                .onErrorResume(ResourceNotFoundException.class,
                                                 ex -> Mono.just(ResponseEntity.notFound().build()))
                                 .onErrorResume(Exception.class,
                                                 ex -> {
                                                         log.error("Error updating POI: {}", poiId, ex);
                                                         return Mono.just(ResponseEntity
-                                                                        .status(HttpStatus.INTERNAL_SERVER_ERROR)
-                                                                        .build());
+                                                                         .status(HttpStatus.INTERNAL_SERVER_ERROR)
+                                                                         .build());
                                                 });
         }
 
@@ -245,7 +246,7 @@ public class PointOfInterestController {
                         @ApiResponse(responseCode = "500", description = "Internal server error", content = @Content)
         })
         public Flux<PointOfInterestDTO> getPoisByCity(
-                        @Parameter(description = "Name of the city", required = true, example = "Yaoundé") @PathVariable String city) {
+                        @Parameter(description = "Name of the POI", required = true, example = "Yaoundé") @PathVariable String city) {
                 log.debug("REST request to get POIs by city: {}", city);
 
                 return poiService.findByCity(city)
@@ -349,14 +350,14 @@ public class PointOfInterestController {
 
                 return poiService.deletePoi(poiId)
                                 .then(Mono.just(ResponseEntity.noContent().<Void>build()))
-                                .onErrorResume(RuntimeException.class,
+                                .onErrorResume(ResourceNotFoundException.class,
                                                 ex -> Mono.just(ResponseEntity.notFound().build()))
                                 .onErrorResume(Exception.class,
                                                 ex -> {
                                                         log.error("Error deleting POI: {}", poiId, ex);
                                                         return Mono.just(ResponseEntity
-                                                                        .status(HttpStatus.INTERNAL_SERVER_ERROR)
-                                                                        .build());
+                                                                         .status(HttpStatus.INTERNAL_SERVER_ERROR)
+                                                                         .build());
                                                 });
         }
 

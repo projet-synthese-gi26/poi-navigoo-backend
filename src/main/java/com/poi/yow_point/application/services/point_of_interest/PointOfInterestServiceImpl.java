@@ -2,6 +2,7 @@ package com.poi.yow_point.application.services.point_of_interest;
 
 import com.poi.yow_point.application.mappers.MapperUtils;
 import com.poi.yow_point.application.mappers.PointOfInterestMapper;
+import com.poi.yow_point.application.exceptions.ResourceNotFoundException;
 import com.poi.yow_point.application.services.appUser.AppUserService;
 import com.poi.yow_point.application.services.notification.NotificationService;
 import com.poi.yow_point.application.services.websocket.PoiEventPublisher;
@@ -93,9 +94,13 @@ public class PointOfInterestServiceImpl implements PointOfInterestService {
     @Transactional
     public Mono<PointOfInterestDTO> updatePoi(UUID poiId, PointOfInterestDTO dto) {
         return redisTemplate.opsForValue().delete(CACHE_KEY_PREFIX + poiId)
+                .onErrorResume(e -> {
+                    log.warn("Redis unavailable (DELETE) for POI {}: {}", poiId, e.getMessage());
+                    return Mono.just(true); // Continue anyway
+                })
                 .then(validateDto(dto))
                 .flatMap(validatedDto -> repository.findById(poiId))
-                .switchIfEmpty(Mono.error(new RuntimeException("POI not found with ID: " + poiId)))
+                .switchIfEmpty(Mono.error(new ResourceNotFoundException("POI not found with ID: " + poiId)))
                 .flatMap(existingEntity -> {
                     if (dto.getPoiName() != null && !dto.getPoiName().equals(existingEntity.getPoiName())) {
                         return repository.existsByNameAndOrganizationIdExcludingId(
@@ -251,6 +256,10 @@ public class PointOfInterestServiceImpl implements PointOfInterestService {
     @Transactional
     public Mono<Void> deactivatePoi(UUID poiId) {
         return redisTemplate.opsForValue().delete(CACHE_KEY_PREFIX + poiId)
+                .onErrorResume(e -> {
+                    log.warn("Redis unavailable (DELETE) for POI {}: {}", poiId, e.getMessage());
+                    return Mono.just(true);
+                })
                 .then(repository.deactivateById(poiId))
                 .defaultIfEmpty((long) 0)
                 .flatMap(count -> {
@@ -274,6 +283,10 @@ public class PointOfInterestServiceImpl implements PointOfInterestService {
     @Transactional
     public Mono<Void> activatePoi(UUID poiId) {
         return redisTemplate.opsForValue().delete(CACHE_KEY_PREFIX + poiId)
+                .onErrorResume(e -> {
+                    log.warn("Redis unavailable (DELETE) for POI {}: {}", poiId, e.getMessage());
+                    return Mono.just(true);
+                })
                 .then(repository.activateById(poiId))
                 .defaultIfEmpty((long) 0)
                 .flatMap(count -> {
@@ -297,8 +310,12 @@ public class PointOfInterestServiceImpl implements PointOfInterestService {
     @Transactional
     public Mono<Void> deletePoi(UUID poiId) {
         return redisTemplate.opsForValue().delete(CACHE_KEY_PREFIX + poiId)
+                .onErrorResume(e -> {
+                    log.warn("Redis unavailable (DELETE) for POI {}: {}", poiId, e.getMessage());
+                    return Mono.just(true);
+                })
                 .then(repository.findById(poiId))
-                .switchIfEmpty(Mono.error(new RuntimeException("POI not found with ID: " + poiId)))
+                .switchIfEmpty(Mono.error(new ResourceNotFoundException("POI not found with ID: " + poiId)))
                 .flatMap(poi -> repository.deleteById(poiId).thenReturn(poi))
                 .doOnSuccess(poi -> {
                     log.info("POI {} deleted successfully. Publishing WebSocket event...", poiId);
@@ -313,6 +330,10 @@ public class PointOfInterestServiceImpl implements PointOfInterestService {
     @Transactional
     public Mono<Void> updatePopularityScore(UUID poiId, Float score) {
         return redisTemplate.opsForValue().delete(CACHE_KEY_PREFIX + poiId)
+                .onErrorResume(e -> {
+                    log.warn("Redis unavailable (DELETE) for POI {}: {}", poiId, e.getMessage());
+                    return Mono.just(true);
+                })
                 .then(repository.updatePopularityScore(poiId, score))
                 .defaultIfEmpty((long) 0)
                 .doOnSuccess(count -> {
