@@ -2,6 +2,8 @@ package com.poi.yow_point.application.services.point_of_interest;
 
 import com.poi.yow_point.application.mappers.MapperUtils;
 import com.poi.yow_point.application.mappers.PointOfInterestMapper;
+import com.poi.yow_point.application.services.appUser.AppUserService;
+import com.poi.yow_point.application.services.notification.NotificationService;
 import com.poi.yow_point.application.services.websocket.PoiEventPublisher;
 import com.poi.yow_point.application.validation.PointOfInterestValidator;
 import com.poi.yow_point.infrastructure.kafka.KafkaProducerService;
@@ -34,6 +36,8 @@ public class PointOfInterestServiceImpl implements PointOfInterestService {
     private final PoiEventPublisher eventPublisher;
     private final KafkaProducerService kafkaProducerService;
     private final ReactiveRedisTemplate<String, PointOfInterestDTO> redisTemplate;
+    private final NotificationService notificationService;
+    private final AppUserService appUserService;
 
     private static final String CACHE_KEY_PREFIX = "poi:";
     private static final Duration CACHE_TTL = Duration.ofHours(1);
@@ -70,6 +74,17 @@ public class PointOfInterestServiceImpl implements PointOfInterestService {
                             savedDto.getPoiId());
                     eventPublisher.publishEvent(new PoiEvent(PoiEvent.EventType.POI_CREATED, savedDto));
                     kafkaProducerService.sendMessage("poi-created", savedDto);
+                    
+                    // Send notifications asynchronously (non-blocking)
+                    if (savedDto.getCreatedByUserId() != null) {
+                        appUserService.getUserById(savedDto.getCreatedByUserId())
+                                .flatMap(userDto -> notificationService.notifyPoiCreated(savedDto, userDto))
+                                .onErrorResume(error -> {
+                                    log.error("Failed to send POI creation notifications: {}", error.getMessage());
+                                    return Mono.empty();
+                                })
+                                .subscribe(); // Fire and forget
+                    }
                 })
                 .doOnError(error -> log.error("Error creating POI: {}", error.getMessage()));
     }
@@ -99,6 +114,7 @@ public class PointOfInterestServiceImpl implements PointOfInterestService {
                 })
                 .map(existingEntity -> {
                     mapper.updateEntityFromDto(existingEntity, dto, mapperUtils);
+                    existingEntity.setUpdatedAt(java.time.Instant.now());
                     return existingEntity;
                 })
                 .flatMap(repository::save)
@@ -108,6 +124,23 @@ public class PointOfInterestServiceImpl implements PointOfInterestService {
                             updatedDto.getPoiId());
                     eventPublisher.publishEvent(new PoiEvent(PoiEvent.EventType.POI_UPDATED, updatedDto));
                     kafkaProducerService.sendMessage("poi-updated", updatedDto);
+                    
+                    // Send notifications if updater is different from creator (non-blocking)
+                    if (updatedDto.getCreatedByUserId() != null && updatedDto.getUpdatedByUserId() != null
+                            && !updatedDto.getCreatedByUserId().equals(updatedDto.getUpdatedByUserId())) {
+                        
+                        Mono.zip(
+                                appUserService.getUserById(updatedDto.getCreatedByUserId()),
+                                appUserService.getUserById(updatedDto.getUpdatedByUserId())
+                        )
+                        .flatMap(tuple -> notificationService.notifyPoiUpdated(
+                                updatedDto, tuple.getT1(), tuple.getT2()))
+                        .onErrorResume(error -> {
+                            log.error("Failed to send POI update notifications: {}", error.getMessage());
+                            return Mono.empty();
+                        })
+                        .subscribe(); // Fire and forget
+                    }
                 })
                 .doOnError(error -> log.error("Error updating POI {}: {}", poiId, error.getMessage()));
     }

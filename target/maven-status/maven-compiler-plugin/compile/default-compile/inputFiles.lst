@@ -12,10 +12,14 @@
 /home/varnel/poi_navigoo/poi-navigoo-backend/src/main/java/com/poi/yow_point/application/model/PoiCategory.java
 /home/varnel/poi_navigoo/poi-navigoo-backend/src/main/java/com/poi/yow_point/application/model/PoiType.java
 /home/varnel/poi_navigoo/poi-navigoo-backend/src/main/java/com/poi/yow_point/application/model/Role.java
+/home/varnel/poi_navigoo/poi-navigoo-backend/src/main/java/com/poi/yow_point/application/model/notification/NotificationResponse.java
+/home/varnel/poi_navigoo/poi-navigoo-backend/src/main/java/com/poi/yow_point/application/model/notification/NotificationSendRequest.java
 /home/varnel/poi_navigoo/poi-navigoo-backend/src/main/java/com/poi/yow_point/application/services/appUser/AppUserService.java
 /home/varnel/poi_navigoo/poi-navigoo-backend/src/main/java/com/poi/yow_point/application/services/appUser/AppUserServiceImpl.java
 /home/varnel/poi_navigoo/poi-navigoo-backend/src/main/java/com/poi/yow_point/application/services/blog/BlogService.java
 /home/varnel/poi_navigoo/poi-navigoo-backend/src/main/java/com/poi/yow_point/application/services/blog/BlogServiceImpl.java
+/home/varnel/poi_navigoo/poi-navigoo-backend/src/main/java/com/poi/yow_point/application/services/digest/DigestRecommendationService.java
+/home/varnel/poi_navigoo/poi-navigoo-backend/src/main/java/com/poi/yow_point/application/services/notification/NotificationService.java
 /home/varnel/poi_navigoo/poi-navigoo-backend/src/main/java/com/poi/yow_point/application/services/organization/OrganizationService.java
 /home/varnel/poi_navigoo/poi-navigoo-backend/src/main/java/com/poi/yow_point/application/services/organization/OrganizationServiceImpl.java
 /home/varnel/poi_navigoo/poi-navigoo-backend/src/main/java/com/poi/yow_point/application/services/podcast/PodcastService.java
@@ -54,8 +58,11 @@
 /home/varnel/poi_navigoo/poi-navigoo-backend/src/main/java/com/poi/yow_point/config/postGIS_Converter/PointToStringConverter.java
 /home/varnel/poi_navigoo/poi-navigoo-backend/src/main/java/com/poi/yow_point/config/postGIS_Converter/PostgresqlGeographyToPointConverter.java
 /home/varnel/poi_navigoo/poi-navigoo-backend/src/main/java/com/poi/yow_point/config/postGIS_Converter/StringToPointConverter.java
+/home/varnel/poi_navigoo/poi-navigoo-backend/src/main/java/com/poi/yow_point/infrastructure/clients/NotificationServiceClient.java
 /home/varnel/poi_navigoo/poi-navigoo-backend/src/main/java/com/poi/yow_point/infrastructure/configuration/CorsConfiguration.java
+/home/varnel/poi_navigoo/poi-navigoo-backend/src/main/java/com/poi/yow_point/infrastructure/configuration/NotificationServiceProperties.java
 /home/varnel/poi_navigoo/poi-navigoo-backend/src/main/java/com/poi/yow_point/infrastructure/configuration/OpenApiConfig.java
+/home/varnel/poi_navigoo/poi-navigoo-backend/src/main/java/com/poi/yow_point/infrastructure/configuration/SchedulingConfiguration.java
 /home/varnel/poi_navigoo/poi-navigoo-backend/src/main/java/com/poi/yow_point/infrastructure/embeddable/AddressType.java
 /home/varnel/poi_navigoo/poi-navigoo-backend/src/main/java/com/poi/yow_point/infrastructure/embeddable/ContactPersonType.java
 /home/varnel/poi_navigoo/poi-navigoo-backend/src/main/java/com/poi/yow_point/infrastructure/entities/AppUser.java
@@ -92,6 +99,7 @@
 /home/varnel/poi_navigoo/poi-navigoo-backend/src/main/java/com/poi/yow_point/infrastructure/repositories/poiReview/PoiReviewRepository.java
 /home/varnel/poi_navigoo/poi-navigoo-backend/src/main/java/com/poi/yow_point/infrastructure/repositories/poiReview/PoiReviewRepositoryCustom.java
 /home/varnel/poi_navigoo/poi-navigoo-backend/src/main/java/com/poi/yow_point/infrastructure/repositories/poiReview/PoiReviewRepositoryImpl.java
+/home/varnel/poi_navigoo/poi-navigoo-backend/src/main/java/com/poi/yow_point/infrastructure/scheduler/MonthlyDigestScheduler.java
 /home/varnel/poi_navigoo/poi-navigoo-backend/src/main/java/com/poi/yow_point/presentation/controllers/AppUserController.java
 /home/varnel/poi_navigoo/poi-navigoo-backend/src/main/java/com/poi/yow_point/presentation/controllers/BlogController.java
 /home/varnel/poi_navigoo/poi-navigoo-backend/src/main/java/com/poi/yow_point/presentation/controllers/OrganizationController.java
