@@ -23,7 +23,8 @@ COPY --from=build /app/target/*.jar app.jar
 EXPOSE 8080
 
 # Environment variables for Java 21
-ENV JAVA_OPTS="-Xmx512m -Xms256m -server -XX:+UseZGC -XX:+UnlockExperimentalVMOptions --enable-preview"
+# G1GC is more stable for small-to-medium heaps. MaxRAMPercentage ensures JVM respects container limits.
+ENV JAVA_OPTS="-XX:MaxRAMPercentage=75.0 -XX:InitialRAMPercentage=50.0 -XX:+UseG1GC -server -XX:+UnlockExperimentalVMOptions --enable-preview"
 
 # Health check
 HEALTHCHECK --interval=30s --timeout=3s --start-period=60s --retries=3 \
