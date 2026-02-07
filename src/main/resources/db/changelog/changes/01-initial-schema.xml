@@ -11,6 +11,11 @@
     </changeSet>
 
     <changeSet id="01-initial-schema" author="system">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="organization"/>
+            </not>
+        </preConditions>
         <comment>Initial schema including all tables, constraints and indexes</comment>
 
         <!-- Organization Table -->
