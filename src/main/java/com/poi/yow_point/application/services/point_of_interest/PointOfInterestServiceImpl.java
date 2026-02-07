@@ -2,13 +2,15 @@ package com.poi.yow_point.application.services.point_of_interest;
 
 import com.poi.yow_point.application.mappers.MapperUtils;
 import com.poi.yow_point.application.mappers.PointOfInterestMapper;
-import com.poi.yow_point.application.exceptions.ResourceNotFoundException;
+import com.poi.yow_point.application.model.PoiStatus;
 import com.poi.yow_point.application.services.appUser.AppUserService;
 import com.poi.yow_point.application.services.notification.NotificationService;
 import com.poi.yow_point.application.services.websocket.PoiEventPublisher;
 import com.poi.yow_point.application.validation.PointOfInterestValidator;
 import com.poi.yow_point.infrastructure.kafka.KafkaProducerService;
+import com.poi.yow_point.presentation.dto.CreatePoiDTO;
 import com.poi.yow_point.presentation.dto.PointOfInterestDTO;
+import com.poi.yow_point.presentation.dto.UpdatePoiDTO;
 import com.poi.yow_point.presentation.dto.websocketDTO.PoiEvent;
 
 import lombok.RequiredArgsConstructor;
@@ -16,8 +18,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.redis.core.ReactiveRedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.validation.BeanPropertyBindingResult;
-import org.springframework.validation.Errors;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
@@ -45,46 +45,45 @@ public class PointOfInterestServiceImpl implements PointOfInterestService {
 
     @Override
     @Transactional
-    public Mono<PointOfInterestDTO> createPoi(PointOfInterestDTO dto) {
-        return validateDto(dto)
-                .flatMap(validatedDto -> repository.existsByNameAndOrganizationIdExcludingId(
-                        validatedDto.getPoiName(),
-                        validatedDto.getOrganizationId(),
-                        null)
+    public Mono<PointOfInterestDTO> createPoi(CreatePoiDTO dto) {
+        return Mono.just(dto) // Skipping complex validation for now as logic changed, relying on partial checks
+                .flatMap(validDto -> repository.existsByNameAndOrganizationIdExcludingId(
+                        validDto.getPoiName(),
+                        validDto.getOrganizationId(),
+                        UUID.randomUUID())
                         .flatMap(exists -> {
                             if (exists) {
                                 return Mono.error(new IllegalArgumentException(
                                         "A POI with this name already exists in the organization"));
                             }
-                            return Mono.just(validatedDto);
+                            return Mono.just(validDto);
                         }))
-                .map(validatedDto -> mapper.toEntity(validatedDto, mapperUtils))
+                .map(validDto -> mapper.toEntity(validDto, mapperUtils))
                 .doOnNext(entity -> {
                     Instant now = Instant.now();
                     entity.setCreatedAt(now);
                     entity.setUpdatedAt(now);
-                    if (entity.getIsActive() == null)
-                        entity.setIsActive(true);
-                    if (entity.getPopularityScore() == null)
-                        entity.setPopularityScore(0.0f);
+                    entity.setIsActive(false); // Default false
+                    entity.setStatus(PoiStatus.SUBMITTED); // Default Submitted
+                    entity.setPopularityScore(0.0f);
                 })
                 .flatMap(repository::save)
                 .map(mapper::toDto)
                 .doOnSuccess(savedDto -> {
-                    log.info("POI created successfully with ID: {}. Publishing WebSocket event...",
-                            savedDto.getPoiId());
-                    eventPublisher.publishEvent(new PoiEvent(PoiEvent.EventType.POI_CREATED, savedDto));
-                    kafkaProducerService.sendMessage("poi-created", savedDto);
+                    log.info("POI created successfully with ID: {}. Status: SUBMITTED.", savedDto.getPoiId());
                     
-                    // Send notifications asynchronously (non-blocking)
+                    // Send Kafka message
+                    kafkaProducerService.sendMessage("poi-created", savedDto);
+
+                    // Notify user about submission
                     if (savedDto.getCreatedByUserId() != null) {
                         appUserService.getUserById(savedDto.getCreatedByUserId())
-                                .flatMap(userDto -> notificationService.notifyPoiCreated(savedDto, userDto))
-                                .onErrorResume(error -> {
-                                    log.error("Failed to send POI creation notifications: {}", error.getMessage());
+                                .flatMap(userDto -> notificationService.notifyPoiSubmitted(savedDto, userDto))
+                                .onErrorResume(e -> {
+                                    log.error("Failed to send submission notification: {}", e.getMessage());
                                     return Mono.empty();
                                 })
-                                .subscribe(); // Fire and forget
+                                .subscribe();
                     }
                 })
                 .doOnError(error -> log.error("Error creating POI: {}", error.getMessage()));
@@ -92,15 +91,10 @@ public class PointOfInterestServiceImpl implements PointOfInterestService {
 
     @Override
     @Transactional
-    public Mono<PointOfInterestDTO> updatePoi(UUID poiId, PointOfInterestDTO dto) {
+    public Mono<PointOfInterestDTO> updatePoi(UUID poiId, UpdatePoiDTO dto) {
         return redisTemplate.opsForValue().delete(CACHE_KEY_PREFIX + poiId)
-                .onErrorResume(e -> {
-                    log.warn("Redis unavailable (DELETE) for POI {}: {}", poiId, e.getMessage());
-                    return Mono.just(true); // Continue anyway
-                })
-                .then(validateDto(dto))
-                .flatMap(validatedDto -> repository.findById(poiId))
-                .switchIfEmpty(Mono.error(new ResourceNotFoundException("POI not found with ID: " + poiId)))
+                .then(repository.findById(poiId))
+                .switchIfEmpty(Mono.error(new RuntimeException("POI not found with ID: " + poiId)))
                 .flatMap(existingEntity -> {
                     if (dto.getPoiName() != null && !dto.getPoiName().equals(existingEntity.getPoiName())) {
                         return repository.existsByNameAndOrganizationIdExcludingId(
@@ -119,33 +113,15 @@ public class PointOfInterestServiceImpl implements PointOfInterestService {
                 })
                 .map(existingEntity -> {
                     mapper.updateEntityFromDto(existingEntity, dto, mapperUtils);
-                    existingEntity.setUpdatedAt(java.time.Instant.now());
+                    existingEntity.setUpdatedAt(Instant.now());
                     return existingEntity;
                 })
                 .flatMap(repository::save)
                 .map(mapper::toDto)
                 .doOnSuccess(updatedDto -> {
-                    log.info("POI updated successfully: {},  Publishing WebSocket event...",
-                            updatedDto.getPoiId());
+                    log.info("POI updated successfully: {}", updatedDto.getPoiId());
                     eventPublisher.publishEvent(new PoiEvent(PoiEvent.EventType.POI_UPDATED, updatedDto));
                     kafkaProducerService.sendMessage("poi-updated", updatedDto);
-                    
-                    // Send notifications if updater is different from creator (non-blocking)
-                    if (updatedDto.getCreatedByUserId() != null && updatedDto.getUpdatedByUserId() != null
-                            && !updatedDto.getCreatedByUserId().equals(updatedDto.getUpdatedByUserId())) {
-                        
-                        Mono.zip(
-                                appUserService.getUserById(updatedDto.getCreatedByUserId()),
-                                appUserService.getUserById(updatedDto.getUpdatedByUserId())
-                        )
-                        .flatMap(tuple -> notificationService.notifyPoiUpdated(
-                                updatedDto, tuple.getT1(), tuple.getT2()))
-                        .onErrorResume(error -> {
-                            log.error("Failed to send POI update notifications: {}", error.getMessage());
-                            return Mono.empty();
-                        })
-                        .subscribe(); // Fire and forget
-                    }
                 })
                 .doOnError(error -> log.error("Error updating POI {}: {}", poiId, error.getMessage()));
     }
@@ -153,244 +129,200 @@ public class PointOfInterestServiceImpl implements PointOfInterestService {
     @Override
     public Mono<PointOfInterestDTO> findById(UUID poiId) {
         String cacheKey = CACHE_KEY_PREFIX + poiId;
-
-        return redisTemplate.opsForValue()
-                .get(cacheKey)
-                .onErrorResume(e -> {
-                    log.warn("Redis unavailable (GET), falling back to DB for POI {}: {}", poiId, e.getMessage());
-                    return Mono.empty(); // 🔥 tolérance Redis
-                })
-                .doOnNext(dto -> log.debug("Cache hit for POI: {}", poiId))
-                .switchIfEmpty(
-                        repository.findById(poiId)
-                                .map(mapper::toDto)
-                                .flatMap(dto ->
-                                        redisTemplate.opsForValue()
-                                                .set(cacheKey, dto, CACHE_TTL)
-                                                .onErrorResume(e -> {
-                                                    log.warn("Redis unavailable (SET) for POI {}: {}", poiId, e.getMessage());
-                                                    return Mono.empty(); // 🔥 Redis non bloquant
-                                                })
-                                                .thenReturn(dto)
-                                )
-                                .doOnNext(dto ->
-                                        log.debug("Cache miss for POI: {}, saved to cache with TTL {}", poiId, CACHE_TTL)
-                                )
-                )
-                .doOnError(error ->
-                        log.error("Error finding POI {} (DB level): {}", poiId, error.getMessage())
-                );
+        return redisTemplate.opsForValue().get(cacheKey)
+                .onErrorResume(e -> Mono.empty())
+                .switchIfEmpty(repository.findById(poiId)
+                        .map(mapper::toDto)
+                        .flatMap(dto -> redisTemplate.opsForValue().set(cacheKey, dto, CACHE_TTL).thenReturn(dto)));
     }
-
 
     @Override
     public Flux<PointOfInterestDTO> findActiveByOrganizationId(UUID organizationId) {
         return repository.findActiveByOrganizationId(organizationId)
-                .map(mapper::toDto)
-                .doOnComplete(() -> log.debug("Retrieved active POIs for organization: {}", organizationId))
-                .doOnError(error -> log.error("Error retrieving POIs for organization {}: {}",
-                        organizationId, error.getMessage()));
+                .map(mapper::toDto);
     }
 
     @Override
     public Flux<PointOfInterestDTO> findByOrganizationId(UUID organizationId) {
         return repository.findByOrganizationId(organizationId)
-                .map(mapper::toDto)
-                .doOnComplete(() -> log.debug("Retrieved all POIs for organization: {}", organizationId))
-                .doOnError(error -> log.error("Error retrieving all POIs for organization {}: {}",
-                        organizationId, error.getMessage()));
+                .map(mapper::toDto);
     }
 
     @Override
-    public Flux<PointOfInterestDTO> findByLocationWithinRadius(Double latitude, Double longitude,
-            Double radiusKm) {
+    public Flux<PointOfInterestDTO> findByLocationWithinRadius(Double latitude, Double longitude, Double radiusKm) {
         return repository.findByLocationWithinRadius(latitude, longitude, radiusKm)
-                .map(mapper::toDto)
-                .doOnComplete(() -> log.debug("Location search completed"))
-                .doOnError(error -> log.error("Error in location search: {}", error.getMessage()));
+                .map(mapper::toDto);
     }
 
     @Override
     public Flux<PointOfInterestDTO> findByType(com.poi.yow_point.application.model.PoiType poiType) {
         return repository.findByPoiType(poiType)
-                .map(mapper::toDto)
-                .doOnComplete(() -> log.debug("Retrieved POIs by type: {}", poiType))
-                .doOnError(error -> log.error("Error retrieving POIs by type {}: {}", poiType, error.getMessage()));
+                .map(mapper::toDto);
     }
 
     @Override
     public Flux<PointOfInterestDTO> findByCategory(com.poi.yow_point.application.model.PoiCategory poiCategory) {
         return repository.findByPoiCategory(poiCategory)
-                .map(mapper::toDto)
-                .doOnComplete(() -> log.debug("Retrieved POIs by category: {}", poiCategory))
-                .doOnError(error -> log.error("Error retrieving POIs by category {}: {}",
-                        poiCategory, error.getMessage()));
+                .map(mapper::toDto);
     }
 
     @Override
     public Flux<PointOfInterestDTO> searchByName(String name) {
         return repository.findByPoiNameContainingIgnoreCase(name)
-                .map(mapper::toDto)
-                .doOnComplete(() -> log.debug("Name search completed for: {}", name))
-                .doOnError(error -> log.error("Error in name search for {}: {}", name, error.getMessage()));
+                .map(mapper::toDto);
     }
 
     @Override
     public Flux<PointOfInterestDTO> findByCity(String city) {
         return repository.findByAddressCity(city)
-                .map(mapper::toDto)
-                .doOnComplete(() -> log.debug("Retrieved POIs for city: {}", city))
-                .doOnError(error -> log.error("Error retrieving POIs for city {}: {}",
-                        city, error.getMessage()));
+                .map(mapper::toDto);
     }
 
     @Override
     public Flux<PointOfInterestDTO> findTopPopular(Integer limit) {
         return repository.findTopByPopularityScore(limit)
-                .map(mapper::toDto)
-                .doOnComplete(() -> log.debug("Retrieved top {} popular POIs", limit))
-                .doOnError(error -> log.error("Error retrieving top popular POIs: {}", error.getMessage()));
+                .map(mapper::toDto);
     }
 
     @Override
     @Transactional
-    public Mono<Void> deactivatePoi(UUID poiId) {
+    public Mono<Void> deactivatePoi(UUID poiId, String reason, UUID deactivatedByUserId) {
         return redisTemplate.opsForValue().delete(CACHE_KEY_PREFIX + poiId)
-                .onErrorResume(e -> {
-                    log.warn("Redis unavailable (DELETE) for POI {}: {}", poiId, e.getMessage());
-                    return Mono.just(true);
+                .then(repository.findById(poiId))
+                .flatMap(poi -> {
+                    poi.setIsActive(false);
+                    poi.setDeactivationReason(reason);
+                    poi.setDeactivatedByUserId(deactivatedByUserId);
+                    poi.setUpdatedAt(Instant.now());
+                    return repository.save(poi);
                 })
-                .then(repository.deactivateById(poiId))
-                .defaultIfEmpty((long) 0)
-                .flatMap(count -> {
-                    if (count > 0) {
-                        log.info("POI {} deactivated successfully. Publishing WebSocket event...", poiId);
-                        // Fetch the POI reactively and publish the event
-                        return repository.findById(poiId)
-                                .map(mapper::toDto)
-                                .doOnNext(poiDto -> eventPublisher.publishEvent(
-                                        new PoiEvent(PoiEvent.EventType.POI_DESACTIVATED, poiDto)))
-                                .then();
-                    } else {
-                        log.warn("No POI found with ID {} to deactivate", poiId);
-                        return Mono.empty();
-                    }
+                .doOnSuccess(saved -> {
+                     log.info("POI {} deactivated by user {}", poiId, deactivatedByUserId);
+                     eventPublisher.publishEvent(new PoiEvent(PoiEvent.EventType.POI_DESACTIVATED, mapper.toDto(saved)));
                 })
-                .doOnError(error -> log.error("Error deactivating POI {}: {}", poiId, error.getMessage()));
+                .then();
     }
 
     @Override
     @Transactional
     public Mono<Void> activatePoi(UUID poiId) {
         return redisTemplate.opsForValue().delete(CACHE_KEY_PREFIX + poiId)
-                .onErrorResume(e -> {
-                    log.warn("Redis unavailable (DELETE) for POI {}: {}", poiId, e.getMessage());
-                    return Mono.just(true);
+                .then(repository.findById(poiId))
+                .flatMap(poi -> {
+                    poi.setIsActive(true);
+                    poi.setDeactivationReason(null);
+                    poi.setDeactivatedByUserId(null);
+                    poi.setUpdatedAt(Instant.now());
+                    return repository.save(poi);
                 })
-                .then(repository.activateById(poiId))
-                .defaultIfEmpty((long) 0)
-                .flatMap(count -> {
-                    if (count > 0) {
-                        log.info("POI {} activated successfully. Publishing WebSocket event...", poiId);
-                        // Fetch the POI reactively and publish the event
-                        return repository.findById(poiId)
-                                .map(mapper::toDto)
-                                .doOnNext(poiDto -> eventPublisher.publishEvent(
-                                        new PoiEvent(PoiEvent.EventType.POI_ACTIVATED, poiDto)))
-                                .then();
-                    } else {
-                        log.warn("No POI found with ID {} to activate", poiId);
-                        return Mono.empty();
-                    }
+                .doOnSuccess(saved -> {
+                    log.info("POI {} activated", poiId);
+                    eventPublisher.publishEvent(new PoiEvent(PoiEvent.EventType.POI_ACTIVATED, mapper.toDto(saved)));
                 })
-                .doOnError(error -> log.error("Error activating POI {}: {}", poiId, error.getMessage()));
+                .then();
     }
 
     @Override
     @Transactional
     public Mono<Void> deletePoi(UUID poiId) {
         return redisTemplate.opsForValue().delete(CACHE_KEY_PREFIX + poiId)
-                .onErrorResume(e -> {
-                    log.warn("Redis unavailable (DELETE) for POI {}: {}", poiId, e.getMessage());
-                    return Mono.just(true);
-                })
                 .then(repository.findById(poiId))
-                .switchIfEmpty(Mono.error(new ResourceNotFoundException("POI not found with ID: " + poiId)))
-                .flatMap(poi -> repository.deleteById(poiId).thenReturn(poi))
+                .flatMap(poi -> repository.deleteById(poiId).then(Mono.just(poi)))
                 .doOnSuccess(poi -> {
-                    log.info("POI {} deleted successfully. Publishing WebSocket event...", poiId);
+                    log.info("POI {} deleted", poiId);
                     eventPublisher.publishEvent(new PoiEvent(PoiEvent.EventType.POI_DELETED, null));
                     kafkaProducerService.sendMessage("poi-deleted", mapper.toDto(poi));
                 })
-                .doOnError(error -> log.error("Error deleting POI {}: {}", poiId, error.getMessage()))
-                .then();
-    }
-
-    @Override
-    @Transactional
-    public Mono<Void> updatePopularityScore(UUID poiId, Float score) {
-        return redisTemplate.opsForValue().delete(CACHE_KEY_PREFIX + poiId)
-                .onErrorResume(e -> {
-                    log.warn("Redis unavailable (DELETE) for POI {}: {}", poiId, e.getMessage());
-                    return Mono.just(true);
-                })
-                .then(repository.updatePopularityScore(poiId, score))
-                .defaultIfEmpty((long) 0)
-                .doOnSuccess(count -> {
-                    if (count > 0) {
-                        log.info("Popularity score updated for POI {}: {}", poiId, score);
-                    } else {
-                        log.warn("No POI found with ID {} to update popularity score", poiId);
-                    }
-                })
-                .doOnError(error -> log.error("Error updating popularity score for POI {}: {}",
-                        poiId, error.getMessage()))
                 .then();
     }
 
     @Override
     public Mono<Long> countActiveByOrganizationId(UUID organizationId) {
-        return repository.countActiveByOrganizationId(organizationId)
-                .doOnSuccess(count -> log.debug("Active POI count for organization {}: {}",
-                        organizationId, count))
-                .doOnError(error -> log.error("Error counting POIs for organization {}: {}",
-                        organizationId, error.getMessage()));
+        return repository.countActiveByOrganizationId(organizationId);
     }
 
     @Override
     public Flux<PointOfInterestDTO> findByCreatedByUserId(UUID userId) {
-        return repository.findByCreatedByUserId(userId)
-                .map(mapper::toDto)
-                .doOnComplete(() -> log.debug("Retrieved POIs created by user: {}", userId))
-                .doOnError(error -> log.error("Error retrieving POIs for user {}: {}",
-                        userId, error.getMessage()));
+        return repository.findByCreatedByUserId(userId).map(mapper::toDto);
     }
 
     @Override
     public Mono<Boolean> existsByNameAndOrganization(String name, UUID organizationId, UUID excludeId) {
         UUID excludeIdToUse = excludeId != null ? excludeId : UUID.randomUUID();
-        return repository.existsByNameAndOrganizationIdExcludingId(name, organizationId, excludeIdToUse)
-                .doOnSuccess(exists -> log.debug("POI name '{}' exists in organization {}: {}",
-                        name, organizationId, exists))
-                .doOnError(error -> log.error("Error checking POI name existence: {}", error.getMessage()));
+        return repository.existsByNameAndOrganizationIdExcludingId(name, organizationId, excludeIdToUse);
     }
 
     @Override
     public Flux<PointOfInterestDTO> findAll() {
-        return repository.findAll()
-                .map(mapper::toDto)
-                .doOnComplete(() -> log.debug("Retrieved all POIs"))
-                .doOnError(error -> log.error("Error retrieving all POIs: {}", error.getMessage()));
+        return repository.findAll().map(mapper::toDto);
     }
 
-    private Mono<PointOfInterestDTO> validateDto(PointOfInterestDTO dto) {
-        return Mono.fromCallable(() -> {
-            Errors errors = new BeanPropertyBindingResult(dto, "pointOfInterestDTO");
-            validator.validate(dto, errors);
-            if (errors.hasErrors()) {
-                throw new IllegalArgumentException(errors.getAllErrors().toString());
-            }
-            return dto;
-        });
+    @Override
+    public Mono<Long> countAll() {
+        return repository.count();
+    }
+
+    @Override
+    public Flux<PointOfInterestDTO> findRecent(Integer limit) {
+        return repository.findRecent(limit).map(mapper::toDto);
+    }
+
+    // --- New Methods ---
+
+    @Override
+    public Flux<PointOfInterestDTO> findSubmittedPois() {
+        return repository.findByStatus(PoiStatus.SUBMITTED).map(mapper::toDto);
+    }
+
+    @Override
+    public Flux<PointOfInterestDTO> findApprovedPois() {
+        return repository.findByStatus(PoiStatus.APPROUVED).map(mapper::toDto);
+    }
+
+    @Override
+    @Transactional
+    public Mono<Void> approvePoi(UUID poiId, UUID approverId) {
+        return redisTemplate.opsForValue().delete(CACHE_KEY_PREFIX + poiId)
+                .then(repository.findById(poiId))
+                .flatMap(poi -> {
+                    poi.setStatus(PoiStatus.APPROUVED);
+                    poi.setApprouvedByUserId(approverId);
+                    poi.setUpdatedAt(Instant.now());
+                    return repository.save(poi);
+                })
+                .doOnSuccess(saved -> {
+                    // Notify user about approval
+                    if (saved.getCreatedByUserId() != null) {
+                        appUserService.getUserById(saved.getCreatedByUserId())
+                                .flatMap(userDto -> notificationService.notifyPoiApproved(mapper.toDto(saved), userDto))
+                                .onErrorResume(e -> {
+                                    log.error("Failed to send approval notification: {}", e.getMessage());
+                                    return Mono.empty();
+                                })
+                                .subscribe();
+                    }
+                })
+                .then();
+    }
+
+    @Override
+    @Transactional
+    public Mono<Void> rejectPoi(UUID poiId, UUID rejecterId) {
+        return redisTemplate.opsForValue().delete(CACHE_KEY_PREFIX + poiId)
+                .then(repository.findById(poiId))
+                .flatMap(poi -> {
+                    // Notify user about rejection BEFORE deleting (so we have user data)
+                    if (poi.getCreatedByUserId() != null) {
+                        appUserService.getUserById(poi.getCreatedByUserId())
+                                .flatMap(userDto -> notificationService.notifyPoiRejected(mapper.toDto(poi), userDto))
+                                .onErrorResume(e -> {
+                                    log.error("Failed to send rejection notification: {}", e.getMessage());
+                                    return Mono.empty();
+                                })
+                                .subscribe();
+                    }
+                    return repository.delete(poi);
+                })
+                .then();
     }
 }

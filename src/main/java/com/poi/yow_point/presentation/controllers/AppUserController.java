@@ -40,29 +40,6 @@ public class AppUserController {
                 this.appUserService = appUserService;
         }
 
-        @PostMapping
-        @Operation(summary = "Create a new user")
-        @ApiResponses(value = {
-                        @ApiResponse(responseCode = "201", description = "User created successfully", content = @Content(schema = @Schema(implementation = AppUserDTO.class))),
-                        @ApiResponse(responseCode = "400", description = "Invalid input"),
-                        @ApiResponse(responseCode = "409", description = "Username or email already exists")
-        })
-        public Mono<ResponseEntity<AppUserDTO>> createUser(@Valid @RequestBody AppUserDTO appUserDTO) {
-                log.info("Received request to create user: {}", appUserDTO.getUsername());
-
-                return appUserService.saveUser(appUserDTO)
-                                .doOnSuccess(savedUser -> log.info("User created with ID: {}", savedUser.getUserId()))
-                                .map(savedUser -> ResponseEntity.status(HttpStatus.CREATED).body(savedUser))
-                                .onErrorResume(IllegalArgumentException.class,
-                                                ex -> Mono.just(ResponseEntity.badRequest().build()))
-                                .onErrorResume(Exception.class,
-                                                ex -> {
-                                                        log.error("Error creating user: {}", ex.getMessage());
-                                                        return Mono.just(ResponseEntity
-                                                                        .status(HttpStatus.INTERNAL_SERVER_ERROR)
-                                                                        .build());
-                                                });
-        }
 
         @GetMapping("/{id}")
         @Operation(summary = "Get a user by their ID")

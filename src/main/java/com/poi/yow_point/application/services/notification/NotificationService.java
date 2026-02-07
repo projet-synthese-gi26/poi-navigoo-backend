@@ -26,163 +26,95 @@ public class NotificationService {
     private final NotificationServiceProperties properties;
 
     /**
-     * Send notifications when a new POI is created.
-     * Sends both email and WhatsApp notifications to the creator.
+     * Send notification when a POI is submitted for validation.
      * 
-     * @param poi The created POI
-     * @param creator The user who created the POI
-     * @return Mono that completes when notifications are sent (or fails gracefully)
+     * @param poi The submitted POI
+     * @param user The user who submitted the POI
+     * @return Mono that completes when notification is sent
      */
-    public Mono<Void> notifyPoiCreated(PointOfInterestDTO poi, AppUserDTO creator) {
-        log.info("Sending POI creation notifications for POI: {} to user: {}", 
-                poi.getPoiName(), creator.getUsername());
+    public Mono<Void> notifyPoiSubmitted(PointOfInterestDTO poi, AppUserDTO user) {
+        log.info("Sending POI submission notification for POI: {} to user: {}", 
+                poi.getPoiName(), user.getUsername());
 
         Map<String, Object> templateData = new HashMap<>();
-        templateData.put("userName", creator.getUsername());
+        templateData.put("userName", user.getUsername());
         templateData.put("poiName", poi.getPoiName());
-        templateData.put("poiType", poi.getPoiType() != null ? poi.getPoiType().toString() : "N/A");
-        templateData.put("poiCity", poi.getAddressCity() != null ? poi.getAddressCity() : "N/A");
-        templateData.put("poiDescription", poi.getPoiDescription() != null ? poi.getPoiDescription() : "");
         
-        // Add missing placeholder: creationDate
-        String creationDate = poi.getCreatedAt() != null 
-                ? java.time.format.DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm")
-                    .withZone(java.time.ZoneId.systemDefault())
-                    .format(poi.getCreatedAt())
-                : java.time.format.DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm")
-                    .withZone(java.time.ZoneId.systemDefault())
-                    .format(java.time.Instant.now());
-        templateData.put("creationDate", creationDate);
+        String submissionDate = formatInstant(poi.getCreatedAt());
+        templateData.put("submissionDate", submissionDate);
 
-        Mono<Void> emailNotification = Mono.empty();
-        Mono<Void> whatsappNotification = Mono.empty();
-
-        // Send email if user has email
-        if (creator.getEmail() != null && !creator.getEmail().isEmpty()) {
-            emailNotification = notificationClient.sendEmail(
-                    properties.getTemplate().getPoiCreatedEmail(),
-                    creator.getEmail(),
-                    templateData
-            )
-            .doOnSuccess(response -> log.info("Email notification sent to {}", creator.getEmail()))
-            .onErrorResume(error -> {
-                log.error("Failed to send email notification to {}: {}", 
-                        creator.getEmail(), error.getMessage());
-                return Mono.empty(); // Don't fail the operation
-            })
-            .then();
-        }
-
-        // Send WhatsApp if user has phone
-        if (creator.getPhone() != null && !creator.getPhone().isEmpty()) {
-            // Refine phone number: digits only for WhatsApp (many gateways prefer this)
-            String rawPhone = creator.getPhone().trim();
-            String cleanPhone = rawPhone.replaceAll("\\D", "");
-            
-            log.debug("Formatting phone number for WhatsApp: original='{}', cleaned='{}'", rawPhone, cleanPhone);
-            
-            whatsappNotification = notificationClient.sendWhatsApp(
-                    properties.getTemplate().getPoiCreatedWhatsapp(),
-                    cleanPhone,
-                    templateData
-            )
-            .doOnSuccess(response -> log.info("WhatsApp notification sent to {} (formatted: {})", creator.getPhone(), cleanPhone))
-            .onErrorResume(error -> {
-                log.error("Failed to send WhatsApp notification to {}: {}", 
-                        creator.getPhone(), error.getMessage());
-                return Mono.empty(); // Don't fail the operation
-            })
-            .then();
-        }
-
-        // Execute both notifications in parallel
-        return Mono.when(emailNotification, whatsappNotification)
-                .doOnSuccess(v -> log.info("All POI creation notifications sent successfully"))
-                .onErrorResume(error -> {
-                    log.error("Error sending POI creation notifications: {}", error.getMessage());
-                    return Mono.empty(); // Don't fail the POI creation
-                });
+        return sendEmailNotification(properties.getTemplate().getEmail().getPoiSubmitted(), user.getEmail(), templateData);
     }
 
     /**
-     * Send notifications when a POI is updated by a different user.
-     * Notifies the original creator about the modification.
+     * Send notification when a POI is approved.
      * 
-     * @param poi The updated POI
-     * @param creator The original creator of the POI
-     * @param updater The user who updated the POI
-     * @return Mono that completes when notifications are sent (or fails gracefully)
+     * @param poi The approved POI
+     * @param user The user who submitted the POI
+     * @return Mono that completes when notification is sent
      */
-    public Mono<Void> notifyPoiUpdated(PointOfInterestDTO poi, AppUserDTO creator, AppUserDTO updater) {
-        log.info("Sending POI update notifications for POI: {} to creator: {} (updated by: {})", 
-                poi.getPoiName(), creator.getUsername(), updater.getUsername());
+    public Mono<Void> notifyPoiApproved(PointOfInterestDTO poi, AppUserDTO user) {
+        log.info("Sending POI approval notification for POI: {} to user: {}", 
+                poi.getPoiName(), user.getUsername());
 
         Map<String, Object> templateData = new HashMap<>();
-        // Match user's template placeholders: userName (creator) and updatedBy (updater)
-        templateData.put("userName", creator.getUsername());
-        templateData.put("updatedBy", updater.getUsername());
+        templateData.put("userName", user.getUsername());
         templateData.put("poiName", poi.getPoiName());
-        templateData.put("poiType", poi.getPoiType() != null ? poi.getPoiType().toString() : "N/A");
-        templateData.put("poiCity", poi.getAddressCity() != null ? poi.getAddressCity() : "N/A");
         
-        // Add missing placeholder: updateDate
-        String updateDate = poi.getUpdatedAt() != null 
-                ? java.time.format.DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm")
-                    .withZone(java.time.ZoneId.systemDefault())
-                    .format(poi.getUpdatedAt())
-                : java.time.format.DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm")
-                    .withZone(java.time.ZoneId.systemDefault())
-                    .format(java.time.Instant.now());
-        templateData.put("updateDate", updateDate);
+        String approvalDate = formatInstant(java.time.Instant.now());
+        templateData.put("approvalDate", approvalDate);
 
-        Mono<Void> emailNotification = Mono.empty();
-        Mono<Void> whatsappNotification = Mono.empty();
+        return sendEmailNotification(properties.getTemplate().getEmail().getPoiApproved(), user.getEmail(), templateData);
+    }
 
-        // Send email if creator has email
-        if (creator.getEmail() != null && !creator.getEmail().isEmpty()) {
-            emailNotification = notificationClient.sendEmail(
-                    properties.getTemplate().getPoiUpdatedEmail(),
-                    creator.getEmail(),
-                    templateData
-            )
-            .doOnSuccess(response -> log.info("Update email notification sent to {}", creator.getEmail()))
-            .onErrorResume(error -> {
-                log.error("Failed to send update email notification to {}: {}", 
-                        creator.getEmail(), error.getMessage());
-                return Mono.empty();
-            })
-            .then();
+    /**
+     * Send notification when a POI is rejected.
+     * 
+     * @param poi The rejected POI
+     * @param user The user who submitted the POI
+     * @return Mono that completes when notification is sent
+     */
+    public Mono<Void> notifyPoiRejected(PointOfInterestDTO poi, AppUserDTO user) {
+        log.info("Sending POI rejection notification for POI: {} to user: {}", 
+                poi.getPoiName(), user.getUsername());
+
+        Map<String, Object> templateData = new HashMap<>();
+        templateData.put("userName", user.getUsername());
+        templateData.put("poiName", poi.getPoiName());
+        
+        String submissionDate = formatInstant(poi.getCreatedAt());
+        templateData.put("submissionDate", submissionDate);
+
+        return sendEmailNotification(properties.getTemplate().getEmail().getPoiRejected(), user.getEmail(), templateData);
+    }
+
+    /**
+     * Helper method to send email notification.
+     */
+    private Mono<Void> sendEmailNotification(Long templateId, String email, Map<String, Object> data) {
+        if (email == null || email.isEmpty()) {
+            log.warn("Recipient email is missing, skipping notification");
+            return Mono.empty();
         }
 
-        // Send WhatsApp if creator has phone
-        if (creator.getPhone() != null && !creator.getPhone().isEmpty()) {
-            // Refine phone number: digits only for WhatsApp
-            String rawPhone = creator.getPhone().trim();
-            String cleanPhone = rawPhone.replaceAll("\\D", "");
-
-            log.debug("Formatting phone number for WhatsApp update: original='{}', cleaned='{}'", rawPhone, cleanPhone);
-
-            whatsappNotification = notificationClient.sendWhatsApp(
-                    properties.getTemplate().getPoiUpdatedWhatsapp(),
-                    cleanPhone,
-                    templateData
-            )
-            .doOnSuccess(response -> log.info("Update WhatsApp notification sent to {} (formatted: {})", creator.getPhone(), cleanPhone))
-            .onErrorResume(error -> {
-                log.error("Failed to send update WhatsApp notification to {}: {}", 
-                        creator.getPhone(), error.getMessage());
-                return Mono.empty();
-            })
-            .then();
-        }
-
-        // Execute both notifications in parallel
-        return Mono.when(emailNotification, whatsappNotification)
-                .doOnSuccess(v -> log.info("All POI update notifications sent successfully"))
+        return notificationClient.sendEmail(templateId, email, data)
+                .doOnSuccess(response -> log.info("Email notification (template: {}) sent to {}", templateId, email))
                 .onErrorResume(error -> {
-                    log.error("Error sending POI update notifications: {}", error.getMessage());
-                    return Mono.empty(); // Don't fail the POI update
-                });
+                    log.error("Failed to send email notification (template: {}) to {}: {}", 
+                            templateId, email, error.getMessage());
+                    return Mono.empty();
+                })
+                .then();
+    }
+
+    /**
+     * Helper to format Instant to String.
+     */
+    private String formatInstant(java.time.Instant instant) {
+        if (instant == null) instant = java.time.Instant.now();
+        return java.time.format.DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm")
+                .withZone(java.time.ZoneId.systemDefault())
+                .format(instant);
     }
 
     /**
@@ -203,30 +135,27 @@ public class NotificationService {
 
         Map<String, Object> templateData = new HashMap<>();
         templateData.put("userName", user.getUsername());
-        templateData.put("poiCount", String.valueOf(recommendations.size()));
         
-        // Build a summary of recommendations
+        // Month name in French
+        String month = java.time.Month.from(java.time.LocalDate.now())
+                .getDisplayName(java.time.format.TextStyle.FULL, java.util.Locale.FRENCH);
+        templateData.put("month", month);
+        
+        // Build summary
         StringBuilder poiSummary = new StringBuilder();
+        StringBuilder poiSummaryHtml = new StringBuilder();
+        
         for (int i = 0; i < Math.min(recommendations.size(), 10); i++) {
             PointOfInterestDTO poi = recommendations.get(i);
-            poiSummary.append(String.format("%d. %s - %s\n", 
-                    i + 1, 
-                    poi.getPoiName(), 
-                    poi.getAddressCity() != null ? poi.getAddressCity() : ""));
+            String city = poi.getAddressCity() != null ? poi.getAddressCity() : "N/A";
+            
+            poiSummary.append(String.format("- %s (%s)\n", poi.getPoiName(), city));
+            poiSummaryHtml.append(String.format("<li><strong>%s</strong> - %s</li>", poi.getPoiName(), city));
         }
+        
         templateData.put("poiSummary", poiSummary.toString());
+        templateData.put("poiSummaryHtml", poiSummaryHtml.toString());
 
-        return notificationClient.sendEmail(
-                properties.getTemplate().getMonthlyDigestEmail(),
-                user.getEmail(),
-                templateData
-        )
-        .doOnSuccess(response -> log.info("Monthly digest sent to {}", user.getEmail()))
-        .onErrorResume(error -> {
-            log.error("Failed to send monthly digest to {}: {}", 
-                    user.getEmail(), error.getMessage());
-            return Mono.empty();
-        })
-        .then();
+        return sendEmailNotification(properties.getTemplate().getMonthlyDigestEmail(), user.getEmail(), templateData);
     }
 }

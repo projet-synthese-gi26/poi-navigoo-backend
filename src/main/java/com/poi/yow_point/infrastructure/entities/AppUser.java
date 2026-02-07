@@ -50,4 +50,18 @@ public class AppUser {
     @Builder.Default
     private OffsetDateTime createdAt = OffsetDateTime.now();
 
+    @Column("email_verified")
+    @Builder.Default
+    private Boolean emailVerified = false;
+
+    @Column("last_login_at")
+    private OffsetDateTime lastLoginAt;
+
+    @Column("failed_login_attempts")
+    @Builder.Default
+    private Integer failedLoginAttempts = 0;
+
+    @Column("account_locked_until")
+    private OffsetDateTime accountLockedUntil;
+
 }

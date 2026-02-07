@@ -27,4 +27,6 @@ public interface PointOfInterestRepository
 
         Flux<PointOfInterest> findByCreatedByUserId(UUID userId);
 
+        Flux<PointOfInterest> findByStatus(com.poi.yow_point.application.model.PoiStatus status);
+
 }

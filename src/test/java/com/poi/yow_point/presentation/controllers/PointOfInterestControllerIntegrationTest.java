@@ -43,6 +43,9 @@ class PointOfInterestControllerIntegrationTest {
     private KafkaProducerService kafkaProducerService;
 
     @MockBean
+    private com.poi.yow_point.infrastructure.kafka.KafkaConsumerService kafkaConsumerService;
+
+    @MockBean
     private org.springframework.data.redis.core.ReactiveRedisTemplate<String, PointOfInterestDTO> redisTemplate;
 
     private PointOfInterestDTO testPoiDto;
@@ -55,7 +58,6 @@ class PointOfInterestControllerIntegrationTest {
 
         testPoiDto = PointOfInterestDTO.builder()
                 .organizationId(organizationId)
-                .townId(UUID.randomUUID())
                 .createdByUserId(UUID.randomUUID())
                 .poiName("Test POI")
                 .poiType(PoiType.RESTAURANT)
@@ -71,19 +73,42 @@ class PointOfInterestControllerIntegrationTest {
                 .build();
     }
 
+    @MockBean
+    private com.poi.yow_point.application.services.appUser.AppUserService appUserService;
+
+    @MockBean
+    private com.poi.yow_point.application.services.notification.NotificationService notificationService;
+
     @Test
     void testFullPoiLifecycle() {
         UUID poiId = UUID.randomUUID();
+        UUID userId = UUID.randomUUID();
+
+        com.poi.yow_point.presentation.dto.CreatePoiDTO createDto = com.poi.yow_point.presentation.dto.CreatePoiDTO.builder()
+                .organizationId(organizationId)
+                .createdByUserId(userId)
+                .poiName("Test POI")
+                .poiType(PoiType.RESTAURANT)
+                .poiCategory(PoiCategory.FOOD_DRINK)
+                .poiDescription("A great test restaurant")
+                .latitude(3.8480)
+                .longitude(11.5021)
+                .addressCity("Yaoundé")
+                .poiKeywords(Collections.singletonList("test"))
+                .build();
 
         // --- Mocking Repository Behavior ---
         PointOfInterest savedPoi = new PointOfInterest();
         savedPoi.setPoiId(poiId);
-        savedPoi.setPoiName(testPoiDto.getPoiName());
-        savedPoi.setOrganizationId(testPoiDto.getOrganizationId());
-        savedPoi.setPoiType(testPoiDto.getPoiType());
-        savedPoi.setPoiCategory(testPoiDto.getPoiCategory());
-        savedPoi.setAddressCity(testPoiDto.getAddressCity());
-        savedPoi.setLocationGeog(geometryFactory.createPoint(new Coordinate(testPoiDto.getLongitude(), testPoiDto.getLatitude())));
+        savedPoi.setPoiName(createDto.getPoiName());
+        savedPoi.setOrganizationId(createDto.getOrganizationId());
+        savedPoi.setPoiType(createDto.getPoiType());
+        savedPoi.setPoiCategory(createDto.getPoiCategory());
+        savedPoi.setAddressCity(createDto.getAddressCity());
+        savedPoi.setCreatedByUserId(userId);
+        savedPoi.setIsActive(false);
+        savedPoi.setStatus(com.poi.yow_point.application.model.PoiStatus.SUBMITTED);
+        savedPoi.setLocationGeog(geometryFactory.createPoint(new Coordinate(createDto.getLongitude(), createDto.getLatitude())));
 
         // Mock check for existing name
         Mockito.when(pointOfInterestRepository.existsByNameAndOrganizationIdExcludingId(any(), any(), any()))
@@ -94,10 +119,6 @@ class PointOfInterestControllerIntegrationTest {
                .thenReturn(Mono.just(savedPoi));
 
         // Mock findById for the entire lifecycle
-        // 1st call: in GET /api/pois/{id}
-        // 2nd call: in PUT /api/pois/{id} (service calls findById first)
-        // 3rd call: in DELETE /api/pois/{id} (service calls findById first)
-        // 4th call: in final GET /api/pois/{id} to verify deletion
         Mockito.when(pointOfInterestRepository.findById(poiId))
                .thenReturn(Mono.just(savedPoi), Mono.just(savedPoi), Mono.just(savedPoi), Mono.empty());
 
@@ -111,10 +132,13 @@ class PointOfInterestControllerIntegrationTest {
         Mockito.when(opsForValue.set(any(), any(), any())).thenReturn(Mono.just(true));
         Mockito.when(opsForValue.delete(any())).thenReturn(Mono.just(true));
 
+        // Mock Service Notifications
+        Mockito.when(appUserService.getUserById(any())).thenReturn(Mono.just(new com.poi.yow_point.presentation.dto.AppUserDTO()));
+        Mockito.when(notificationService.notifyPoiSubmitted(any(), any())).thenReturn(Mono.empty());
 
         // 1. Create POI
         PointOfInterestDTO createdPoi = webTestClient.post().uri("/api/pois")
-                .bodyValue(testPoiDto)
+                .bodyValue(createDto)
                 .exchange()
                 .expectStatus().isCreated()
                 .expectBody(PointOfInterestDTO.class)
@@ -123,7 +147,8 @@ class PointOfInterestControllerIntegrationTest {
         assertThat(createdPoi).isNotNull();
         assertThat(createdPoi.getPoiId()).isEqualTo(poiId);
         assertThat(createdPoi.getPoiName()).isEqualTo("Test POI");
-        assertThat(createdPoi.getLatitude()).isEqualTo(3.8480);
+        assertThat(createdPoi.getIsActive()).isFalse();
+        assertThat(createdPoi.getStatus()).isEqualTo(com.poi.yow_point.application.model.PoiStatus.SUBMITTED);
 
         // 2. Get POI by ID
         webTestClient.get().uri("/api/pois/{id}", poiId)
@@ -134,9 +159,12 @@ class PointOfInterestControllerIntegrationTest {
                 .jsonPath("$.poi_id").isEqualTo(poiId.toString());
 
         // 3. Update POI
-        createdPoi.setPoiName("Updated Test POI");
+        com.poi.yow_point.presentation.dto.UpdatePoiDTO updateDto = com.poi.yow_point.presentation.dto.UpdatePoiDTO.builder()
+                .poiName("Updated Test POI")
+                .build();
+
         webTestClient.put().uri("/api/pois/{id}", poiId)
-                .bodyValue(createdPoi)
+                .bodyValue(updateDto)
                 .exchange()
                 .expectStatus().isOk();
 

@@ -1,31 +1,33 @@
-# --- Stage 1: Build ---
-FROM maven:3.9-eclipse-temurin-21 AS builder
+# Stage 1: Build
+FROM maven:3.9.6-eclipse-temurin-21 AS build
 WORKDIR /app
-
-# Copie du pom.xml et téléchargement des dépendances (mise en cache des layers)
 COPY pom.xml .
-RUN mvn dependency:go-offline
-
-# Copie du code source et compilation
+# RUN mvn dependency:go-offline -B
 COPY src ./src
 RUN mvn clean package -DskipTests
 
-# --- Stage 2: Run ---
+# Stage 2: Runtime
+# Use a JRE (Java Runtime Environment) for a smaller, more secure final image.
+# The 'jammy' base image already includes curl and ca-certificates.
 FROM eclipse-temurin:21-jre-jammy
 WORKDIR /app
 
-# Création d'un utilisateur non-root pour la sécurité (Standard Tramasys)
-RUN addgroup yowyob && adduser yowyob --ingroup yowyob
-USER yowyob:yowyob
+# Create a non-root user for security
+RUN addgroup --system spring && adduser --system spring --ingroup spring
+USER spring:spring
 
-# Copie du JAR depuis l'étape de build
-COPY --from=builder /app/target/*.jar app.jar
+# Copy the JAR from the build stage
+COPY --from=build /app/target/*.jar app.jar
 
-# Variables d'environnement par défaut
-# Note: Les variables DB_USER, DB_PASSWORD, AUTH_JWT_SECRET doivent être injectées au runtime
-ENV SPRING_PROFILES_ACTIVE=prod
-
-# Exposition du port
+# Expose the port the application runs on
 EXPOSE 8080
 
-ENTRYPOINT ["java", "-jar", "app.jar"]
+# Environment variables for Java 21
+ENV JAVA_OPTS="-Xmx512m -Xms256m -server -XX:+UseZGC -XX:+UnlockExperimentalVMOptions --enable-preview"
+
+# Health check
+HEALTHCHECK --interval=30s --timeout=3s --start-period=60s --retries=3 \
+  CMD curl -f http://localhost:8080/actuator/health || exit 1
+
+# Start command
+ENTRYPOINT ["sh", "-c", "java $JAVA_OPTS -Dreactor.netty.ioWorkerCount=4 -Dreactor.netty.pool.maxConnections=500 --add-opens java.base/java.nio=ALL-UNNAMED -jar app.jar"]

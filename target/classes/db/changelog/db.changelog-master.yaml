@@ -1,3 +1,35 @@
 databaseChangeLog:
+  - property:
+      name: uuid_function
+      value: uuid_generate_v4()
+      dbms: postgresql
+  - property:
+      name: uuid_function
+      value: random_uuid()
+      dbms: h2
+  - property:
+      name: geo_type
+      value: GEOGRAPHY(Point, 4326)
+      dbms: postgresql
+  - property:
+      name: geo_type
+      value: GEOMETRY
+      dbms: h2
+  - property:
+      name: gist_index_sql
+      value: CREATE INDEX idx_poi_location_geog ON point_of_interest USING GIST (location_geog)
+      dbms: postgresql
+  - property:
+      name: gist_index_sql
+      value: CREATE SPATIAL INDEX idx_poi_location_geog ON point_of_interest (location_geog)
+      dbms: h2
+  - property:
+      name: jsonb_type
+      value: JSONB
+      dbms: postgresql
+  - property:
+      name: jsonb_type
+      value: JSON
+      dbms: h2
   - include:
       file: db/changelog/changes/01-initial-schema.xml

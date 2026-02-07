@@ -25,9 +25,6 @@ public class PointOfInterestDTO {
     @JsonProperty("organization_id")
     private UUID organizationId;
 
-    @JsonProperty("town_id")
-    private UUID townId;
-
     @JsonProperty("created_by_user_id")
     private UUID createdByUserId;
 
@@ -53,7 +50,7 @@ public class PointOfInterestDTO {
     private String poiDescription;
 
     @JsonProperty("poi_logo")
-    private byte[] poiLogo;
+    private String poiLogo;
 
     @JsonProperty("latitude")
     private Double latitude;
@@ -116,6 +113,12 @@ public class PointOfInterestDTO {
 
     @JsonProperty("deactivated_by_user_id")
     private UUID deactivatedByUserId;
+
+    @JsonProperty("status")
+    private com.poi.yow_point.application.model.PoiStatus status;
+
+    @JsonProperty("approuved_by_user_id")
+    private UUID approuvedByUserId;
 
     @JsonProperty("created_at")
     private Instant createdAt;

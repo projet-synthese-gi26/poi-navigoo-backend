@@ -37,30 +37,61 @@ public class NotificationServiceProperties {
 
     @Data
     public static class Template {
-        /**
-         * Template ID for POI creation email notification
-         */
-        private Long poiCreatedEmail = 101L;
-
-        /**
-         * Template ID for POI creation WhatsApp notification
-         */
-        private Long poiCreatedWhatsapp = 102L;
-
-        /**
-         * Template ID for POI update email notification
-         */
-        private Long poiUpdatedEmail = 103L;
-
-        /**
-         * Template ID for POI update WhatsApp notification
-         */
-        private Long poiUpdatedWhatsapp = 104L;
+        private EmailTemplate email = new EmailTemplate();
 
         /**
          * Template ID for monthly digest email
          */
-        private Long monthlyDigestEmail = 105L;
+        private Long monthlyDigestEmail = 11L;
+
+        /**
+         * Template ID for user registration email
+         */
+        private Long userRegistration;
+
+        /**
+         * Template ID for password reset email
+         */
+        private Long passwordReset;
+
+        /**
+         * Template ID for password verification email
+         */
+        private Long passwordVerification;
+
+        @Data
+        public static class EmailTemplate {
+            /**
+             * Template ID for POI submission email
+             */
+            private Long poiSubmitted = 18L;
+
+            /**
+             * Template ID for POI approval email
+             */
+            private Long poiApproved = 19L;
+
+            /**
+             * Template ID for POI rejection email
+             */
+            private Long poiRejected = 20L;
+        }
+
+        /**
+         * Get template ID by name
+         */
+        public Long getTemplateId(String templateName) {
+            return switch (templateName) {
+                case "user-registration" -> userRegistration;
+                case "password-reset" -> passwordReset;
+                case "password-verification" -> passwordVerification;
+                case "poi-submitted" -> email.getPoiSubmitted();
+                case "poi-approved" -> email.getPoiApproved();
+                case "poi-rejected" -> email.getPoiRejected();
+                case "monthly-digest-email" -> monthlyDigestEmail;
+                default -> null;
+            };
+        }
     }
 
     @Data

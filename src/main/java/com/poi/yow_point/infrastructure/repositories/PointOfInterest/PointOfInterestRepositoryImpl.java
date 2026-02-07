@@ -37,13 +37,15 @@ public class PointOfInterestRepositoryImpl implements PointOfInterestRepositoryC
         // Implémentation d'une méthode géospatiale avec Criteria
         @Override
         public Flux<PointOfInterest> findByLocationWithinRadius(Double latitude, Double longitude, Double radiusKm) {
-                Point center = geometryFactory.createPoint(new Coordinate(longitude, latitude));
-                String wkt = String.format("SRID=4326;POINT(%f %f)", longitude, latitude);
+                // Not strictly needed with the SQL query below, but kept just in case
+                // Point center = geometryFactory.createPoint(new Coordinate(longitude, latitude));
+                // String wkt = String.format("SRID=4326;POINT(%f %f)", longitude, latitude);
 
                 return entityTemplate.getDatabaseClient()
-                                .sql("SELECT * FROM point_of_interest WHERE ST_DWithin(location, ST_GeomFromText(:wkt), :distance)")
-                                .bind("wkt", wkt)
-                                .bind("distance", radiusKm * 1000) // Conversion km → mètres (PostGIS)
+                                .sql("SELECT * FROM point_of_interest WHERE ST_DWithin(location_geog::geography, ST_SetSRID(ST_MakePoint(:lon, :lat), 4326)::geography, :distance)")
+                                .bind("lon", longitude)
+                                .bind("lat", latitude)
+                                .bind("distance", radiusKm * 1000) // Conversion km → mètres (PostGIS geography works in meters)
                                 .map((row, metadata) -> entityTemplate.getConverter().read(PointOfInterest.class, row,
                                                 metadata))
                                 .all();
@@ -89,5 +91,14 @@ public class PointOfInterestRepositoryImpl implements PointOfInterestRepositoryC
                 }
 
                 return entityTemplate.exists(Query.query(criteria), PointOfInterest.class);
+        }
+
+        @Override
+        public Flux<PointOfInterest> findRecent(Integer limit) {
+                return entityTemplate.select(PointOfInterest.class)
+                                .matching(Query.query(Criteria.empty())
+                                                .sort(org.springframework.data.domain.Sort.by("created_at").descending())
+                                                .limit(limit))
+                                .all();
         }
 }

@@ -24,4 +24,6 @@ public interface PointOfInterestRepositoryCustom {
 
     Mono<Long> countActiveByOrganizationId(UUID organizationId);
 
+    Flux<PointOfInterest> findRecent(Integer limit);
+
 }

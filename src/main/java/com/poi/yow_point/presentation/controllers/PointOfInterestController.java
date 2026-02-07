@@ -1,8 +1,9 @@
 package com.poi.yow_point.presentation.controllers;
 
-import com.poi.yow_point.application.exceptions.ResourceNotFoundException;
 import com.poi.yow_point.application.services.point_of_interest.PointOfInterestService;
 import com.poi.yow_point.presentation.dto.PointOfInterestDTO;
+import com.poi.yow_point.presentation.dto.CreatePoiDTO;
+import com.poi.yow_point.presentation.dto.UpdatePoiDTO;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -20,7 +21,6 @@ import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
-//import jakarta.validation.Valid;
 import java.util.UUID;
 
 @RestController
@@ -35,10 +35,6 @@ public class PointOfInterestController {
 
         @GetMapping
         @Operation(summary = "Get all POIs", description = "Retrieves all Points of Interest")
-        @ApiResponses(value = {
-                        @ApiResponse(responseCode = "200", description = "List of all POIs", content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE, schema = @Schema(implementation = PointOfInterestDTO.class))),
-                        @ApiResponse(responseCode = "500", description = "Internal server error", content = @Content)
-        })
         public Flux<PointOfInterestDTO> getAllPois() {
                 log.info("REST request to get all POIs");
                 return poiService.findAll()
@@ -51,13 +47,8 @@ public class PointOfInterestController {
 
         @PostMapping
         @Operation(summary = "Create a new POI", description = "Creates a new Point of Interest with the provided information")
-        @ApiResponses(value = {
-                        @ApiResponse(responseCode = "201", description = "POI created successfully", content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE, schema = @Schema(implementation = PointOfInterestDTO.class))),
-                        @ApiResponse(responseCode = "400", description = "Invalid input data", content = @Content),
-                        @ApiResponse(responseCode = "500", description = "Internal server error", content = @Content)
-        })
         public Mono<ResponseEntity<PointOfInterestDTO>> createPoi(
-                        @Parameter(description = "Data for the POI to create", required = true) @RequestBody PointOfInterestDTO dto) {
+                        @Parameter(description = "Data for the POI to create", required = true) @RequestBody CreatePoiDTO dto) {
                 log.info("REST request to create POI: {}", dto.getPoiName());
 
                 return poiService.createPoi(dto)
@@ -74,40 +65,29 @@ public class PointOfInterestController {
         }
 
         @PutMapping("/{poi_id}")
-        @Operation(summary = "Update an existing POI", description = "Updates an existing Point of Interest with new information")
-        @ApiResponses(value = {
-                        @ApiResponse(responseCode = "200", description = "POI updated successfully", content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE, schema = @Schema(implementation = PointOfInterestDTO.class))),
-                        @ApiResponse(responseCode = "400", description = "Invalid input data", content = @Content),
-                        @ApiResponse(responseCode = "404", description = "POI not found", content = @Content),
-                        @ApiResponse(responseCode = "500", description = "Internal server error", content = @Content)
-        })
+        @Operation(summary = "Update an existing POI", description = "Updates an existing Point of Interest within new information")
         public Mono<ResponseEntity<PointOfInterestDTO>> updatePoi(
                         @Parameter(description = "ID of the POI to update", required = true, example = "123e4567-e89b-12d3-a456-426614174000") @PathVariable("poi_id") UUID poiId,
-                        @Parameter(description = "New data for the POI", required = true) @RequestBody PointOfInterestDTO dto) {
+                        @Parameter(description = "New data for the POI", required = true) @RequestBody UpdatePoiDTO dto) {
                 log.info("REST request to update POI: {}", poiId);
 
                 return poiService.updatePoi(poiId, dto)
                                 .map(updatedDto -> ResponseEntity.ok(updatedDto))
                                 .onErrorResume(IllegalArgumentException.class,
                                                 ex -> Mono.just(ResponseEntity.badRequest().build()))
-                                .onErrorResume(ResourceNotFoundException.class,
+                                .onErrorResume(RuntimeException.class,
                                                 ex -> Mono.just(ResponseEntity.notFound().build()))
                                 .onErrorResume(Exception.class,
                                                 ex -> {
                                                         log.error("Error updating POI: {}", poiId, ex);
                                                         return Mono.just(ResponseEntity
-                                                                         .status(HttpStatus.INTERNAL_SERVER_ERROR)
-                                                                         .build());
+                                                                        .status(HttpStatus.INTERNAL_SERVER_ERROR)
+                                                                        .build());
                                                 });
         }
 
         @GetMapping("/{poi_id}")
         @Operation(summary = "Get a POI by ID", description = "Retrieves the details of a specific Point of Interest")
-        @ApiResponses(value = {
-                        @ApiResponse(responseCode = "200", description = "POI found", content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE, schema = @Schema(implementation = PointOfInterestDTO.class))),
-                        @ApiResponse(responseCode = "404", description = "POI not found", content = @Content),
-                        @ApiResponse(responseCode = "500", description = "Internal server error", content = @Content)
-        })
         public Mono<ResponseEntity<PointOfInterestDTO>> getPoiById(
                         @Parameter(description = "ID of the POI", required = true, example = "123e4567-e89b-12d3-a456-426614174000") @PathVariable("poi_id") UUID poiId) {
                 log.debug("REST request to get POI: {}", poiId);
@@ -124,187 +104,15 @@ public class PointOfInterestController {
                                                 });
         }
 
-        @GetMapping("/organization/{organization_id}")
-        @Operation(summary = "Get active POIs by organization", description = "Retrieves all active Points of Interest belonging to an organization")
-        @ApiResponses(value = {
-                        @ApiResponse(responseCode = "200", description = "List of active POIs", content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE, schema = @Schema(implementation = PointOfInterestDTO.class))),
-                        @ApiResponse(responseCode = "500", description = "Internal server error", content = @Content)
-        })
-        public Flux<PointOfInterestDTO> getPoisByOrganization(
-                        @Parameter(description = "ID of the organization", required = true, example = "123e4567-e89b-12d3-a456-426614174000") @PathVariable("organization_id") UUID organizationId) {
-                log.debug("REST request to get POIs for organization: {}", organizationId);
-
-                return poiService.findActiveByOrganizationId(organizationId)
-                                .onErrorResume(Exception.class,
-                                                ex -> {
-                                                        log.error("Error retrieving POIs for organization: {}",
-                                                                        organizationId, ex);
-                                                        return Flux.empty();
-                                                });
-        }
-
-        @GetMapping("/organization/{organization_id}/all")
-        @Operation(summary = "Get all POIs by organization", description = "Retrieves all Points of Interest (both active and inactive) belonging to an organization")
-        @ApiResponses(value = {
-                        @ApiResponse(responseCode = "200", description = "List of all POIs", content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE, schema = @Schema(implementation = PointOfInterestDTO.class))),
-                        @ApiResponse(responseCode = "500", description = "Internal server error", content = @Content)
-        })
-        public Flux<PointOfInterestDTO> getAllPoisByOrganization(
-                        @Parameter(description = "ID of the organization", required = true, example = "123e4567-e89b-12d3-a456-426614174000") @PathVariable("organization_id") UUID organizationId) {
-                log.debug("REST request to get all POIs for organization: {}", organizationId);
-
-                return poiService.findByOrganizationId(organizationId)
-                                .onErrorResume(Exception.class,
-                                                ex -> {
-                                                        log.error("Error retrieving all POIs for organization: {}",
-                                                                        organizationId, ex);
-                                                        return Flux.empty();
-                                                });
-        }
-
-        @GetMapping("/location")
-        @Operation(summary = "Search for POIs by location", description = "Searches for Points of Interest within a given radius around a geographical position")
-        @ApiResponses(value = {
-                        @ApiResponse(responseCode = "200", description = "POIs found in the area", content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE, schema = @Schema(implementation = PointOfInterestDTO.class))),
-                        @ApiResponse(responseCode = "400", description = "Invalid location parameters", content = @Content),
-                        @ApiResponse(responseCode = "500", description = "Internal server error", content = @Content)
-        })
-        public Flux<PointOfInterestDTO> getPoisByLocation(
-                        @Parameter(description = "Latitude", required = true, example = "3.8480") @RequestParam Double latitude,
-                        @Parameter(description = "Longitude", required = true, example = "11.5021") @RequestParam Double longitude,
-                        @Parameter(description = "Search radius in kilometers", example = "5.0") @RequestParam(defaultValue = "10.0") Double radiusKm) {
-                log.debug("REST request to get POIs by location: {}, {} within {} km",
-                                latitude, longitude, radiusKm);
-
-                return poiService.findByLocationWithinRadius(latitude, longitude, radiusKm)
-                                .onErrorResume(Exception.class,
-                                                ex -> {
-                                                        log.error("Error in location-based POI search", ex);
-                                                        return Flux.empty();
-                                                });
-        }
-
-        @GetMapping("/type/{type}")
-        @Operation(summary = "Get POIs by type", description = "Retrieves all Points of Interest of a specific type")
-        @ApiResponses(value = {
-                        @ApiResponse(responseCode = "200", description = "List of POIs of the specified type", content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE, schema = @Schema(implementation = PointOfInterestDTO.class))),
-                        @ApiResponse(responseCode = "500", description = "Internal server error", content = @Content)
-        })
-        public Flux<PointOfInterestDTO> getPoisByType(
-                        @Parameter(description = "Type of the POI", required = true, example = "RESTAURANT") @PathVariable com.poi.yow_point.application.model.PoiType type) {
-                log.debug("REST request to get POIs by type: {}", type);
-
-                return poiService.findByType(type)
-                                .onErrorResume(Exception.class,
-                                                ex -> {
-                                                        log.error("Error retrieving POIs by type: {}", type, ex);
-                                                        return Flux.empty();
-                                                });
-        }
-
-        @GetMapping("/category/{category}")
-        @Operation(summary = "Get POIs by category", description = "Retrieves all Points of Interest of a specific category")
-        @ApiResponses(value = {
-                        @ApiResponse(responseCode = "200", description = "List of POIs of the specified category", content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE, schema = @Schema(implementation = PointOfInterestDTO.class))),
-                        @ApiResponse(responseCode = "500", description = "Internal server error", content = @Content)
-        })
-        public Flux<PointOfInterestDTO> getPoisByCategory(
-                        @Parameter(description = "Category of the POI", required = true, example = "FOOD_DRINK") @PathVariable com.poi.yow_point.application.model.PoiCategory category) {
-                log.debug("REST request to get POIs by category: {}", category);
-
-                return poiService.findByCategory(category)
-                                .onErrorResume(Exception.class,
-                                                ex -> {
-                                                        log.error("Error retrieving POIs by category: {}", category,
-                                                                        ex);
-                                                        return Flux.empty();
-                                                });
-        }
-
-        @GetMapping("/name/{name}")
-        @Operation(summary = "Search POIs by name", description = "Searches for Points of Interest by their name (partial match)")
-        @ApiResponses(value = {
-                        @ApiResponse(responseCode = "200", description = "POIs matching the search name", content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE, schema = @Schema(implementation = PointOfInterestDTO.class))),
-                        @ApiResponse(responseCode = "500", description = "Internal server error", content = @Content)
-        })
-        public Flux<PointOfInterestDTO> searchPoisByName(
-                        @Parameter(description = "Name or part of the name to search for", required = true, example = "hotel") @PathVariable String name) {
-                log.debug("REST request to search POIs by name: {}", name);
-
-                return poiService.searchByName(name)
-                                .onErrorResume(Exception.class,
-                                                ex -> {
-                                                        log.error("Error searching POIs by name: {}", name, ex);
-                                                        return Flux.empty();
-                                                });
-        }
-
-        @GetMapping("/city/{city}")
-        @Operation(summary = "Get POIs by city", description = "Retrieves all Points of Interest located in a specific city")
-        @ApiResponses(value = {
-                        @ApiResponse(responseCode = "200", description = "List of POIs in the city", content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE, schema = @Schema(implementation = PointOfInterestDTO.class))),
-                        @ApiResponse(responseCode = "500", description = "Internal server error", content = @Content)
-        })
-        public Flux<PointOfInterestDTO> getPoisByCity(
-                        @Parameter(description = "Name of the POI", required = true, example = "Yaoundé") @PathVariable String city) {
-                log.debug("REST request to get POIs by city: {}", city);
-
-                return poiService.findByCity(city)
-                                .onErrorResume(Exception.class,
-                                                ex -> {
-                                                        log.error("Error retrieving POIs by city: {}", city, ex);
-                                                        return Flux.empty();
-                                                });
-        }
-
-        @GetMapping("/popular")
-        @Operation(summary = "Get most popular POIs", description = "Retrieves the highest-rated/most popular Points of Interest")
-        @ApiResponses(value = {
-                        @ApiResponse(responseCode = "200", description = "List of popular POIs", content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE, schema = @Schema(implementation = PointOfInterestDTO.class))),
-                        @ApiResponse(responseCode = "500", description = "Internal server error", content = @Content)
-        })
-        public Flux<PointOfInterestDTO> getTopPopularPois(
-                        @Parameter(description = "Maximum number of POIs to return", example = "10") @RequestParam(defaultValue = "10") Integer limit) {
-                log.debug("REST request to get top {} popular POIs", limit);
-
-                return poiService.findTopPopular(limit)
-                                .onErrorResume(Exception.class,
-                                                ex -> {
-                                                        log.error("Error retrieving popular POIs", ex);
-                                                        return Flux.empty();
-                                                });
-        }
-
-        @GetMapping("/user/{user_id}")
-        @Operation(summary = "Get POIs created by a user", description = "Retrieves all Points of Interest created by a specific user")
-        @ApiResponses(value = {
-                        @ApiResponse(responseCode = "200", description = "List of POIs created by the user", content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE, schema = @Schema(implementation = PointOfInterestDTO.class))),
-                        @ApiResponse(responseCode = "500", description = "Internal server error", content = @Content)
-        })
-        public Flux<PointOfInterestDTO> getPoisByUser(
-                        @Parameter(description = "ID of the user", required = true, example = "123e4567-e89b-12d3-a456-426614174000") @PathVariable("user_id") UUID userId) {
-                log.debug("REST request to get POIs created by user: {}", userId);
-
-                return poiService.findByCreatedByUserId(userId)
-                                .onErrorResume(Exception.class,
-                                                ex -> {
-                                                        log.error("Error retrieving POIs for user: {}", userId, ex);
-                                                        return Flux.empty();
-                                                });
-        }
-
         @PatchMapping("/{poi_id}/desactivate")
-        @Operation(summary = "Deactivate a POI", description = "Deactivates a Point of Interest (soft delete)")
-        @ApiResponses(value = {
-                        @ApiResponse(responseCode = "200", description = "POI deactivated successfully"),
-                        @ApiResponse(responseCode = "404", description = "POI not found", content = @Content),
-                        @ApiResponse(responseCode = "500", description = "Internal server error", content = @Content)
-        })
+        @Operation(summary = "Deactivate a POI", description = "Deactivates a Point of Interest with a reason")
         public Mono<ResponseEntity<Void>> deactivatePoi(
-                        @Parameter(description = "ID of the POI to deactivate", required = true, example = "123e4567-e89b-12d3-a456-426614174000") @PathVariable("poi_id") UUID poiId) {
-                log.info("REST request to deactivate POI: {}", poiId);
+                        @PathVariable("poi_id") UUID poiId,
+                        @RequestParam String deactivationReason,
+                        @RequestParam UUID deactivatedByUserId) {
+                log.info("REST request to deactivate POI: {} by user {}", poiId, deactivatedByUserId);
 
-                return poiService.deactivatePoi(poiId)
+                return poiService.deactivatePoi(poiId, deactivationReason, deactivatedByUserId)
                                 .then(Mono.just(ResponseEntity.ok().<Void>build()))
                                 .onErrorResume(Exception.class,
                                                 ex -> {
@@ -317,13 +125,8 @@ public class PointOfInterestController {
 
         @PatchMapping("/{poi_id}/activate")
         @Operation(summary = "Reactivate a POI", description = "Reactivates a previously deactivated Point of Interest")
-        @ApiResponses(value = {
-                        @ApiResponse(responseCode = "200", description = "POI reactivated successfully"),
-                        @ApiResponse(responseCode = "404", description = "POI not found", content = @Content),
-                        @ApiResponse(responseCode = "500", description = "Internal server error", content = @Content)
-        })
         public Mono<ResponseEntity<Void>> activatePoi(
-                        @Parameter(description = "ID of the POI to reactivate", required = true, example = "123e4567-e89b-12d3-a456-426614174000") @PathVariable("poi_id") UUID poiId) {
+                        @PathVariable("poi_id") UUID poiId) {
                 log.info("REST request to activate POI: {}", poiId);
 
                 return poiService.activatePoi(poiId)
@@ -338,100 +141,152 @@ public class PointOfInterestController {
         }
 
         @DeleteMapping("/{poi_id}")
-        @Operation(summary = "Permanently delete a POI", description = "Permanently deletes a Point of Interest from the database (hard delete)")
-        @ApiResponses(value = {
-                        @ApiResponse(responseCode = "204", description = "POI deleted successfully"),
-                        @ApiResponse(responseCode = "404", description = "POI not found", content = @Content),
-                        @ApiResponse(responseCode = "500", description = "Internal server error", content = @Content)
-        })
+        @Operation(summary = "Permanently delete a POI", description = "Permanently deletes a Point of Interest from the database")
         public Mono<ResponseEntity<Void>> deletePoi(
-                        @Parameter(description = "ID of the POI to delete", required = true, example = "123e4567-e89b-12d3-a456-426614174000") @PathVariable("poi_id") UUID poiId) {
+                        @PathVariable("poi_id") UUID poiId) {
                 log.info("REST request to delete POI: {}", poiId);
 
                 return poiService.deletePoi(poiId)
                                 .then(Mono.just(ResponseEntity.noContent().<Void>build()))
-                                .onErrorResume(ResourceNotFoundException.class,
+                                .onErrorResume(RuntimeException.class,
                                                 ex -> Mono.just(ResponseEntity.notFound().build()))
                                 .onErrorResume(Exception.class,
                                                 ex -> {
                                                         log.error("Error deleting POI: {}", poiId, ex);
                                                         return Mono.just(ResponseEntity
-                                                                         .status(HttpStatus.INTERNAL_SERVER_ERROR)
-                                                                         .build());
-                                                });
-        }
-
-        @PatchMapping("/{poi_id}/popularity")
-        @Operation(summary = "Update popularity score", description = "Updates the popularity score of a Point of Interest (0-100)")
-        @ApiResponses(value = {
-                        @ApiResponse(responseCode = "200", description = "Popularity score updated successfully"),
-                        @ApiResponse(responseCode = "400", description = "Invalid score (must be between 0 and 100)", content = @Content),
-                        @ApiResponse(responseCode = "404", description = "POI not found", content = @Content),
-                        @ApiResponse(responseCode = "500", description = "Internal server error", content = @Content)
-        })
-        public Mono<ResponseEntity<Void>> updatePopularityScore(
-                        @Parameter(description = "ID of the POI", required = true, example = "123e4567-e89b-12d3-a456-426614174000") @PathVariable("poi_id") UUID poiId,
-                        @Parameter(description = "New popularity score (0-100)", required = true, example = "85.5") @RequestParam Float score) {
-                log.info("REST request to update popularity score for POI: {} to {}", poiId, score);
-
-                if (score < 0 || score > 100) {
-                        return Mono.just(ResponseEntity.badRequest().build());
-                }
-
-                return poiService.updatePopularityScore(poiId, score)
-                                .then(Mono.just(ResponseEntity.ok().<Void>build()))
-                                .onErrorResume(Exception.class,
-                                                ex -> {
-                                                        log.error("Error updating popularity score for POI: {}", poiId,
-                                                                        ex);
-                                                        return Mono.just(ResponseEntity
                                                                         .status(HttpStatus.INTERNAL_SERVER_ERROR)
                                                                         .build());
                                                 });
+        }
+
+        // Removed popularity endpoint as requested
+
+        @GetMapping("/submitted")
+        @Operation(summary = "Get Submitted POIs", description = "Retrieves all Points of Interest with status SUBMITTED")
+        public Flux<PointOfInterestDTO> getSubmittedPois() {
+                log.debug("REST request to get submitted POIs");
+                return poiService.findSubmittedPois()
+                        .onErrorResume(Exception.class,
+                                ex -> {
+                                        log.error("Error retrieving submitted POIs", ex);
+                                        return Flux.empty();
+                                });
+        }
+
+        @GetMapping("/approved")
+        @Operation(summary = "Get Approved POIs", description = "Retrieves all Points of Interest with status APPROUVED")
+        public Flux<PointOfInterestDTO> getApprovedPois() {
+                log.debug("REST request to get approved POIs");
+                return poiService.findApprovedPois()
+                        .onErrorResume(Exception.class,
+                                ex -> {
+                                        log.error("Error retrieving approved POIs", ex);
+                                        return Flux.empty();
+                                });
+        }
+
+        @PatchMapping("/{poi_id}/approve")
+        @Operation(summary = "Approve a POI", description = "Approves a Submitted Point of Interest")
+        public Mono<ResponseEntity<Void>> approvePoi(
+                @PathVariable("poi_id") UUID poiId,
+                @RequestParam UUID approverId) {
+                log.info("REST request to approve POI: {} by user {}", poiId, approverId);
+                return poiService.approvePoi(poiId, approverId)
+                        .then(Mono.just(ResponseEntity.ok().<Void>build()))
+                        .onErrorResume(Exception.class,
+                                ex -> {
+                                    log.error("Error approving POI: {}", poiId, ex);
+                                    return Mono.just(ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build());
+                                });
+        }
+
+        @PatchMapping("/{poi_id}/reject")
+        @Operation(summary = "Reject a POI", description = "Rejects a Submitted Point of Interest and deletes it")
+        public Mono<ResponseEntity<Void>> rejectPoi(
+                @PathVariable("poi_id") UUID poiId,
+                @RequestParam UUID rejecterId) {
+                log.info("REST request to reject POI: {} by user {}", poiId, rejecterId);
+                return poiService.rejectPoi(poiId, rejecterId)
+                        .then(Mono.just(ResponseEntity.ok().<Void>build()))
+                         .onErrorResume(Exception.class,
+                                ex -> {
+                                    log.error("Error rejecting POI: {}", poiId, ex);
+                                    return Mono.just(ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build());
+                                });
+        }
+
+        // Keeping other methods...
+
+        @GetMapping("/organization/{organization_id}")
+        public Flux<PointOfInterestDTO> getPoisByOrganization(@PathVariable("organization_id") UUID organizationId) {
+                return poiService.findActiveByOrganizationId(organizationId);
+        }
+
+        @GetMapping("/organization/{organization_id}/all")
+        public Flux<PointOfInterestDTO> getAllPoisByOrganization(@PathVariable("organization_id") UUID organizationId) {
+                return poiService.findByOrganizationId(organizationId);
+        }
+
+        @GetMapping("/nearby")
+        public Flux<PointOfInterestDTO> getPoisByLocation(
+                        @RequestParam Double latitude,
+                        @RequestParam Double longitude,
+                        @RequestParam(defaultValue = "10.0") Double radiusKm) {
+                return poiService.findByLocationWithinRadius(latitude, longitude, radiusKm);
+        }
+
+        @GetMapping("/type/{type}")
+        public Flux<PointOfInterestDTO> getPoisByType(@PathVariable com.poi.yow_point.application.model.PoiType type) {
+                return poiService.findByType(type);
+        }
+
+        @GetMapping("/category/{category}")
+        public Flux<PointOfInterestDTO> getPoisByCategory(@PathVariable com.poi.yow_point.application.model.PoiCategory category) {
+                return poiService.findByCategory(category);
+        }
+
+        @GetMapping("/name/{name}")
+        public Flux<PointOfInterestDTO> searchPoisByName(@PathVariable String name) {
+                return poiService.searchByName(name);
+        }
+
+        @GetMapping("/city/{city}")
+        public Flux<PointOfInterestDTO> getPoisByCity(@PathVariable String city) {
+                return poiService.findByCity(city);
+        }
+
+        @GetMapping("/popular")
+        public Flux<PointOfInterestDTO> getTopPopularPois(@RequestParam(defaultValue = "10") Integer limit) {
+                return poiService.findTopPopular(limit);
+        }
+
+        @GetMapping("/user/{user_id}")
+        public Flux<PointOfInterestDTO> getPoisByUser(@PathVariable("user_id") UUID userId) {
+                return poiService.findByCreatedByUserId(userId);
         }
 
         @GetMapping("/organization/{organization_id}/count")
-        @Operation(summary = "Count active POIs by organization", description = "Returns the number of active Points of Interest for an organization")
-        @ApiResponses(value = {
-                        @ApiResponse(responseCode = "200", description = "Number of active POIs", content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE, schema = @Schema(implementation = Long.class))),
-                        @ApiResponse(responseCode = "500", description = "Internal server error", content = @Content)
-        })
-        public Mono<ResponseEntity<Long>> countActivePoisByOrganization(
-                        @Parameter(description = "ID of the organization", required = true, example = "123e4567-e89b-12d3-a456-426614174000") @PathVariable("organization_id") UUID organizationId) {
-                log.debug("REST request to count active POIs for organization: {}", organizationId);
-
-                return poiService.countActiveByOrganizationId(organizationId)
-                                .map(count -> ResponseEntity.ok(count))
-                                .onErrorResume(Exception.class,
-                                                ex -> {
-                                                        log.error("Error counting POIs for organization: {}",
-                                                                        organizationId, ex);
-                                                        return Mono.just(ResponseEntity
-                                                                        .status(HttpStatus.INTERNAL_SERVER_ERROR)
-                                                                        .build());
-                                                });
+        public Mono<ResponseEntity<Long>> countActivePoisByOrganization(@PathVariable("organization_id") UUID organizationId) {
+                 return poiService.countActiveByOrganizationId(organizationId)
+                        .map(ResponseEntity::ok);
         }
 
         @GetMapping("/check-name")
-        @Operation(summary = "Check if a POI name exists", description = "Checks if a POI name already exists within an organization (useful for validation)")
-        @ApiResponses(value = {
-                        @ApiResponse(responseCode = "200", description = "Result of the check", content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE, schema = @Schema(implementation = Boolean.class))),
-                        @ApiResponse(responseCode = "500", description = "Internal server error", content = @Content)
-        })
         public Mono<ResponseEntity<Boolean>> checkPoiNameExists(
-                        @Parameter(description = "Name of the POI to check", required = true, example = "Hilton Hotel") @RequestParam String name,
-                        @Parameter(description = "ID of the organization", required = true, example = "123e4567-e89b-12d3-a456-426614174000") @RequestParam UUID organizationId,
-                        @Parameter(description = "ID of the POI to exclude from the check (for updates)", example = "123e4567-e89b-12d3-a456-426614174000") @RequestParam(required = false) UUID excludeId) {
-                log.debug("REST request to check POI name existence: {} in organization: {}", name, organizationId);
-
+                        @RequestParam String name,
+                        @RequestParam UUID organizationId,
+                        @RequestParam(required = false) UUID excludeId) {
                 return poiService.existsByNameAndOrganization(name, organizationId, excludeId)
-                                .map(exists -> ResponseEntity.ok(exists))
-                                .onErrorResume(Exception.class,
-                                                ex -> {
-                                                        log.error("Error checking POI name existence", ex);
-                                                        return Mono.just(ResponseEntity
-                                                                        .status(HttpStatus.INTERNAL_SERVER_ERROR)
-                                                                        .build());
-                                                });
+                        .map(ResponseEntity::ok);
+        }
+
+        @GetMapping("/count")
+        public Mono<ResponseEntity<Long>> getPoiCount() {
+                return poiService.countAll().map(ResponseEntity::ok);
+        }
+
+        @GetMapping("/recent")
+        public Flux<PointOfInterestDTO> getRecentPois(@RequestParam(defaultValue = "10") Integer limit) {
+                return poiService.findRecent(limit);
         }
 }

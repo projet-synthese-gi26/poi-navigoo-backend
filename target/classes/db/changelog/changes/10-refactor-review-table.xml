@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+    http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+    <changeSet id="10-refactor-review-table" author="yowpoint">
+        <!-- Rename table -->
+        <renameTable oldTableName="poi_review" newTableName="review"/>
+
+        <!-- Add new columns -->
+        <addColumn tableName="review">
+            <column name="blog_id" type="UUID">
+                <constraints foreignKeyName="fk_review_blog" references="blog(blog_id)" deleteCascade="true"/>
+            </column>
+            <column name="podcast_id" type="UUID">
+                <constraints foreignKeyName="fk_review_podcast" references="podcast(podcast_id)" deleteCascade="true"/>
+            </column>
+        </addColumn>
+
+        <!-- Drop organization_id as it's not in the new requirements explicitly or can be inferred -->
+        <!-- User schema didn't have organization_id, so dropping it as requested/implied by "schema comme suit" -->
+        <dropColumn tableName="review" columnName="organization_id"/>
+
+        <!-- Drop old check constraint if it exists (on rating likely same but good to be clean) -->
+        <!-- Rating check constraint is likely fine, but we need the polymorphism check -->
+        
+        <sql>
+            ALTER TABLE review ADD CONSTRAINT chk_review_polymorphism CHECK (
+                (poi_id IS NOT NULL)::int + 
+                (blog_id IS NOT NULL)::int + 
+                (podcast_id IS NOT NULL)::int = 1
+            );
+        </sql>
+
+        <!-- Rename foreign keys and indexes if necessary? -->
+        <!-- Renaming sequence if any? UUID usually doesn't use sequence. -->
+        
+        <!-- Make poi_id nullable because now it can be null if blog_id is set -->
+        <dropNotNullConstraint tableName="review" columnName="poi_id"/>
+
+    </changeSet>
+
+</databaseChangeLog>
