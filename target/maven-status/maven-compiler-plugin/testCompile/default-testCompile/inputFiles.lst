@@ -1,4 +1,4 @@
-/home/varnel/poi_navigoo/poi-navigoo-backend/src/test/java/com/poi/yow_point/KafkaIntegrationTest.java
-/home/varnel/poi_navigoo/poi-navigoo-backend/src/test/java/com/poi/yow_point/config/PostgresTestR2dbcConfig.java
-/home/varnel/poi_navigoo/poi-navigoo-backend/src/test/java/com/poi/yow_point/config/TestR2dbcConfig.java
-/home/varnel/poi_navigoo/poi-navigoo-backend/src/test/java/com/poi/yow_point/presentation/controllers/PointOfInterestControllerIntegrationTest.java
+/home/varnel/Desktop/poi-navigoo-backend/src/test/java/com/poi/yow_point/KafkaIntegrationTest.java
+/home/varnel/Desktop/poi-navigoo-backend/src/test/java/com/poi/yow_point/config/PostgresTestR2dbcConfig.java
+/home/varnel/Desktop/poi-navigoo-backend/src/test/java/com/poi/yow_point/config/TestR2dbcConfig.java
+/home/varnel/Desktop/poi-navigoo-backend/src/test/java/com/poi/yow_point/presentation/controllers/PointOfInterestControllerIntegrationTest.java
