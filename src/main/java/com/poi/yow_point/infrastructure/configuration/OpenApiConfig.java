@@ -32,7 +32,7 @@ public class OpenApiConfig {
                     .addSecuritySchemes(securitySchemeName,
                             new SecurityScheme()
                                     .name(securitySchemeName)
-                                    .type(SecurityScheme.Type.HTTP)
+                                    .type(SecurityScheme.Type.HTTPS)
                                     .scheme("bearer")
                                     .bearerFormat("JWT")))
             .addSecurityItem(new SecurityRequirement().addList(securitySchemeName));
