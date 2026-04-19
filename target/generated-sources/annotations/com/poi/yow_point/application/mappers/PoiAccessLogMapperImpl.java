@@ -8,8 +8,8 @@ import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2026-02-11T15:58:55+0100",
-    comments = "version: 1.5.5.Final, compiler: javac, environment: Java 21.0.10 (Ubuntu)"
+    date = "2026-04-18T21:00:13+0100",
+    comments = "version: 1.5.5.Final, compiler: Eclipse JDT (IDE) 3.46.0.v20260407-0427, environment: Java 21.0.10 (Eclipse Adoptium)"
 )
 @Component
 public class PoiAccessLogMapperImpl implements PoiAccessLogMapper {
@@ -25,16 +25,16 @@ public class PoiAccessLogMapperImpl implements PoiAccessLogMapper {
 
         PoiAccessLogDTO.PoiAccessLogDTOBuilder poiAccessLogDTO = PoiAccessLogDTO.builder();
 
-        poiAccessLogDTO.accessId( entity.getAccessId() );
-        poiAccessLogDTO.poiId( entity.getPoiId() );
-        poiAccessLogDTO.organizationId( entity.getOrganizationId() );
-        poiAccessLogDTO.platformType( entity.getPlatformType() );
-        poiAccessLogDTO.userId( entity.getUserId() );
-        poiAccessLogDTO.accessType( entity.getAccessType() );
         poiAccessLogDTO.accessDatetime( entity.getAccessDatetime() );
+        poiAccessLogDTO.accessId( entity.getAccessId() );
+        poiAccessLogDTO.accessType( entity.getAccessType() );
         if ( entity.hasMetadata() ) {
             poiAccessLogDTO.metadata( mapperUtils.jsonNodeToMap( entity.getMetadata() ) );
         }
+        poiAccessLogDTO.organizationId( entity.getOrganizationId() );
+        poiAccessLogDTO.platformType( entity.getPlatformType() );
+        poiAccessLogDTO.poiId( entity.getPoiId() );
+        poiAccessLogDTO.userId( entity.getUserId() );
 
         return poiAccessLogDTO.build();
     }
@@ -47,13 +47,13 @@ public class PoiAccessLogMapperImpl implements PoiAccessLogMapper {
 
         PoiAccessLog.PoiAccessLogBuilder poiAccessLog = PoiAccessLog.builder();
 
+        poiAccessLog.accessDatetime( dto.getAccessDatetime() );
         poiAccessLog.accessId( dto.getAccessId() );
-        poiAccessLog.poiId( dto.getPoiId() );
+        poiAccessLog.accessType( dto.getAccessType() );
         poiAccessLog.organizationId( dto.getOrganizationId() );
         poiAccessLog.platformType( dto.getPlatformType() );
+        poiAccessLog.poiId( dto.getPoiId() );
         poiAccessLog.userId( dto.getUserId() );
-        poiAccessLog.accessType( dto.getAccessType() );
-        poiAccessLog.accessDatetime( dto.getAccessDatetime() );
 
         return poiAccessLog.build();
     }

@@ -9,8 +9,8 @@ import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2026-02-11T15:58:55+0100",
-    comments = "version: 1.5.5.Final, compiler: javac, environment: Java 21.0.10 (Ubuntu)"
+    date = "2026-04-18T21:00:14+0100",
+    comments = "version: 1.5.5.Final, compiler: Eclipse JDT (IDE) 3.46.0.v20260407-0427, environment: Java 21.0.10 (Eclipse Adoptium)"
 )
 @Component
 public class BlogMapperImpl implements BlogMapper {
@@ -24,15 +24,15 @@ public class BlogMapperImpl implements BlogMapper {
         BlogDTO.BlogDTOBuilder blogDTO = BlogDTO.builder();
 
         blogDTO.blogId( blog.getBlogId() );
-        blogDTO.userId( blog.getUserId() );
+        blogDTO.content( blog.getContent() );
+        blogDTO.coverImageUrl( blog.getCoverImageUrl() );
+        blogDTO.createdAt( blog.getCreatedAt() );
+        blogDTO.description( blog.getDescription() );
+        blogDTO.isActive( blog.getIsActive() );
         blogDTO.poiId( blog.getPoiId() );
         blogDTO.title( blog.getTitle() );
-        blogDTO.description( blog.getDescription() );
-        blogDTO.coverImageUrl( blog.getCoverImageUrl() );
-        blogDTO.content( blog.getContent() );
-        blogDTO.isActive( blog.getIsActive() );
-        blogDTO.createdAt( blog.getCreatedAt() );
         blogDTO.updatedAt( blog.getUpdatedAt() );
+        blogDTO.userId( blog.getUserId() );
 
         return blogDTO.build();
     }
@@ -46,15 +46,15 @@ public class BlogMapperImpl implements BlogMapper {
         Blog.BlogBuilder blog = Blog.builder();
 
         blog.blogId( blogDto.getBlogId() );
-        blog.userId( blogDto.getUserId() );
+        blog.content( blogDto.getContent() );
+        blog.coverImageUrl( blogDto.getCoverImageUrl() );
+        blog.createdAt( blogDto.getCreatedAt() );
+        blog.description( blogDto.getDescription() );
+        blog.isActive( blogDto.getIsActive() );
         blog.poiId( blogDto.getPoiId() );
         blog.title( blogDto.getTitle() );
-        blog.description( blogDto.getDescription() );
-        blog.coverImageUrl( blogDto.getCoverImageUrl() );
-        blog.content( blogDto.getContent() );
-        blog.isActive( blogDto.getIsActive() );
-        blog.createdAt( blogDto.getCreatedAt() );
         blog.updatedAt( blogDto.getUpdatedAt() );
+        blog.userId( blogDto.getUserId() );
 
         return blog.build();
     }
@@ -67,12 +67,12 @@ public class BlogMapperImpl implements BlogMapper {
 
         Blog.BlogBuilder blog = Blog.builder();
 
-        blog.userId( blogCreateDto.getUserId() );
+        blog.content( blogCreateDto.getContent() );
+        blog.coverImageUrl( blogCreateDto.getCoverImageUrl() );
+        blog.description( blogCreateDto.getDescription() );
         blog.poiId( blogCreateDto.getPoiId() );
         blog.title( blogCreateDto.getTitle() );
-        blog.description( blogCreateDto.getDescription() );
-        blog.coverImageUrl( blogCreateDto.getCoverImageUrl() );
-        blog.content( blogCreateDto.getContent() );
+        blog.userId( blogCreateDto.getUserId() );
 
         blog.blogId( java.util.UUID.randomUUID() );
         blog.isActive( true );
@@ -88,20 +88,20 @@ public class BlogMapperImpl implements BlogMapper {
             return;
         }
 
-        if ( blogUpdateDto.getTitle() != null ) {
-            blog.setTitle( blogUpdateDto.getTitle() );
-        }
-        if ( blogUpdateDto.getDescription() != null ) {
-            blog.setDescription( blogUpdateDto.getDescription() );
+        if ( blogUpdateDto.getContent() != null ) {
+            blog.setContent( blogUpdateDto.getContent() );
         }
         if ( blogUpdateDto.getCoverImageUrl() != null ) {
             blog.setCoverImageUrl( blogUpdateDto.getCoverImageUrl() );
         }
-        if ( blogUpdateDto.getContent() != null ) {
-            blog.setContent( blogUpdateDto.getContent() );
+        if ( blogUpdateDto.getDescription() != null ) {
+            blog.setDescription( blogUpdateDto.getDescription() );
         }
         if ( blogUpdateDto.getIsActive() != null ) {
             blog.setIsActive( blogUpdateDto.getIsActive() );
+        }
+        if ( blogUpdateDto.getTitle() != null ) {
+            blog.setTitle( blogUpdateDto.getTitle() );
         }
 
         blog.setUpdatedAt( java.time.LocalDateTime.now() );

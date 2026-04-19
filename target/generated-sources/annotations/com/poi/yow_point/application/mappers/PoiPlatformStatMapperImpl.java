@@ -10,8 +10,8 @@ import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2026-02-11T15:58:55+0100",
-    comments = "version: 1.5.5.Final, compiler: javac, environment: Java 21.0.10 (Ubuntu)"
+    date = "2026-04-18T21:00:13+0100",
+    comments = "version: 1.5.5.Final, compiler: Eclipse JDT (IDE) 3.46.0.v20260407-0427, environment: Java 21.0.10 (Eclipse Adoptium)"
 )
 @Component
 public class PoiPlatformStatMapperImpl implements PoiPlatformStatMapper {
@@ -26,13 +26,13 @@ public class PoiPlatformStatMapperImpl implements PoiPlatformStatMapper {
 
         poiPlatformStatDTO.orgId( poiPlatformStat.getOrgId() );
         poiPlatformStatDTO.poiId( poiPlatformStat.getPoiId() );
-        poiPlatformStatDTO.statId( poiPlatformStat.getStatId() );
-        poiPlatformStatDTO.platformType( poiPlatformStat.getPlatformType() );
-        poiPlatformStatDTO.statDate( poiPlatformStat.getStatDate() );
-        poiPlatformStatDTO.views( poiPlatformStat.getViews() );
-        poiPlatformStatDTO.reviews( poiPlatformStat.getReviews() );
-        poiPlatformStatDTO.likes( poiPlatformStat.getLikes() );
         poiPlatformStatDTO.dislikes( poiPlatformStat.getDislikes() );
+        poiPlatformStatDTO.likes( poiPlatformStat.getLikes() );
+        poiPlatformStatDTO.platformType( poiPlatformStat.getPlatformType() );
+        poiPlatformStatDTO.reviews( poiPlatformStat.getReviews() );
+        poiPlatformStatDTO.statDate( poiPlatformStat.getStatDate() );
+        poiPlatformStatDTO.statId( poiPlatformStat.getStatId() );
+        poiPlatformStatDTO.views( poiPlatformStat.getViews() );
 
         return poiPlatformStatDTO.build();
     }
@@ -45,15 +45,15 @@ public class PoiPlatformStatMapperImpl implements PoiPlatformStatMapper {
 
         PoiPlatformStat.PoiPlatformStatBuilder poiPlatformStat = PoiPlatformStat.builder();
 
-        poiPlatformStat.statId( poiPlatformStatDTO.getStatId() );
-        poiPlatformStat.orgId( poiPlatformStatDTO.getOrgId() );
-        poiPlatformStat.poiId( poiPlatformStatDTO.getPoiId() );
-        poiPlatformStat.platformType( poiPlatformStatDTO.getPlatformType() );
-        poiPlatformStat.statDate( poiPlatformStatDTO.getStatDate() );
-        poiPlatformStat.views( poiPlatformStatDTO.getViews() );
-        poiPlatformStat.reviews( poiPlatformStatDTO.getReviews() );
-        poiPlatformStat.likes( poiPlatformStatDTO.getLikes() );
         poiPlatformStat.dislikes( poiPlatformStatDTO.getDislikes() );
+        poiPlatformStat.likes( poiPlatformStatDTO.getLikes() );
+        poiPlatformStat.orgId( poiPlatformStatDTO.getOrgId() );
+        poiPlatformStat.platformType( poiPlatformStatDTO.getPlatformType() );
+        poiPlatformStat.poiId( poiPlatformStatDTO.getPoiId() );
+        poiPlatformStat.reviews( poiPlatformStatDTO.getReviews() );
+        poiPlatformStat.statDate( poiPlatformStatDTO.getStatDate() );
+        poiPlatformStat.statId( poiPlatformStatDTO.getStatId() );
+        poiPlatformStat.views( poiPlatformStatDTO.getViews() );
 
         return poiPlatformStat.build();
     }
@@ -68,13 +68,13 @@ public class PoiPlatformStatMapperImpl implements PoiPlatformStatMapper {
 
         poiPlatformStatDTO.orgId( poiPlatformStatOrganizationOrganizationId( poiPlatformStat ) );
         poiPlatformStatDTO.poiId( poiPlatformStatPointOfInterestPoiId( poiPlatformStat ) );
-        poiPlatformStatDTO.statId( poiPlatformStat.getStatId() );
-        poiPlatformStatDTO.platformType( poiPlatformStat.getPlatformType() );
-        poiPlatformStatDTO.statDate( poiPlatformStat.getStatDate() );
-        poiPlatformStatDTO.views( poiPlatformStat.getViews() );
-        poiPlatformStatDTO.reviews( poiPlatformStat.getReviews() );
-        poiPlatformStatDTO.likes( poiPlatformStat.getLikes() );
         poiPlatformStatDTO.dislikes( poiPlatformStat.getDislikes() );
+        poiPlatformStatDTO.likes( poiPlatformStat.getLikes() );
+        poiPlatformStatDTO.platformType( poiPlatformStat.getPlatformType() );
+        poiPlatformStatDTO.reviews( poiPlatformStat.getReviews() );
+        poiPlatformStatDTO.statDate( poiPlatformStat.getStatDate() );
+        poiPlatformStatDTO.statId( poiPlatformStat.getStatId() );
+        poiPlatformStatDTO.views( poiPlatformStat.getViews() );
 
         return poiPlatformStatDTO.build();
     }

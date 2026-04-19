@@ -7,8 +7,8 @@ import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2026-02-11T15:58:55+0100",
-    comments = "version: 1.5.5.Final, compiler: javac, environment: Java 21.0.10 (Ubuntu)"
+    date = "2026-04-18T21:00:14+0100",
+    comments = "version: 1.5.5.Final, compiler: Eclipse JDT (IDE) 3.46.0.v20260407-0427, environment: Java 21.0.10 (Eclipse Adoptium)"
 )
 @Component
 public class UserMapperImpl implements UserMapper {
@@ -21,16 +21,16 @@ public class UserMapperImpl implements UserMapper {
 
         UserDTO.UserDTOBuilder userDTO = UserDTO.builder();
 
-        userDTO.userId( user.getUserId() );
-        userDTO.organizationId( user.getOrganizationId() );
-        userDTO.username( user.getUsername() );
+        userDTO.createdAt( user.getCreatedAt() );
         userDTO.email( user.getEmail() );
+        userDTO.emailVerified( user.getEmailVerified() );
+        userDTO.isActive( user.getIsActive() );
+        userDTO.lastLoginAt( user.getLastLoginAt() );
+        userDTO.organizationId( user.getOrganizationId() );
         userDTO.phone( user.getPhone() );
         userDTO.role( user.getRole() );
-        userDTO.isActive( user.getIsActive() );
-        userDTO.emailVerified( user.getEmailVerified() );
-        userDTO.createdAt( user.getCreatedAt() );
-        userDTO.lastLoginAt( user.getLastLoginAt() );
+        userDTO.userId( user.getUserId() );
+        userDTO.username( user.getUsername() );
 
         return userDTO.build();
     }
@@ -43,16 +43,16 @@ public class UserMapperImpl implements UserMapper {
 
         AppUser.AppUserBuilder appUser = AppUser.builder();
 
-        appUser.userId( userDTO.getUserId() );
-        appUser.organizationId( userDTO.getOrganizationId() );
-        appUser.username( userDTO.getUsername() );
+        appUser.createdAt( userDTO.getCreatedAt() );
         appUser.email( userDTO.getEmail() );
+        appUser.emailVerified( userDTO.getEmailVerified() );
+        appUser.isActive( userDTO.getIsActive() );
+        appUser.lastLoginAt( userDTO.getLastLoginAt() );
+        appUser.organizationId( userDTO.getOrganizationId() );
         appUser.phone( userDTO.getPhone() );
         appUser.role( userDTO.getRole() );
-        appUser.isActive( userDTO.getIsActive() );
-        appUser.createdAt( userDTO.getCreatedAt() );
-        appUser.emailVerified( userDTO.getEmailVerified() );
-        appUser.lastLoginAt( userDTO.getLastLoginAt() );
+        appUser.userId( userDTO.getUserId() );
+        appUser.username( userDTO.getUsername() );
 
         return appUser.build();
     }

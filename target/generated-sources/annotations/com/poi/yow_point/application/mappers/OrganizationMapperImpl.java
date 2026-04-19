@@ -7,8 +7,8 @@ import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2026-02-11T15:58:55+0100",
-    comments = "version: 1.5.5.Final, compiler: javac, environment: Java 21.0.10 (Ubuntu)"
+    date = "2026-04-18T21:00:14+0100",
+    comments = "version: 1.5.5.Final, compiler: Eclipse JDT (IDE) 3.46.0.v20260407-0427, environment: Java 21.0.10 (Eclipse Adoptium)"
 )
 @Component
 public class OrganizationMapperImpl implements OrganizationMapper {
@@ -21,12 +21,12 @@ public class OrganizationMapperImpl implements OrganizationMapper {
 
         OrganizationDTO.OrganizationDTOBuilder organizationDTO = OrganizationDTO.builder();
 
-        organizationDTO.organizationId( organization.getOrganizationId() );
-        organizationDTO.organizationName( organization.getOrganizationName() );
-        organizationDTO.orgCode( organization.getOrgCode() );
-        organizationDTO.orgType( organization.getOrgType() );
         organizationDTO.createdAt( organization.getCreatedAt() );
         organizationDTO.isActive( organization.getIsActive() );
+        organizationDTO.orgCode( organization.getOrgCode() );
+        organizationDTO.orgType( organization.getOrgType() );
+        organizationDTO.organizationId( organization.getOrganizationId() );
+        organizationDTO.organizationName( organization.getOrganizationName() );
 
         return organizationDTO.build();
     }
@@ -39,10 +39,10 @@ public class OrganizationMapperImpl implements OrganizationMapper {
 
         Organization.OrganizationBuilder organization = Organization.builder();
 
-        organization.organizationName( organizationDTO.getOrganizationName() );
+        organization.isActive( organizationDTO.getIsActive() );
         organization.orgCode( organizationDTO.getOrgCode() );
         organization.orgType( organizationDTO.getOrgType() );
-        organization.isActive( organizationDTO.getIsActive() );
+        organization.organizationName( organizationDTO.getOrganizationName() );
 
         return organization.build();
     }
@@ -53,8 +53,8 @@ public class OrganizationMapperImpl implements OrganizationMapper {
             return;
         }
 
-        if ( dto.getOrganizationName() != null ) {
-            entity.setOrganizationName( dto.getOrganizationName() );
+        if ( dto.getIsActive() != null ) {
+            entity.setIsActive( dto.getIsActive() );
         }
         if ( dto.getOrgCode() != null ) {
             entity.setOrgCode( dto.getOrgCode() );
@@ -62,8 +62,8 @@ public class OrganizationMapperImpl implements OrganizationMapper {
         if ( dto.getOrgType() != null ) {
             entity.setOrgType( dto.getOrgType() );
         }
-        if ( dto.getIsActive() != null ) {
-            entity.setIsActive( dto.getIsActive() );
+        if ( dto.getOrganizationName() != null ) {
+            entity.setOrganizationName( dto.getOrganizationName() );
         }
     }
 }

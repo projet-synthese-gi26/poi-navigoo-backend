@@ -9,8 +9,8 @@ import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2026-02-11T15:58:55+0100",
-    comments = "version: 1.5.5.Final, compiler: javac, environment: Java 21.0.10 (Ubuntu)"
+    date = "2026-04-18T21:00:14+0100",
+    comments = "version: 1.5.5.Final, compiler: Eclipse JDT (IDE) 3.46.0.v20260407-0427, environment: Java 21.0.10 (Eclipse Adoptium)"
 )
 @Component
 public class PodcastMapperImpl implements PodcastMapper {
@@ -23,17 +23,17 @@ public class PodcastMapperImpl implements PodcastMapper {
 
         PodcastDTO.PodcastDTOBuilder podcastDTO = PodcastDTO.builder();
 
-        podcastDTO.podcastId( podcast.getPodcastId() );
-        podcastDTO.userId( podcast.getUserId() );
-        podcastDTO.poiId( podcast.getPoiId() );
-        podcastDTO.title( podcast.getTitle() );
-        podcastDTO.description( podcast.getDescription() );
-        podcastDTO.coverImageUrl( podcast.getCoverImageUrl() );
         podcastDTO.audioFileUrl( podcast.getAudioFileUrl() );
+        podcastDTO.coverImageUrl( podcast.getCoverImageUrl() );
+        podcastDTO.createdAt( podcast.getCreatedAt() );
+        podcastDTO.description( podcast.getDescription() );
         podcastDTO.durationSeconds( podcast.getDurationSeconds() );
         podcastDTO.isActive( podcast.getIsActive() );
-        podcastDTO.createdAt( podcast.getCreatedAt() );
+        podcastDTO.podcastId( podcast.getPodcastId() );
+        podcastDTO.poiId( podcast.getPoiId() );
+        podcastDTO.title( podcast.getTitle() );
         podcastDTO.updatedAt( podcast.getUpdatedAt() );
+        podcastDTO.userId( podcast.getUserId() );
 
         return podcastDTO.build();
     }
@@ -46,17 +46,17 @@ public class PodcastMapperImpl implements PodcastMapper {
 
         Podcast.PodcastBuilder podcast = Podcast.builder();
 
-        podcast.podcastId( podcastDto.getPodcastId() );
-        podcast.userId( podcastDto.getUserId() );
-        podcast.poiId( podcastDto.getPoiId() );
-        podcast.title( podcastDto.getTitle() );
-        podcast.description( podcastDto.getDescription() );
-        podcast.coverImageUrl( podcastDto.getCoverImageUrl() );
         podcast.audioFileUrl( podcastDto.getAudioFileUrl() );
+        podcast.coverImageUrl( podcastDto.getCoverImageUrl() );
+        podcast.createdAt( podcastDto.getCreatedAt() );
+        podcast.description( podcastDto.getDescription() );
         podcast.durationSeconds( podcastDto.getDurationSeconds() );
         podcast.isActive( podcastDto.getIsActive() );
-        podcast.createdAt( podcastDto.getCreatedAt() );
+        podcast.podcastId( podcastDto.getPodcastId() );
+        podcast.poiId( podcastDto.getPoiId() );
+        podcast.title( podcastDto.getTitle() );
         podcast.updatedAt( podcastDto.getUpdatedAt() );
+        podcast.userId( podcastDto.getUserId() );
 
         return podcast.build();
     }
@@ -69,13 +69,13 @@ public class PodcastMapperImpl implements PodcastMapper {
 
         Podcast.PodcastBuilder podcast = Podcast.builder();
 
-        podcast.userId( podcastCreateDto.getUserId() );
+        podcast.audioFileUrl( podcastCreateDto.getAudioFileUrl() );
+        podcast.coverImageUrl( podcastCreateDto.getCoverImageUrl() );
+        podcast.description( podcastCreateDto.getDescription() );
+        podcast.durationSeconds( podcastCreateDto.getDurationSeconds() );
         podcast.poiId( podcastCreateDto.getPoiId() );
         podcast.title( podcastCreateDto.getTitle() );
-        podcast.description( podcastCreateDto.getDescription() );
-        podcast.coverImageUrl( podcastCreateDto.getCoverImageUrl() );
-        podcast.audioFileUrl( podcastCreateDto.getAudioFileUrl() );
-        podcast.durationSeconds( podcastCreateDto.getDurationSeconds() );
+        podcast.userId( podcastCreateDto.getUserId() );
 
         podcast.podcastId( java.util.UUID.randomUUID() );
         podcast.isActive( true );
@@ -91,23 +91,23 @@ public class PodcastMapperImpl implements PodcastMapper {
             return;
         }
 
-        if ( podcastUpdateDto.getTitle() != null ) {
-            podcast.setTitle( podcastUpdateDto.getTitle() );
-        }
-        if ( podcastUpdateDto.getDescription() != null ) {
-            podcast.setDescription( podcastUpdateDto.getDescription() );
+        if ( podcastUpdateDto.getAudioFileUrl() != null ) {
+            podcast.setAudioFileUrl( podcastUpdateDto.getAudioFileUrl() );
         }
         if ( podcastUpdateDto.getCoverImageUrl() != null ) {
             podcast.setCoverImageUrl( podcastUpdateDto.getCoverImageUrl() );
         }
-        if ( podcastUpdateDto.getAudioFileUrl() != null ) {
-            podcast.setAudioFileUrl( podcastUpdateDto.getAudioFileUrl() );
+        if ( podcastUpdateDto.getDescription() != null ) {
+            podcast.setDescription( podcastUpdateDto.getDescription() );
         }
         if ( podcastUpdateDto.getDurationSeconds() != null ) {
             podcast.setDurationSeconds( podcastUpdateDto.getDurationSeconds() );
         }
         if ( podcastUpdateDto.getIsActive() != null ) {
             podcast.setIsActive( podcastUpdateDto.getIsActive() );
+        }
+        if ( podcastUpdateDto.getTitle() != null ) {
+            podcast.setTitle( podcastUpdateDto.getTitle() );
         }
 
         podcast.setUpdatedAt( java.time.LocalDateTime.now() );

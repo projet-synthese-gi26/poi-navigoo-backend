@@ -24,7 +24,7 @@ import java.util.UUID;
 
 @Slf4j
 @RestController
-@RequestMapping("/api-reviews")
+@RequestMapping("/api/reviews")
 @RequiredArgsConstructor
 @CrossOrigin(origins = "*")
 @Tag(name = "POI Reviews", description = "API for managing reviews and comments on Points of Interest")

@@ -7,8 +7,8 @@ import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2026-02-11T15:58:55+0100",
-    comments = "version: 1.5.5.Final, compiler: javac, environment: Java 21.0.10 (Ubuntu)"
+    date = "2026-04-18T21:00:14+0100",
+    comments = "version: 1.5.5.Final, compiler: Eclipse JDT (IDE) 3.46.0.v20260407-0427, environment: Java 21.0.10 (Eclipse Adoptium)"
 )
 @Component
 public class AppUserMapperImpl implements AppUserMapper {
@@ -21,14 +21,14 @@ public class AppUserMapperImpl implements AppUserMapper {
 
         AppUserDTO.AppUserDTOBuilder appUserDTO = AppUserDTO.builder();
 
-        appUserDTO.userId( appUser.getUserId() );
-        appUserDTO.organizationId( appUser.getOrganizationId() );
-        appUserDTO.username( appUser.getUsername() );
+        appUserDTO.createdAt( appUser.getCreatedAt() );
         appUserDTO.email( appUser.getEmail() );
+        appUserDTO.isActive( appUser.getIsActive() );
+        appUserDTO.organizationId( appUser.getOrganizationId() );
         appUserDTO.phone( appUser.getPhone() );
         appUserDTO.role( appUser.getRole() );
-        appUserDTO.isActive( appUser.getIsActive() );
-        appUserDTO.createdAt( appUser.getCreatedAt() );
+        appUserDTO.userId( appUser.getUserId() );
+        appUserDTO.username( appUser.getUsername() );
 
         return appUserDTO.build();
     }
@@ -41,12 +41,12 @@ public class AppUserMapperImpl implements AppUserMapper {
 
         AppUser.AppUserBuilder appUser = AppUser.builder();
 
-        appUser.organizationId( appUserDTO.getOrganizationId() );
-        appUser.username( appUserDTO.getUsername() );
         appUser.email( appUserDTO.getEmail() );
+        appUser.isActive( appUserDTO.getIsActive() );
+        appUser.organizationId( appUserDTO.getOrganizationId() );
         appUser.phone( appUserDTO.getPhone() );
         appUser.role( appUserDTO.getRole() );
-        appUser.isActive( appUserDTO.getIsActive() );
+        appUser.username( appUserDTO.getUsername() );
 
         return appUser.build();
     }
@@ -57,14 +57,14 @@ public class AppUserMapperImpl implements AppUserMapper {
             return;
         }
 
-        if ( dto.getOrganizationId() != null ) {
-            entity.setOrganizationId( dto.getOrganizationId() );
-        }
-        if ( dto.getUsername() != null ) {
-            entity.setUsername( dto.getUsername() );
-        }
         if ( dto.getEmail() != null ) {
             entity.setEmail( dto.getEmail() );
+        }
+        if ( dto.getIsActive() != null ) {
+            entity.setIsActive( dto.getIsActive() );
+        }
+        if ( dto.getOrganizationId() != null ) {
+            entity.setOrganizationId( dto.getOrganizationId() );
         }
         if ( dto.getPhone() != null ) {
             entity.setPhone( dto.getPhone() );
@@ -72,8 +72,8 @@ public class AppUserMapperImpl implements AppUserMapper {
         if ( dto.getRole() != null ) {
             entity.setRole( dto.getRole() );
         }
-        if ( dto.getIsActive() != null ) {
-            entity.setIsActive( dto.getIsActive() );
+        if ( dto.getUsername() != null ) {
+            entity.setUsername( dto.getUsername() );
         }
     }
 
@@ -86,12 +86,12 @@ public class AppUserMapperImpl implements AppUserMapper {
         AppUser.AppUserBuilder appUser = AppUser.builder();
 
         if ( appUserDTO != null ) {
-            appUser.organizationId( appUserDTO.getOrganizationId() );
-            appUser.username( appUserDTO.getUsername() );
             appUser.email( appUserDTO.getEmail() );
+            appUser.isActive( appUserDTO.getIsActive() );
+            appUser.organizationId( appUserDTO.getOrganizationId() );
             appUser.phone( appUserDTO.getPhone() );
             appUser.role( appUserDTO.getRole() );
-            appUser.isActive( appUserDTO.getIsActive() );
+            appUser.username( appUserDTO.getUsername() );
         }
         appUser.passwordHash( passwordHash );
 

@@ -10,8 +10,8 @@ import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2026-02-11T15:58:55+0100",
-    comments = "version: 1.5.5.Final, compiler: javac, environment: Java 21.0.10 (Ubuntu)"
+    date = "2026-04-18T21:00:14+0100",
+    comments = "version: 1.5.5.Final, compiler: Eclipse JDT (IDE) 3.46.0.v20260407-0427, environment: Java 21.0.10 (Eclipse Adoptium)"
 )
 @Component
 public class PointOfInterestMapperImpl implements PointOfInterestMapper {
@@ -35,34 +35,34 @@ public class PointOfInterestMapperImpl implements PointOfInterestMapper {
         pointOfInterestDTO.poiTypeTags( mapperUtils.stringToList( entity.getPoiTypeTags() ) );
         pointOfInterestDTO.operationTimePlan( mapperUtils.jsonToMap( entity.getOperationTimePlan() ) );
         pointOfInterestDTO.poiContacts( mapperUtils.jsonToMap( entity.getPoiContacts() ) );
-        pointOfInterestDTO.poiId( entity.getPoiId() );
-        pointOfInterestDTO.organizationId( entity.getOrganizationId() );
-        pointOfInterestDTO.createdByUserId( entity.getCreatedByUserId() );
-        pointOfInterestDTO.poiName( entity.getPoiName() );
-        pointOfInterestDTO.poiType( entity.getPoiType() );
-        pointOfInterestDTO.poiCategory( entity.getPoiCategory() );
-        pointOfInterestDTO.poiLongName( entity.getPoiLongName() );
-        pointOfInterestDTO.poiShortName( entity.getPoiShortName() );
-        pointOfInterestDTO.poiFriendlyName( entity.getPoiFriendlyName() );
-        pointOfInterestDTO.poiDescription( entity.getPoiDescription() );
-        pointOfInterestDTO.poiLogo( entity.getPoiLogo() );
-        pointOfInterestDTO.addressStreetNumber( entity.getAddressStreetNumber() );
-        pointOfInterestDTO.addressStreetName( entity.getAddressStreetName() );
         pointOfInterestDTO.addressCity( entity.getAddressCity() );
-        pointOfInterestDTO.addressStateProvince( entity.getAddressStateProvince() );
-        pointOfInterestDTO.addressPostalCode( entity.getAddressPostalCode() );
         pointOfInterestDTO.addressCountry( entity.getAddressCountry() );
         pointOfInterestDTO.addressInformal( entity.getAddressInformal() );
-        pointOfInterestDTO.websiteUrl( entity.getWebsiteUrl() );
-        pointOfInterestDTO.popularityScore( entity.getPopularityScore() );
-        pointOfInterestDTO.isActive( entity.getIsActive() );
-        pointOfInterestDTO.deactivationReason( entity.getDeactivationReason() );
-        pointOfInterestDTO.deactivatedByUserId( entity.getDeactivatedByUserId() );
-        pointOfInterestDTO.status( entity.getStatus() );
+        pointOfInterestDTO.addressPostalCode( entity.getAddressPostalCode() );
+        pointOfInterestDTO.addressStateProvince( entity.getAddressStateProvince() );
+        pointOfInterestDTO.addressStreetName( entity.getAddressStreetName() );
+        pointOfInterestDTO.addressStreetNumber( entity.getAddressStreetNumber() );
         pointOfInterestDTO.approuvedByUserId( entity.getApprouvedByUserId() );
         pointOfInterestDTO.createdAt( entity.getCreatedAt() );
-        pointOfInterestDTO.updatedByUserId( entity.getUpdatedByUserId() );
+        pointOfInterestDTO.createdByUserId( entity.getCreatedByUserId() );
+        pointOfInterestDTO.deactivatedByUserId( entity.getDeactivatedByUserId() );
+        pointOfInterestDTO.deactivationReason( entity.getDeactivationReason() );
+        pointOfInterestDTO.isActive( entity.getIsActive() );
+        pointOfInterestDTO.organizationId( entity.getOrganizationId() );
+        pointOfInterestDTO.poiCategory( entity.getPoiCategory() );
+        pointOfInterestDTO.poiDescription( entity.getPoiDescription() );
+        pointOfInterestDTO.poiFriendlyName( entity.getPoiFriendlyName() );
+        pointOfInterestDTO.poiId( entity.getPoiId() );
+        pointOfInterestDTO.poiLogo( entity.getPoiLogo() );
+        pointOfInterestDTO.poiLongName( entity.getPoiLongName() );
+        pointOfInterestDTO.poiName( entity.getPoiName() );
+        pointOfInterestDTO.poiShortName( entity.getPoiShortName() );
+        pointOfInterestDTO.poiType( entity.getPoiType() );
+        pointOfInterestDTO.popularityScore( entity.getPopularityScore() );
+        pointOfInterestDTO.status( entity.getStatus() );
         pointOfInterestDTO.updatedAt( entity.getUpdatedAt() );
+        pointOfInterestDTO.updatedByUserId( entity.getUpdatedByUserId() );
+        pointOfInterestDTO.websiteUrl( entity.getWebsiteUrl() );
 
         return pointOfInterestDTO.build();
     }
@@ -81,23 +81,23 @@ public class PointOfInterestMapperImpl implements PointOfInterestMapper {
         pointOfInterest.poiTypeTags( mapperUtils.listToString( dto.getPoiTypeTags() ) );
         pointOfInterest.operationTimePlan( mapperUtils.mapToJson( dto.getOperationTimePlan() ) );
         pointOfInterest.poiContacts( mapperUtils.mapToJson( dto.getPoiContacts() ) );
-        pointOfInterest.organizationId( dto.getOrganizationId() );
-        pointOfInterest.createdByUserId( dto.getCreatedByUserId() );
-        pointOfInterest.poiName( dto.getPoiName() );
-        pointOfInterest.poiType( dto.getPoiType() );
-        pointOfInterest.poiCategory( dto.getPoiCategory() );
-        pointOfInterest.poiLongName( dto.getPoiLongName() );
-        pointOfInterest.poiShortName( dto.getPoiShortName() );
-        pointOfInterest.poiFriendlyName( dto.getPoiFriendlyName() );
-        pointOfInterest.poiDescription( dto.getPoiDescription() );
-        pointOfInterest.poiLogo( dto.getPoiLogo() );
-        pointOfInterest.addressStreetNumber( dto.getAddressStreetNumber() );
-        pointOfInterest.addressStreetName( dto.getAddressStreetName() );
         pointOfInterest.addressCity( dto.getAddressCity() );
-        pointOfInterest.addressStateProvince( dto.getAddressStateProvince() );
-        pointOfInterest.addressPostalCode( dto.getAddressPostalCode() );
         pointOfInterest.addressCountry( dto.getAddressCountry() );
         pointOfInterest.addressInformal( dto.getAddressInformal() );
+        pointOfInterest.addressPostalCode( dto.getAddressPostalCode() );
+        pointOfInterest.addressStateProvince( dto.getAddressStateProvince() );
+        pointOfInterest.addressStreetName( dto.getAddressStreetName() );
+        pointOfInterest.addressStreetNumber( dto.getAddressStreetNumber() );
+        pointOfInterest.createdByUserId( dto.getCreatedByUserId() );
+        pointOfInterest.organizationId( dto.getOrganizationId() );
+        pointOfInterest.poiCategory( dto.getPoiCategory() );
+        pointOfInterest.poiDescription( dto.getPoiDescription() );
+        pointOfInterest.poiFriendlyName( dto.getPoiFriendlyName() );
+        pointOfInterest.poiLogo( dto.getPoiLogo() );
+        pointOfInterest.poiLongName( dto.getPoiLongName() );
+        pointOfInterest.poiName( dto.getPoiName() );
+        pointOfInterest.poiShortName( dto.getPoiShortName() );
+        pointOfInterest.poiType( dto.getPoiType() );
         pointOfInterest.websiteUrl( dto.getWebsiteUrl() );
 
         pointOfInterest.locationGeog( mapperUtils.coordinatesToPoint(dto.getLatitude(), dto.getLongitude()) );
@@ -129,50 +129,50 @@ public class PointOfInterestMapperImpl implements PointOfInterestMapper {
         if ( dto.getPoiContacts() != null ) {
             entity.setPoiContacts( mapperUtils.mapToJson( dto.getPoiContacts() ) );
         }
-        if ( dto.getPoiName() != null ) {
-            entity.setPoiName( dto.getPoiName() );
-        }
-        if ( dto.getPoiType() != null ) {
-            entity.setPoiType( dto.getPoiType() );
-        }
-        if ( dto.getPoiCategory() != null ) {
-            entity.setPoiCategory( dto.getPoiCategory() );
-        }
-        if ( dto.getPoiLongName() != null ) {
-            entity.setPoiLongName( dto.getPoiLongName() );
-        }
-        if ( dto.getPoiShortName() != null ) {
-            entity.setPoiShortName( dto.getPoiShortName() );
-        }
-        if ( dto.getPoiFriendlyName() != null ) {
-            entity.setPoiFriendlyName( dto.getPoiFriendlyName() );
-        }
-        if ( dto.getPoiDescription() != null ) {
-            entity.setPoiDescription( dto.getPoiDescription() );
-        }
-        if ( dto.getPoiLogo() != null ) {
-            entity.setPoiLogo( dto.getPoiLogo() );
-        }
-        if ( dto.getAddressStreetNumber() != null ) {
-            entity.setAddressStreetNumber( dto.getAddressStreetNumber() );
-        }
-        if ( dto.getAddressStreetName() != null ) {
-            entity.setAddressStreetName( dto.getAddressStreetName() );
-        }
         if ( dto.getAddressCity() != null ) {
             entity.setAddressCity( dto.getAddressCity() );
-        }
-        if ( dto.getAddressStateProvince() != null ) {
-            entity.setAddressStateProvince( dto.getAddressStateProvince() );
-        }
-        if ( dto.getAddressPostalCode() != null ) {
-            entity.setAddressPostalCode( dto.getAddressPostalCode() );
         }
         if ( dto.getAddressCountry() != null ) {
             entity.setAddressCountry( dto.getAddressCountry() );
         }
         if ( dto.getAddressInformal() != null ) {
             entity.setAddressInformal( dto.getAddressInformal() );
+        }
+        if ( dto.getAddressPostalCode() != null ) {
+            entity.setAddressPostalCode( dto.getAddressPostalCode() );
+        }
+        if ( dto.getAddressStateProvince() != null ) {
+            entity.setAddressStateProvince( dto.getAddressStateProvince() );
+        }
+        if ( dto.getAddressStreetName() != null ) {
+            entity.setAddressStreetName( dto.getAddressStreetName() );
+        }
+        if ( dto.getAddressStreetNumber() != null ) {
+            entity.setAddressStreetNumber( dto.getAddressStreetNumber() );
+        }
+        if ( dto.getPoiCategory() != null ) {
+            entity.setPoiCategory( dto.getPoiCategory() );
+        }
+        if ( dto.getPoiDescription() != null ) {
+            entity.setPoiDescription( dto.getPoiDescription() );
+        }
+        if ( dto.getPoiFriendlyName() != null ) {
+            entity.setPoiFriendlyName( dto.getPoiFriendlyName() );
+        }
+        if ( dto.getPoiLogo() != null ) {
+            entity.setPoiLogo( dto.getPoiLogo() );
+        }
+        if ( dto.getPoiLongName() != null ) {
+            entity.setPoiLongName( dto.getPoiLongName() );
+        }
+        if ( dto.getPoiName() != null ) {
+            entity.setPoiName( dto.getPoiName() );
+        }
+        if ( dto.getPoiShortName() != null ) {
+            entity.setPoiShortName( dto.getPoiShortName() );
+        }
+        if ( dto.getPoiType() != null ) {
+            entity.setPoiType( dto.getPoiType() );
         }
         if ( dto.getWebsiteUrl() != null ) {
             entity.setWebsiteUrl( dto.getWebsiteUrl() );
