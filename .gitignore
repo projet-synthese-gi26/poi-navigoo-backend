@@ -1,1 +1,67 @@
+# ==========================================
+# 1. BUILD & DÉPENDANCES (Maven/Gradle)
+# ==========================================
+target/
+build/
+.gradle/
+# Ne pas ignorer le wrapper Maven (si vous l'utilisez)
+!.mvn/wrapper/maven-wrapper.jar
+
+# ==========================================
+# 2. VARIABLES D'ENVIRONNEMENT & SECRETS
+# ==========================================
+# (Très important : on ne pousse jamais les mots de passe et clés JWT sur Git)
 .env
+.env.local
+.env.production
+# On autorise l'envoi du fichier d'exemple (qui contient des fausses valeurs)
+!.env.example
+
+# ==========================================
+# 3. LOGS
+# ==========================================
+logs/
+log/
+*.log
+
+# ==========================================
+# 4. FICHIERS D'ÉDITEURS & IDE
+# ==========================================
+# IntelliJ IDEA
+.idea/
+*.iml
+*.iws
+out/
+
+# Eclipse
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings
+.springBeans
+.sts4-cache
+
+# VS Code
+.vscode/
+
+# ==========================================
+# 5. DOCKER & BASES DE DONNÉES LOCALES
+# ==========================================
+# Si jamais vous mappez les volumes de vos conteneurs dans le dossier du projet
+docker-data/
+pgdata/
+redis-data/
+kafka-data/
+zk-data/
+
+# ==========================================
+# 6. SYSTÈME D'EXPLOITATION
+# ==========================================
+.DS_Store
+.DS_Store?
+._*
+.Trashes
+Thumbs.db
+*.swp
+*~
