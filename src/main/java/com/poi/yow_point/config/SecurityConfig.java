@@ -59,6 +59,12 @@ public class SecurityConfig {
                             "/poi-navigoo/api/organizations/**", 
                             "/poi-navigoo/api/reviews/**", 
                             "/poi-navigoo/api-review/**").permitAll()
+                        .pathMatchers(HttpMethod.POST, 
+                            "/poi-navigoo/api/organizations/**").permitAll()
+                        .pathMatchers(HttpMethod.PUT, 
+                            "/poi-navigoo/api/organizations/**").permitAll()
+                        .pathMatchers(HttpMethod.DELETE, 
+                            "/poi-navigoo/api/organizations/**").permitAll()
                         
                         // Documentation and Actuator
                         .pathMatchers("/poi-navigoo/v3/api-docs/**", 
