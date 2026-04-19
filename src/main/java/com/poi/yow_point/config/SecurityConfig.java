@@ -5,6 +5,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
+import org.springframework.security.config.annotation.method.configuration.EnableReactiveMethodSecurity;
 import org.springframework.security.config.annotation.web.reactive.EnableWebFluxSecurity;
 import org.springframework.security.config.web.server.SecurityWebFiltersOrder;
 import org.springframework.security.config.web.server.ServerHttpSecurity;
@@ -16,31 +17,63 @@ import org.springframework.web.cors.reactive.UrlBasedCorsConfigurationSource;
 import java.util.Arrays;
 import java.util.List;
 
-@Configuration
+@Configuration(proxyBeanMethods = false)
 @EnableWebFluxSecurity
+@EnableReactiveMethodSecurity
 @RequiredArgsConstructor
 public class SecurityConfig {
 
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
 
     @Bean
-    public SecurityWebFilterChain securityWebFilterChain(ServerHttpSecurity http) {
+    public SecurityWebFilterChain securityWebFilterChain(ServerHttpSecurity http, CorsConfigurationSource corsSource) {
         return http
                 .csrf(ServerHttpSecurity.CsrfSpec::disable)
-                .cors(cors -> cors.configurationSource(corsConfigurationSource()))
+                .cors(cors -> cors.configurationSource(corsSource))
                 .authorizeExchange(exchange -> exchange
-                        // Permit all access to API for development/testing
-                        .pathMatchers("/api/**", "/api-review/**").permitAll()
+                        // 1. AUTHENTIFICATION & TOKENS (Publiques)
+                        .pathMatchers(HttpMethod.POST,
+                                "/poi-navigoo/api/auth/login",
+                                "/poi-navigoo/api/auth/register",
+                                "/poi-navigoo/api/auth/refresh"
+                        ).permitAll()
+                        
+                        // 2. GESTION DES MOTS DE PASSE (Publiques)
+                        .pathMatchers(HttpMethod.POST,
+                                "/poi-navigoo/api/password/check",
+                                "/poi-navigoo/api/password/forgot",
+                                "/poi-navigoo/api/password/reset",
+                                "/poi-navigoo/api/password/verify"
+                        ).permitAll()
+
+                        // 3. VÉRIFICATIONS DE FORMULAIRES (Publiques : utiles pour le frontend lors de la frappe)
+                        .pathMatchers(HttpMethod.GET,
+                                "/poi-navigoo/api/users/check-email/**",
+                                "/poi-navigoo/api/users/check-username/**",
+                                "/poi-navigoo/api/pois/check-name"
+                        ).permitAll()
+                        .pathMatchers(HttpMethod.GET, 
+                            "/poi-navigoo/api/pois/**", 
+                            "/poi-navigoo/api/blogs/**", 
+                            "/poi-navigoo/api/podcasts/**", 
+                            "/poi-navigoo/api/organizations/**", 
+                            "/poi-navigoo/api/reviews/**", 
+                            "/poi-navigoo/api-review/**").permitAll()
                         
                         // Documentation and Actuator
-                        .pathMatchers("/v3/api-docs/**", "/swagger-ui/**", "/swagger-ui.html", "/webjars/**").permitAll()
-                        .pathMatchers("/actuator/**").permitAll()
+                        .pathMatchers("/poi-navigoo/v3/api-docs/**", 
+                        "/v3/api-docs/**", 
+                        "/poi-navigoo/swagger-ui/**", 
+                        "/swagger-ui/**", 
+                        "/poi-navigoo/swagger-ui.html", 
+                        "/poi-navigoo/webjars/**").permitAll()
+                        .pathMatchers("/poi-navigoo/actuator/**").permitAll()
                         
                         // WebSocket endpoints
-                        .pathMatchers("/ws/**").permitAll()
+                        .pathMatchers("/poi-navigoo/ws/**").permitAll()
                         
                         // General fallback
-                        .anyExchange().permitAll()
+                        .anyExchange().authenticated()
                 )
                 .addFilterAt(jwtAuthenticationFilter, SecurityWebFiltersOrder.AUTHENTICATION)
                 .httpBasic(ServerHttpSecurity.HttpBasicSpec::disable)
