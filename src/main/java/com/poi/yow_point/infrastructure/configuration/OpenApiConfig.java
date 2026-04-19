@@ -18,6 +18,7 @@ public class OpenApiConfig {
     final String securitySchemeName = "bearerAuth";
 
     return new OpenAPI()
+            .addServersItem(new Server().url("/").description("Serveur dynamique par défaut"))
             .info(new Info()
                     .title("YowYob POI Navigoo - API")
                     .version("1.0.0")
