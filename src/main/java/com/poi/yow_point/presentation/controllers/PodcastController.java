@@ -23,7 +23,7 @@ import java.util.UUID;
 
 @Slf4j
 @RestController
-@RequestMapping("/api/podcasts")
+@RequestMapping("/poi-navigoo/api/podcasts")
 @RequiredArgsConstructor
 @CrossOrigin(origins = "*")
 @Tag(name = "Podcasts", description = "API for managing podcasts related to Points of Interest")

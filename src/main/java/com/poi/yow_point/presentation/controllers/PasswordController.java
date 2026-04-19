@@ -24,7 +24,7 @@ import java.util.UUID;
  */
 @Slf4j
 @RestController
-@RequestMapping("/api/password")
+@RequestMapping("/poi-navigoo/api/password")
 @RequiredArgsConstructor
 @Tag(name = "Password Management", description = "Password reset and verification endpoints")
 public class PasswordController {

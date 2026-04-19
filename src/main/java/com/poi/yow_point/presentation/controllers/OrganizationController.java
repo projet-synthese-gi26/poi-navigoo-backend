@@ -25,7 +25,7 @@ import java.util.UUID;
 
 @Slf4j
 @RestController
-@RequestMapping("/api/organizations")
+@RequestMapping("/poi-navigoo/api/organizations")
 @Tag(name = "Organization API", description = "APIs for managing organizations")
 public class OrganizationController {
 

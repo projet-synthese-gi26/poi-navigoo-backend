@@ -28,7 +28,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 
 @Slf4j
 @RestController
-@RequestMapping("/api/poi-access-logs")
+@RequestMapping("/poi-navigoo/api/poi-access-logs")
 @RequiredArgsConstructor
 @Tag(name = "POI Access Logs", description = "API for managing Point of Interest access logs")
 public class PoiAccessLogController {

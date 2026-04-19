@@ -25,7 +25,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 
 @Slf4j
 @RestController
-@RequestMapping("/api/poi-platform-stats")
+@RequestMapping("/poi-navigoo/api/poi-platform-stats")
 @RequiredArgsConstructor
 @CrossOrigin(origins = "*")
 @Tag(name = "POI Platform Statistics", description = "API for managing Point of Interest platform statistics")

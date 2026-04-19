@@ -3,7 +3,6 @@ package com.poi.yow_point.presentation.controllers;
 import com.poi.yow_point.application.services.poiReview.ReviewService;
 import com.poi.yow_point.presentation.dto.*;
 import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -22,7 +21,7 @@ import java.util.UUID;
 
 @Slf4j
 @RestController
-@RequestMapping("/api-review") // Changed from /api-reviews to /api-review per user request for post routes? or mix? existing was /api-reviews. User asked for /api-review/{id}. I will map /api-review mainly.
+@RequestMapping("/poi-navigoo/api-review") // Changed from /api-reviews to /api-review per user request for post routes? or mix? existing was /api-reviews. User asked for /api-review/{id}. I will map /api-review mainly.
 @RequiredArgsConstructor
 @CrossOrigin(origins = "*")
 @Tag(name = "Reviews", description = "API for managing reviews on POIs, Blogs, and Podcasts")

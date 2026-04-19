@@ -25,7 +25,7 @@ import java.util.UUID;
  */
 @Slf4j
 @RestController
-@RequestMapping("/api/auth")
+@RequestMapping("/poi-navigoo/api/auth")
 @RequiredArgsConstructor
 @Tag(name = "Authentication", description = "User authentication and authorization endpoints")
 public class AuthController {
