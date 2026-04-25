@@ -73,7 +73,8 @@ public class SecurityConfig {
                         "/swagger-ui/**", 
                         "/poi-navigoo/swagger-ui.html", 
                         "/poi-navigoo/webjars/**").permitAll()
-                        .pathMatchers("/poi-navigoo/actuator/**").permitAll()
+                        .pathMatchers("/poi-navigoo/actuator/**",
+                                     "/actuator/**").permitAll()
                         
                         // WebSocket endpoints
                         .pathMatchers("/poi-navigoo/ws/**").permitAll()
