@@ -18,8 +18,10 @@ import java.util.UUID;
 @AllArgsConstructor
 public class UpdatePoiDTO {
 
+    /* 
     @JsonProperty("organization_id")
     private UUID organizationId;
+    */
 
     @JsonProperty("created_by_user_id")
     private UUID createdByUserId;

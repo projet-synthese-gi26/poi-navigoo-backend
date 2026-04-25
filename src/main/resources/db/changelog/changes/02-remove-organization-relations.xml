@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+    http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+    <changeSet id="02-remove-org-relations" author="system">
+        <comment>Suppression des relations vers la table organization</comment>
+
+        <!-- 1. Suppression dans app_user -->
+        <dropForeignKeyConstraint baseTableName="app_user" constraintName="fk_user_org"/>
+        <dropColumn tableName="app_user" columnName="organization_id"/>
+
+        <!-- 2. Suppression dans point_of_interest -->
+        <dropForeignKeyConstraint baseTableName="point_of_interest" constraintName="fk_poi_org"/>
+        <dropIndex tableName="point_of_interest" indexName="idx_poi_org_id"/>
+        <dropColumn tableName="point_of_interest" columnName="organization_id"/>
+
+        <!-- 3. Suppression dans poi_access_log -->
+        <dropForeignKeyConstraint baseTableName="poi_access_log" constraintName="fk_log_org"/>
+        <dropColumn tableName="poi_access_log" columnName="organization_id"/>
+
+        <!-- 4. Suppression dans poi_platform_stat -->
+        <dropForeignKeyConstraint baseTableName="poi_platform_stat" constraintName="fk_stat_org"/>
+        <dropColumn tableName="poi_platform_stat" columnName="org_id"/>
+
+    </changeSet>
+
+</databaseChangeLog>

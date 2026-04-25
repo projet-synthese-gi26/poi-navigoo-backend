@@ -39,6 +39,7 @@ public class PoiAccessLogRepositoryImpl implements PoiAccessLogRepositoryCustom 
                 .all();
     }
 
+    /* 
     @Override
     public Flux<PoiAccessLog> findByOrganizationId(UUID organizationId) {
         log.debug("Recherche des logs d'accès pour organisation: {}", organizationId);
@@ -51,6 +52,7 @@ public class PoiAccessLogRepositoryImpl implements PoiAccessLogRepositoryCustom 
                 .matching(query)
                 .all();
     }
+        */
 
     @Override
     public Flux<PoiAccessLog> findByUserId(UUID userId) {
@@ -91,6 +93,7 @@ public class PoiAccessLogRepositoryImpl implements PoiAccessLogRepositoryCustom 
                 .all();
     }
 
+    /* 
     @Override
     public Flux<PoiAccessLog> findByPoiIdAndOrganizationId(UUID poiId, UUID organizationId) {
         log.debug("Recherche des logs d'accès pour POI: {} et organisation: {}", poiId, organizationId);
@@ -104,6 +107,7 @@ public class PoiAccessLogRepositoryImpl implements PoiAccessLogRepositoryCustom 
                 .matching(query)
                 .all();
     }
+        */
 
     @Override
     public Flux<PoiAccessLog> findByAccessDatetimeBetween(OffsetDateTime startDate, OffsetDateTime endDate) {
@@ -181,6 +185,7 @@ public class PoiAccessLogRepositoryImpl implements PoiAccessLogRepositoryCustom 
                 .all();
     }
 
+    /* 
     @Override
     public Flux<Map<String, Object>> getPlatformStatsForOrganization(UUID organizationId) {
         return databaseClient.sql("""
@@ -198,6 +203,7 @@ public class PoiAccessLogRepositoryImpl implements PoiAccessLogRepositoryCustom 
                 })
                 .all();
     }
+        */
 
     /**
      * Recherche par mots-clés dans les métadonnées (PostgreSQL JSONB)
@@ -215,7 +221,7 @@ public class PoiAccessLogRepositoryImpl implements PoiAccessLogRepositoryCustom 
                 .map(row -> PoiAccessLog.builder()
                         .accessId(row.get("access_id", UUID.class))
                         .poiId(row.get("poi_id", UUID.class))
-                        .organizationId(row.get("organization_id", UUID.class))
+                        //.organizationId(row.get("organization_id", UUID.class))
                         .platformType(row.get("platform_type", String.class))
                         .userId(row.get("user_id", UUID.class))
                         .accessType(row.get("access_type", String.class))

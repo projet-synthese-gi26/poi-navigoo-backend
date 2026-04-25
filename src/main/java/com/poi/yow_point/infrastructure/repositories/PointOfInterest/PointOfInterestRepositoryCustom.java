@@ -14,7 +14,9 @@ public interface PointOfInterestRepositoryCustom {
 
     Flux<PointOfInterest> findTopByPopularityScore(Integer limit);
 
-    Mono<Boolean> existsByNameAndOrganizationIdExcludingId(String name, UUID organizationId, UUID excludeId);
+    Mono<Boolean> existsByNameAndOrganizationIdExcludingId(String name, 
+        //UUID organizationId, 
+        UUID excludeId);
 
     Mono<Long> deactivateById(UUID poiId);
 
@@ -22,7 +24,7 @@ public interface PointOfInterestRepositoryCustom {
 
     Mono<Long> updatePopularityScore(UUID poiId, Float score);
 
-    Mono<Long> countActiveByOrganizationId(UUID organizationId);
+    //Mono<Long> countActiveByOrganizationId(UUID organizationId);
 
     Flux<PointOfInterest> findRecent(Integer limit);
 

@@ -51,6 +51,7 @@ public class PointOfInterestRepositoryImpl implements PointOfInterestRepositoryC
                                 .all();
         }
 
+        /* 
         @Override
         public Mono<Long> countActiveByOrganizationId(UUID organizationId) {
                 return entityTemplate.count(Query.query(
@@ -58,6 +59,7 @@ public class PointOfInterestRepositoryImpl implements PointOfInterestRepositoryC
                                                 .and("is_active").is(true)),
                                 PointOfInterest.class);
         }
+        */
 
         @Override
         public Mono<Long> deactivateById(UUID poiId) {
@@ -81,10 +83,12 @@ public class PointOfInterestRepositoryImpl implements PointOfInterestRepositoryC
         }
 
         @Override
-        public Mono<Boolean> existsByNameAndOrganizationIdExcludingId(String name, UUID organizationId,
-                        UUID excludeId) {
+        public Mono<Boolean> existsByNameAndOrganizationIdExcludingId(String name, 
+                //UUID organizationId,
+                UUID excludeId) {
                 Criteria criteria = Criteria.where("poi_name").is(name)
-                                .and("organization_id").is(organizationId);
+                                //.and("organization_id").is(organizationId)
+                                ;
 
                 if (excludeId != null) {
                         criteria = criteria.and("poi_id").not(excludeId);

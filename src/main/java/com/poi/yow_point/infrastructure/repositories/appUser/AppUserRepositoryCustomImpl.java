@@ -87,6 +87,7 @@ public class AppUserRepositoryCustomImpl implements AppUserRepositoryCustom {
                 .then();
     }
 
+    /* 
     @Override
     public Mono<Boolean> existsByOrgId(UUID orgId) {
         return databaseClient.sql("SELECT COUNT(*) FROM app_user WHERE organization_id = :orgId")
@@ -95,7 +96,9 @@ public class AppUserRepositoryCustomImpl implements AppUserRepositoryCustom {
                 .one()
                 .map(count -> count > 0);
     }
+    */
 
+    /*
     @Override
     public Mono<Long> countActiveUsersByOrgId(UUID orgId) {
         return databaseClient.sql("SELECT COUNT(*) FROM app_user WHERE organization_id = :orgId AND is_active = true")
@@ -103,11 +106,14 @@ public class AppUserRepositoryCustomImpl implements AppUserRepositoryCustom {
                 .map((row, metadata) -> row.get(0, Long.class))
                 .one();
     }
+    */
 
     @Override
-    public Flux<AppUser> findByOrgIdAndIsActive(UUID orgId, Boolean isActive) {
+    public Flux<AppUser> findByOrgIdAndIsActive(
+        //UUID orgId, 
+        Boolean isActive) {
         return databaseClient.sql("SELECT * FROM app_user WHERE organization_id = :orgId AND is_active = :isActive")
-                .bind("orgId", orgId)
+                //.bind("orgId", orgId)
                 .bind("isActive", isActive)
                 .map((row, metadata) -> mapRowToAppUser(row))
                 .all();
@@ -124,7 +130,7 @@ public class AppUserRepositoryCustomImpl implements AppUserRepositoryCustom {
     private AppUser mapRowToAppUser(io.r2dbc.spi.Row row) {
         return AppUser.builder()
                 .userId(row.get("user_id", UUID.class))
-                .organizationId(row.get("organization_id", UUID.class))
+                //.organizationId(row.get("organization_id", UUID.class))
                 .username(row.get("username", String.class))
                 .email(row.get("email", String.class))
                 .phone(row.get("phone", String.class))

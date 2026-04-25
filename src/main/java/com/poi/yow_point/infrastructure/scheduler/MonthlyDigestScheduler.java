@@ -25,15 +25,18 @@ import java.util.List;
 @ConditionalOnProperty(prefix = "notification.digest", name = "enabled", havingValue = "true", matchIfMissing = true)
 public class MonthlyDigestScheduler {
 
+    /* 
     private final AppUserService appUserService;
     private final DigestRecommendationService recommendationService;
     private final NotificationService notificationService;
     private final NotificationServiceProperties properties;
-
+    */
+   
     /**
      * Scheduled task to send monthly digest emails.
      * Cron expression is configured via notification.digest.schedule property.
      */
+    /* 
     @Scheduled(cron = "${notification.digest.schedule:0 0 9 1 * ?}")
     public void sendMonthlyDigests() {
         log.info("Starting monthly digest job...");
@@ -75,4 +78,5 @@ public class MonthlyDigestScheduler {
                 .doOnError(error -> log.error("Error in monthly digest job: {}", error.getMessage()))
                 .subscribe(); // Fire and forget
     }
+    */
 }

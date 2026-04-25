@@ -34,12 +34,14 @@ public class PoiReviewRepositoryImpl implements PoiReviewRepositoryCustom {
                 .all();
     }
 
+    /* 
     @Override
     public Flux<PoiReview> findByOrganizationId(UUID organizationId) {
         return template.select(PoiReview.class)
                 .matching(query(Criteria.where("organization_id").is(organizationId)))
                 .all();
     }
+        */
 
     @Override
     public Flux<PoiReview> findByPlatformType(String platformType) {

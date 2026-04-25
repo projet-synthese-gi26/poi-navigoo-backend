@@ -98,6 +98,7 @@ public class PoiReviewController {
                 return poiReviewService.getReviewsByUserId(userId);
         }
 
+        /* 
         @GetMapping("/organization/{organization_id}/reviews")
         @Operation(summary = "Get reviews by organization", description = "Retrieves all reviews associated with POIs of a specific organization")
         @ApiResponses(value = {
@@ -110,6 +111,7 @@ public class PoiReviewController {
 
                 return poiReviewService.getReviewsByOrganizationId(organizationId);
         }
+        */
 
         @PutMapping("/{review_id}")
         @Operation(summary = "Update a review", description = "Updates an existing review completely")

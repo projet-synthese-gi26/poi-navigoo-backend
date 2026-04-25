@@ -90,10 +90,11 @@ public class PoiAccessLogServiceImpl implements PoiAccessLogService {
         return repository.findByPoiId(poiId).map(mapper::toDto);
     }
 
+    /*
     @Override
     public Flux<PoiAccessLogDTO> getAccessLogsByOrganizationId(UUID organizationId) {
         return repository.findByOrganizationId(organizationId).map(mapper::toDto);
-    }
+    }*/
 
     @Override
     public Flux<PoiAccessLogDTO> getAccessLogsByUserId(UUID userId) {
@@ -112,11 +113,13 @@ public class PoiAccessLogServiceImpl implements PoiAccessLogService {
         return repository.findByPlatformType(platformType).map(mapper::toDto);
     }
 
+    /* 
     @Override
     public Flux<PoiAccessLogDTO> getAccessLogsByPoiAndOrganization(UUID poiId, UUID organizationId) {
         log.debug("Recherche des logs d'accès pour POI: {} et organisation: {}", poiId, organizationId);
         return repository.findByPoiIdAndOrganizationId(poiId, organizationId).map(mapper::toDto);
     }
+    */
 
     @Override
     public Flux<PoiAccessLogDTO> getAccessLogsByDateRange(OffsetDateTime startDate, OffsetDateTime endDate) {
@@ -149,11 +152,13 @@ public class PoiAccessLogServiceImpl implements PoiAccessLogService {
         return repository.countByPoiIdAndAccessType(poiId, accessType);
     }
 
+    /* 
     @Override
     public Flux<Map<String, Object>> getPlatformStatsForOrganization(UUID organizationId) {
         log.debug("Récupération des statistiques par plateforme pour organisation: {}", organizationId);
         return repository.getPlatformStatsForOrganization(organizationId);
     }
+    */
 
     @Override
     @Transactional

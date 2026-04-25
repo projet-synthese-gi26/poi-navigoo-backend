@@ -22,8 +22,10 @@ public class PointOfInterestDTO {
     @JsonProperty("poi_id")
     private UUID poiId;
 
+    /* 
     @JsonProperty("organization_id")
     private UUID organizationId;
+    */
 
     @JsonProperty("created_by_user_id")
     private UUID createdByUserId;

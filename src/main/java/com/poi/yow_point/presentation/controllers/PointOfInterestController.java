@@ -212,6 +212,7 @@ public class PointOfInterestController {
 
         // Keeping other methods...
 
+        /* 
         @GetMapping("/organization/{organization_id}")
         public Flux<PointOfInterestDTO> getPoisByOrganization(@PathVariable("organization_id") UUID organizationId) {
                 return poiService.findActiveByOrganizationId(organizationId);
@@ -221,6 +222,7 @@ public class PointOfInterestController {
         public Flux<PointOfInterestDTO> getAllPoisByOrganization(@PathVariable("organization_id") UUID organizationId) {
                 return poiService.findByOrganizationId(organizationId);
         }
+        */
 
         @GetMapping("/nearby")
         public Flux<PointOfInterestDTO> getPoisByLocation(
@@ -260,18 +262,22 @@ public class PointOfInterestController {
                 return poiService.findByCreatedByUserId(userId);
         }
 
+        /* 
         @GetMapping("/organization/{organization_id}/count")
         public Mono<ResponseEntity<Long>> countActivePoisByOrganization(@PathVariable("organization_id") UUID organizationId) {
                  return poiService.countActiveByOrganizationId(organizationId)
                         .map(ResponseEntity::ok);
         }
+        */
 
         @GetMapping("/check-name")
         public Mono<ResponseEntity<Boolean>> checkPoiNameExists(
                         @RequestParam String name,
                         @RequestParam UUID organizationId,
                         @RequestParam(required = false) UUID excludeId) {
-                return poiService.existsByNameAndOrganization(name, organizationId, excludeId)
+                return poiService.existsByNameAndOrganization(name, 
+                        //organizationId, 
+                        excludeId)
                         .map(ResponseEntity::ok);
         }
 

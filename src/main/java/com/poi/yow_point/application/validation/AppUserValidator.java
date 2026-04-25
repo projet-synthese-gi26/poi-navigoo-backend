@@ -29,7 +29,7 @@ public class AppUserValidator {
      */
     public Mono<Void> validateForCreation(AppUserDTO userDTO) {
         return Mono.when(
-                validateOrganizationExists(userDTO.getOrganizationId()),
+                //validateOrganizationExists(userDTO.getOrganizationId()),
                 validateUsernameUnique(userDTO.getUsername()),
                 validateEmailUnique(userDTO.getEmail()),
                 validatePasswordPresent(userDTO.getPassword()));
@@ -41,11 +41,12 @@ public class AppUserValidator {
     public Mono<Void> validateForUpdate(UUID userId, AppUserDTO userDTO) {
         return Mono.when(
                 validateUserExists(userId),
-                validateOrganizationExists(userDTO.getOrganizationId()),
+                //validateOrganizationExists(userDTO.getOrganizationId()),
                 validateUsernameUniqueForUpdate(userId, userDTO.getUsername()),
                 validateEmailUniqueForUpdate(userId, userDTO.getEmail()));
     }
 
+    /* 
     private Mono<Void> validateOrganizationExists(UUID orgId) {
         if (orgId == null) {
             return Mono.error(new IllegalArgumentException("Organization ID is required"));
@@ -59,6 +60,7 @@ public class AppUserValidator {
                     return Mono.empty();
                 });
     }
+    */
 
     private Mono<Void> validateUserExists(UUID userId) {
         return appUserRepository.existsById(userId)

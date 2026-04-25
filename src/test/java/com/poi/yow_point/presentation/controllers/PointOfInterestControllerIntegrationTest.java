@@ -57,7 +57,7 @@ class PointOfInterestControllerIntegrationTest {
         webTestClient = WebTestClient.bindToServer().baseUrl("http://localhost:" + port).build();
 
         testPoiDto = PointOfInterestDTO.builder()
-                .organizationId(organizationId)
+                //.organizationId(organizationId)
                 .createdByUserId(UUID.randomUUID())
                 .poiName("Test POI")
                 .poiType(PoiType.RESTAURANT)
@@ -85,7 +85,7 @@ class PointOfInterestControllerIntegrationTest {
         UUID userId = UUID.randomUUID();
 
         com.poi.yow_point.presentation.dto.CreatePoiDTO createDto = com.poi.yow_point.presentation.dto.CreatePoiDTO.builder()
-                .organizationId(organizationId)
+                //.organizationId(organizationId)
                 .createdByUserId(userId)
                 .poiName("Test POI")
                 .poiType(PoiType.RESTAURANT)
@@ -101,7 +101,7 @@ class PointOfInterestControllerIntegrationTest {
         PointOfInterest savedPoi = new PointOfInterest();
         savedPoi.setPoiId(poiId);
         savedPoi.setPoiName(createDto.getPoiName());
-        savedPoi.setOrganizationId(createDto.getOrganizationId());
+        //savedPoi.setOrganizationId(createDto.getOrganizationId());
         savedPoi.setPoiType(createDto.getPoiType());
         savedPoi.setPoiCategory(createDto.getPoiCategory());
         savedPoi.setAddressCity(createDto.getAddressCity());
@@ -111,7 +111,9 @@ class PointOfInterestControllerIntegrationTest {
         savedPoi.setLocationGeog(geometryFactory.createPoint(new Coordinate(createDto.getLongitude(), createDto.getLatitude())));
 
         // Mock check for existing name
-        Mockito.when(pointOfInterestRepository.existsByNameAndOrganizationIdExcludingId(any(), any(), any()))
+        Mockito.when(pointOfInterestRepository.existsByNameAndOrganizationIdExcludingId(any(), 
+        //any(), 
+        any()))
                .thenReturn(Mono.just(false));
 
         // Mock save operation

@@ -13,9 +13,9 @@ import java.util.UUID;
 public interface PointOfInterestRepository
                 extends R2dbcRepository<PointOfInterest, UUID>, PointOfInterestRepositoryCustom {
 
-        Flux<PointOfInterest> findActiveByOrganizationId(UUID organizationId);
+        //Flux<PointOfInterest> findActiveByOrganizationId(UUID organizationId);
 
-        Flux<PointOfInterest> findByOrganizationId(UUID organizationId);
+        //Flux<PointOfInterest> findByOrganizationId(UUID organizationId);
 
         Flux<PointOfInterest> findByPoiType(com.poi.yow_point.application.model.PoiType poiType);
 

@@ -1,5 +1,6 @@
 package com.poi.yow_point.presentation.controllers;
 
+/*
 import com.poi.yow_point.presentation.dto.OrganizationDTO;
 import com.poi.yow_point.application.services.organization.OrganizationService;
 import com.poi.yow_point.application.validation.OrganizationValidator;
@@ -22,7 +23,8 @@ import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 import java.util.UUID;
-
+ */
+/* 
 @Slf4j
 @RestController
 @RequestMapping("/poi-navigoo/api/organizations")
@@ -161,3 +163,4 @@ public class OrganizationController {
                 return organizationService.searchOrganizationsByName(org_name);
         }
 }
+*/

@@ -22,7 +22,7 @@ public class NotificationServiceProperties {
         /**
          * Base URL of the Notification Service API
          */
-        private String baseUrl = "https://notification-service.pynfi.com";
+        private String baseUrl = "https://traefikdev.yowyob.com/notification";
 
         /**
          * Service token for authentication (X-Service-Token header)

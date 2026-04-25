@@ -11,7 +11,7 @@ public interface PoiReviewRepositoryCustom {
 
     Flux<PoiReview> findByUserId(UUID userId);
 
-    Flux<PoiReview> findByOrganizationId(UUID organizationId);
+    //Flux<PoiReview> findByOrganizationId(UUID organizationId);
 
     Flux<PoiReview> findByPlatformType(String platformType);
 

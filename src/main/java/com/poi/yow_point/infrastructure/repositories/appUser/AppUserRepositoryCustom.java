@@ -56,17 +56,19 @@ public interface AppUserRepositoryCustom {
     /**
      * Check if users exist for an organization
      */
-    Mono<Boolean> existsByOrgId(UUID orgId);
+    //Mono<Boolean> existsByOrgId(UUID orgId);
 
     /**
      * Count active users by organization
      */
-    Mono<Long> countActiveUsersByOrgId(UUID orgId);
+    //Mono<Long> countActiveUsersByOrgId(UUID orgId);
 
     /**
      * Find users by organization and active status
      */
-    Flux<AppUser> findByOrgIdAndIsActive(UUID orgId, Boolean isActive);
+    Flux<AppUser> findByOrgIdAndIsActive(
+        //UUID orgId, 
+        Boolean isActive);
 
     /**
      * Find users by role

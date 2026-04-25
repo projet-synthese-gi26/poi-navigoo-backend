@@ -23,9 +23,11 @@ public class PoiReviewValidator {
                 errors.add("User ID is required");
             }
 
+            /* 
             if (reviewDTO.getOrganizationId() == null) {
                 errors.add("Organization ID is required");
             }
+            */
 
             if (reviewDTO.getRating() == null) {
                 errors.add("Rating is required");

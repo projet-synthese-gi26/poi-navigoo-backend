@@ -33,3 +33,5 @@ databaseChangeLog:
       dbms: h2
   - include:
       file: db/changelog/changes/01-initial-schema.xml
+  - include:
+      file: db/changelog/changes/02-remove-organization-relations.xml

@@ -86,6 +86,7 @@ public class PoiReviewServiceImpl implements PoiReviewService {
                 .doOnComplete(() -> log.info("Reviews fetched for user: {}", userId));
     }
 
+    /* 
     @Override
     public Flux<PoiReviewDTO> getReviewsByOrganizationId(UUID organizationId) {
         log.info("Fetching reviews for organization: {}", organizationId);
@@ -95,6 +96,7 @@ public class PoiReviewServiceImpl implements PoiReviewService {
                 .map(poiReviewMapper::toDTO)
                 .doOnComplete(() -> log.info("Reviews fetched for organization: {}", organizationId));
     }
+    */
 
     @Override
     @Transactional

@@ -169,6 +169,7 @@ public class AppUserController {
                                 .map(ResponseEntity::ok);
         }
 
+        /* 
         // Nouveaux endpoints pour les fonctionnalités étendues
         @GetMapping("/organization/{org_id}/active")
         @Operation(summary = "Get active users by organization")
@@ -179,6 +180,7 @@ public class AppUserController {
                                 .doOnComplete(() -> log.info("Completed fetching active users for organization: {}",
                                                 orgId));
         }
+        */
 
         @GetMapping("/role/{role}")
         @Operation(summary = "Get users by role")
@@ -189,6 +191,7 @@ public class AppUserController {
                                 .doOnComplete(() -> log.info("Completed fetching users with role: {}", role));
         }
 
+        /* 
         @GetMapping("/organization/{orgId}/count")
         @Operation(summary = "Count active users in organization")
         @ApiResponse(responseCode = "200", description = "Returns count of active users in organization")
@@ -196,4 +199,5 @@ public class AppUserController {
                 return appUserService.countActiveUsersByOrganization(orgId)
                                 .map(ResponseEntity::ok);
         }
+        */
 }

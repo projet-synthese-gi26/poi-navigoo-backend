@@ -74,7 +74,6 @@ public class AuthService {
                             .email(request.getEmail())
                             .phone(request.getPhone())
                             .passwordHash(passwordEncoder.encode(request.getPassword()))
-                            .organizationId(request.getOrganizationId())
                             .role(request.getRole() != null ? request.getRole() : Role.USER)
                             .isActive(true)
                             .emailVerified(false)

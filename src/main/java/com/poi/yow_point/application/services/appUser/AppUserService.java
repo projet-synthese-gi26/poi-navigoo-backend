@@ -62,7 +62,7 @@ public interface AppUserService {
     /**
      * Récupère les utilisateurs actifs d'une organisation
      */
-    Flux<AppUserDTO> getActiveUsersByOrganization(UUID orgId);
+    //Flux<AppUserDTO> getActiveUsersByOrganization(UUID orgId);
 
     /**
      * Récupère les utilisateurs par rôle
@@ -72,5 +72,5 @@ public interface AppUserService {
     /**
      * Compte les utilisateurs actifs d'une organisation
      */
-    Mono<Long> countActiveUsersByOrganization(UUID orgId);
+    //Mono<Long> countActiveUsersByOrganization(UUID orgId);
 }

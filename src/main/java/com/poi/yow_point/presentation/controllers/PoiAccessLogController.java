@@ -77,6 +77,7 @@ public class PoiAccessLogController {
                 return service.getAccessLogsByPoiId(poiId);
         }
 
+        /* 
         @Operation(summary = "Get access logs by organization", description = "Retrieves all access logs for a specific organization")
         @ApiResponse(responseCode = "200", description = "Successfully retrieved access logs", content = @Content(schema = @Schema(implementation = PoiAccessLogDTO.class)))
         @GetMapping("/organization/{organization_id}")
@@ -85,6 +86,7 @@ public class PoiAccessLogController {
                 log.info("Récupération des logs d'accès pour organisation: {}", organizationId);
                 return service.getAccessLogsByOrganizationId(organizationId);
         }
+        */
 
         @Operation(summary = "Get access logs by user", description = "Retrieves all access logs for a specific user")
         @ApiResponse(responseCode = "200", description = "Successfully retrieved access logs", content = @Content(schema = @Schema(implementation = PoiAccessLogDTO.class)))
@@ -113,6 +115,7 @@ public class PoiAccessLogController {
                 return service.getAccessLogsByPlatformType(platformType);
         }
 
+        /* 
         @Operation(summary = "Get access logs by POI and organization", description = "Retrieves all access logs for a specific POI and organization")
         @ApiResponse(responseCode = "200", description = "Successfully retrieved access logs", content = @Content(schema = @Schema(implementation = PoiAccessLogDTO.class)))
         @GetMapping("/poi/{poi_id}/organization/{organization_id}")
@@ -122,6 +125,7 @@ public class PoiAccessLogController {
                 log.info("Récupération des logs d'accès pour POI: {} et organisation: {}", poiId, organizationId);
                 return service.getAccessLogsByPoiAndOrganization(poiId, organizationId);
         }
+        */
 
         @Operation(summary = "Get access logs by date range", description = "Retrieves all access logs between two dates")
         @ApiResponse(responseCode = "200", description = "Successfully retrieved access logs", content = @Content(schema = @Schema(implementation = PoiAccessLogDTO.class)))
@@ -198,6 +202,7 @@ public class PoiAccessLogController {
                                 .onErrorReturn(ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build());
         }
 
+        /* 
         @Operation(summary = "Get platform statistics by organization", description = "Retrieves platform statistics (count by platform) for a specific organization")
         @ApiResponse(responseCode = "200", description = "Successfully retrieved platform statistics", content = @Content(schema = @Schema(implementation = Map.class)))
         @GetMapping("/organization/{organization_id}/platform-stats")
@@ -206,6 +211,7 @@ public class PoiAccessLogController {
                 log.info("Récupération des statistiques par plateforme pour organisation: {}", organizationId);
                 return service.getPlatformStatsForOrganization(organizationId);
         }
+        */
 
         @Operation(summary = "Update access log", description = "Updates an existing access log")
         @ApiResponses(value = {

@@ -19,9 +19,11 @@ public class PoiAccessLogValidator {
                 throw new IllegalArgumentException("POI ID cannot be null");
             }
 
+            /*
             if (dto.getOrganizationId() == null) {
                 throw new IllegalArgumentException("Organization ID cannot be null");
             }
+            */
 
             if (dto.getUserId() == null) {
                 throw new IllegalArgumentException("User ID cannot be null");

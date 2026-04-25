@@ -23,8 +23,8 @@ public class AppUser {
     @Column("user_id")
     private UUID userId;
 
-    @Column("organization_id")
-    private UUID organizationId;
+    //@Column("organization_id")
+    //private UUID organizationId;
 
     @Column("username")
     private String username;

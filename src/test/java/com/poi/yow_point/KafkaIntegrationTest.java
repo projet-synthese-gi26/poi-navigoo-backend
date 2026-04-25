@@ -75,7 +75,7 @@ class KafkaIntegrationTest {
         // Given
         CreatePoiDTO createDto = new CreatePoiDTO();
         createDto.setPoiName("Test POI From Test");
-        createDto.setOrganizationId(UUID.randomUUID());
+        //createDto.setOrganizationId(UUID.randomUUID());
         createDto.setCreatedByUserId(UUID.randomUUID());
         createDto.setPoiCategory(com.poi.yow_point.application.model.PoiCategory.FOOD_DRINK);
         createDto.setPoiType(com.poi.yow_point.application.model.PoiType.RESTAURANT);
@@ -85,10 +85,12 @@ class KafkaIntegrationTest {
         PointOfInterest savedEntity = new PointOfInterest();
         savedEntity.setPoiId(UUID.randomUUID());
         savedEntity.setPoiName(createDto.getPoiName());
-        savedEntity.setOrganizationId(createDto.getOrganizationId());
+        //savedEntity.setOrganizationId(createDto.getOrganizationId());
         savedEntity.setCreatedByUserId(createDto.getCreatedByUserId());
 
-        when(pointOfInterestRepository.existsByNameAndOrganizationIdExcludingId(any(), any(), any())).thenReturn(Mono.just(false));
+        when(pointOfInterestRepository.existsByNameAndOrganizationIdExcludingId(any(), 
+        //any(), 
+        any())).thenReturn(Mono.just(false));
         when(pointOfInterestRepository.save(any(PointOfInterest.class))).thenReturn(Mono.just(savedEntity));
         when(appUserService.getUserById(any())).thenReturn(Mono.just(new com.poi.yow_point.presentation.dto.AppUserDTO()));
         when(notificationService.notifyPoiSubmitted(any(), any())).thenReturn(Mono.empty());

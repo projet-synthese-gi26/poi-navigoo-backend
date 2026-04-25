@@ -1,15 +1,15 @@
 package com.poi.yow_point.application.services.digest;
 
 import com.poi.yow_point.application.services.point_of_interest.PointOfInterestService;
-import com.poi.yow_point.presentation.dto.PointOfInterestDTO;
+//import com.poi.yow_point.presentation.dto.PointOfInterestDTO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-import reactor.core.publisher.Flux;
+//import reactor.core.publisher.Flux;
 
-import java.util.Comparator;
-import java.util.List;
-import java.util.UUID;
+//import java.util.Comparator;
+//import java.util.List;
+//import java.util.UUID;
 
 /**
  * Service for generating personalized POI recommendations for users.
@@ -29,6 +29,7 @@ public class DigestRecommendationService {
      * @param organizationId The user's organization ID
      * @return Flux of recommended POIs
      */
+    /* 
     public Flux<PointOfInterestDTO> generateRecommendations(UUID organizationId) {
         log.debug("Generating POI recommendations for organization: {}", organizationId);
 
@@ -41,6 +42,7 @@ public class DigestRecommendationService {
                 .take(10) // Limit to top 10 recommendations
                 .doOnComplete(() -> log.debug("Generated recommendations for organization: {}", organizationId));
     }
+    */
 
     /**
      * Generate POI recommendations for a user.
@@ -50,6 +52,7 @@ public class DigestRecommendationService {
      * @param organizationId The user's organization ID
      * @return List of recommended POIs
      */
+    /* 
     public Flux<PointOfInterestDTO> generatePersonalizedRecommendations(UUID userId, UUID organizationId) {
         log.debug("Generating personalized POI recommendations for user: {}", userId);
 
@@ -62,4 +65,5 @@ public class DigestRecommendationService {
         
         return generateRecommendations(organizationId);
     }
+    */
 }

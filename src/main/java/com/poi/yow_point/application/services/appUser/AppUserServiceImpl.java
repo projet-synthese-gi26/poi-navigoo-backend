@@ -138,12 +138,14 @@ public class AppUserServiceImpl implements AppUserService {
                 .hasElement();
     }
 
+    /* 
     @Override
     public Flux<AppUserDTO> getActiveUsersByOrganization(UUID orgId) {
         log.info("Fetching active users for organization: {}", orgId);
         return appUserRepository.findByOrgIdAndIsActive(orgId, true)
                 .map(appUserMapper::toDTO);
     }
+    */
 
     @Override
     public Flux<AppUserDTO> getUsersByRole(String role) {
@@ -152,8 +154,10 @@ public class AppUserServiceImpl implements AppUserService {
                 .map(appUserMapper::toDTO);
     }
 
+    /* 
     @Override
     public Mono<Long> countActiveUsersByOrganization(UUID orgId) {
         return appUserRepository.countActiveUsersByOrgId(orgId);
     }
+    */
 }

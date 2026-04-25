@@ -49,7 +49,7 @@ public class PointOfInterestServiceImpl implements PointOfInterestService {
         return Mono.just(dto) // Skipping complex validation for now as logic changed, relying on partial checks
                 .flatMap(validDto -> repository.existsByNameAndOrganizationIdExcludingId(
                         validDto.getPoiName(),
-                        validDto.getOrganizationId(),
+                        //validDto.getOrganizationId(),
                         UUID.randomUUID())
                         .flatMap(exists -> {
                             if (exists) {
@@ -99,7 +99,7 @@ public class PointOfInterestServiceImpl implements PointOfInterestService {
                     if (dto.getPoiName() != null && !dto.getPoiName().equals(existingEntity.getPoiName())) {
                         return repository.existsByNameAndOrganizationIdExcludingId(
                                 dto.getPoiName(),
-                                existingEntity.getOrganizationId(),
+                                //existingEntity.getOrganizationId(),
                                 poiId)
                                 .flatMap(exists -> {
                                     if (exists) {
@@ -136,17 +136,21 @@ public class PointOfInterestServiceImpl implements PointOfInterestService {
                         .flatMap(dto -> redisTemplate.opsForValue().set(cacheKey, dto, CACHE_TTL).thenReturn(dto)));
     }
 
+    /* 
     @Override
     public Flux<PointOfInterestDTO> findActiveByOrganizationId(UUID organizationId) {
         return repository.findActiveByOrganizationId(organizationId)
                 .map(mapper::toDto);
     }
+    */
 
+    /* 
     @Override
     public Flux<PointOfInterestDTO> findByOrganizationId(UUID organizationId) {
         return repository.findByOrganizationId(organizationId)
                 .map(mapper::toDto);
     }
+    */
 
     @Override
     public Flux<PointOfInterestDTO> findByLocationWithinRadius(Double latitude, Double longitude, Double radiusKm) {
@@ -236,10 +240,12 @@ public class PointOfInterestServiceImpl implements PointOfInterestService {
                 .then();
     }
 
+    /* 
     @Override
     public Mono<Long> countActiveByOrganizationId(UUID organizationId) {
         return repository.countActiveByOrganizationId(organizationId);
     }
+    */
 
     @Override
     public Flux<PointOfInterestDTO> findByCreatedByUserId(UUID userId) {
@@ -247,9 +253,13 @@ public class PointOfInterestServiceImpl implements PointOfInterestService {
     }
 
     @Override
-    public Mono<Boolean> existsByNameAndOrganization(String name, UUID organizationId, UUID excludeId) {
+    public Mono<Boolean> existsByNameAndOrganization(String name, 
+        //UUID organizationId, 
+        UUID excludeId) {
         UUID excludeIdToUse = excludeId != null ? excludeId : UUID.randomUUID();
-        return repository.existsByNameAndOrganizationIdExcludingId(name, organizationId, excludeIdToUse);
+        return repository.existsByNameAndOrganizationIdExcludingId(name, 
+            //organizationId, 
+            excludeIdToUse);
     }
 
     @Override

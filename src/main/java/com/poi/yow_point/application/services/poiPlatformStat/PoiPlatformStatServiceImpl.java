@@ -76,13 +76,14 @@ public class PoiPlatformStatServiceImpl implements PoiPlatformStatService {
                 }));
     }
 
+    /* 
     @Override
     @Transactional(readOnly = true)
     public Flux<PoiPlatformStatDTO> getStatsByOrgId(UUID orgId) {
         return repository.findByOrgId(orgId)
                 .map(mapper::toDTO)
                 .doOnComplete(() -> log.info("Retrieved statistics for organization: {}", orgId));
-    }
+    }*/
 
     @Override
     @Transactional(readOnly = true)
@@ -116,6 +117,7 @@ public class PoiPlatformStatServiceImpl implements PoiPlatformStatService {
                 .doOnComplete(() -> log.info("Retrieved statistics between {} and {}", startDate, endDate));
     }
 
+    /* 
     @Override
     @Transactional(readOnly = true)
     public Flux<PoiPlatformStatDTO> getStatsByOrgIdAndDateRange(UUID orgId, LocalDate startDate, LocalDate endDate) {
@@ -124,6 +126,7 @@ public class PoiPlatformStatServiceImpl implements PoiPlatformStatService {
                 .doOnComplete(() -> log.info("Retrieved statistics for organization {} between {} and {}", orgId,
                         startDate, endDate));
     }
+    */
 
     @Override
     public Mono<PoiPlatformStatDTO> updateStat(UUID statId, PoiPlatformStatDTO statDTO) {
@@ -156,12 +159,14 @@ public class PoiPlatformStatServiceImpl implements PoiPlatformStatService {
                 .doOnError(error -> log.error("Error deleting statistic: {}", statId, error));
     }
 
+    /* 
     @Override
     public Mono<Void> deleteStatsByOrgId(UUID orgId) {
         return repository.deleteByOrgId(orgId)
                 .doOnSuccess(v -> log.info("Statistics deleted for organization: {}", orgId))
                 .doOnError(error -> log.error("Error deleting statistics for organization: {}", orgId, error));
     }
+    */
 
     @Override
     public Mono<Void> deleteStatsByPoiId(UUID poiId) {

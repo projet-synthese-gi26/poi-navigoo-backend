@@ -15,7 +15,7 @@ public class PoiReviewDTO {
     private UUID reviewId;
     private UUID poiId;
     private UUID userId;
-    private UUID organizationId;
+    //private UUID organizationId;
     private String platformType;
     private Integer rating;
     private String reviewText;

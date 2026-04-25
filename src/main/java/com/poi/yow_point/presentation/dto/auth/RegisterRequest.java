@@ -34,8 +34,10 @@ public class RegisterRequest {
     @Size(max = 50, message = "Phone number must not exceed 50 characters")
     private String phone;
 
+    /* 
     @NotNull(message = "Organization ID is required")
     private UUID organizationId;
+    */
 
     private Role role;
 

@@ -44,7 +44,7 @@ public interface PointOfInterestMapper {
     @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
     @Mapping(target = "poiId", ignore = true)
     @Mapping(target = "createdByUserId", ignore = true)
-    @Mapping(target = "organizationId", ignore = true)
+    //@Mapping(target = "organizationId", ignore = true)
     @Mapping(target = "createdAt", ignore = true)
     @Mapping(target = "status", ignore = true)
     @Mapping(target = "approuvedByUserId", ignore = true)

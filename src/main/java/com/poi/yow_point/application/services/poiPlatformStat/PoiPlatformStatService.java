@@ -15,7 +15,7 @@ public interface PoiPlatformStatService {
 
     Mono<PoiPlatformStatDTO> getStatById(UUID statId);
 
-    Flux<PoiPlatformStatDTO> getStatsByOrgId(UUID orgId);
+    //Flux<PoiPlatformStatDTO> getStatsByOrgId(UUID orgId);
 
     Flux<PoiPlatformStatDTO> getStatsByPoiId(UUID poiId);
 
@@ -25,13 +25,13 @@ public interface PoiPlatformStatService {
 
     Flux<PoiPlatformStatDTO> getStatsByDateRange(LocalDate startDate, LocalDate endDate);
 
-    Flux<PoiPlatformStatDTO> getStatsByOrgIdAndDateRange(UUID orgId, LocalDate startDate, LocalDate endDate);
+    //Flux<PoiPlatformStatDTO> getStatsByOrgIdAndDateRange(UUID orgId, LocalDate startDate, LocalDate endDate);
 
     Mono<PoiPlatformStatDTO> updateStat(UUID statId, PoiPlatformStatDTO statDTO);
 
     Mono<Void> deleteStat(UUID statId);
 
-    Mono<Void> deleteStatsByOrgId(UUID orgId);
+    //Mono<Void> deleteStatsByOrgId(UUID orgId);
 
     Mono<Void> deleteStatsByPoiId(UUID poiId);
 

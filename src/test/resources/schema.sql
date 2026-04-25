@@ -3,7 +3,7 @@ DROP TABLE IF EXISTS point_of_interest;
 CREATE TABLE point_of_interest (
     poi_id UUID PRIMARY KEY,
     created_by_user_id UUID,
-    organization_id UUID,
+    --organization_id UUID,
     poi_name VARCHAR(255),
     poi_type VARCHAR(255),
     poi_category VARCHAR(255),

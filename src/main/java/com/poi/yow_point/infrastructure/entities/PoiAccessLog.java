@@ -27,9 +27,11 @@ public class PoiAccessLog {
     @Column("poi_id")
     private UUID poiId;
 
+    /* 
     @Column("organization_id")
     private UUID organizationId;
-
+    */
+   
     @Column("platform_type")
     private String platformType;
 

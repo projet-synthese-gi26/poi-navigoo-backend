@@ -18,7 +18,7 @@ public interface PoiAccessLogService {
 
     Flux<PoiAccessLogDTO> getAccessLogsByPoiId(UUID poiId);
 
-    Flux<PoiAccessLogDTO> getAccessLogsByOrganizationId(UUID organizationId);
+    //Flux<PoiAccessLogDTO> getAccessLogsByOrganizationId(UUID organizationId);
 
     Flux<PoiAccessLogDTO> getAccessLogsByUserId(UUID userId);
 
@@ -26,7 +26,7 @@ public interface PoiAccessLogService {
 
     Flux<PoiAccessLogDTO> getAccessLogsByPlatformType(String platformType);
 
-    Flux<PoiAccessLogDTO> getAccessLogsByPoiAndOrganization(UUID poiId, UUID organizationId);
+    //Flux<PoiAccessLogDTO> getAccessLogsByPoiAndOrganization(UUID poiId, UUID organizationId);
 
     Flux<PoiAccessLogDTO> getAccessLogsByDateRange(OffsetDateTime startDate, OffsetDateTime endDate);
 
@@ -38,7 +38,7 @@ public interface PoiAccessLogService {
 
     Mono<Long> countAccessLogsByPoiIdAndAccessType(UUID poiId, String accessType);
 
-    Flux<Map<String, Object>> getPlatformStatsForOrganization(UUID organizationId);
+    //Flux<Map<String, Object>> getPlatformStatsForOrganization(UUID organizationId);
 
     Mono<PoiAccessLogDTO> updateAccessLog(UUID accessId, PoiAccessLogDTO dto);
 

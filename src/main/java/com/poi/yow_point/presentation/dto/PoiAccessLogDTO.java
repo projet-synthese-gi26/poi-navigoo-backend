@@ -17,7 +17,7 @@ public class PoiAccessLogDTO {
 
     private UUID accessId;
     private UUID poiId;
-    private UUID organizationId;
+    //private UUID organizationId;
     private String platformType;
     private UUID userId;
     private String accessType;

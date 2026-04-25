@@ -100,6 +100,7 @@ public class PoiPlatformStatController {
                                                 statId, response.getStatusCode()));
         }
 
+        /* 
         @Operation(summary = "Get statistics by organization", description = "Retrieves all statistics for a specific organization")
         @ApiResponse(responseCode = "200", description = "Successfully retrieved statistics", content = @Content(schema = @Schema(implementation = PoiPlatformStatDTO.class)))
         @GetMapping("/organization/{org_id}/stats")
@@ -109,6 +110,7 @@ public class PoiPlatformStatController {
                                 .doOnComplete(() -> log.info("Récupération des statistiques pour l'organisation: {}",
                                                 orgId));
         }
+        */
 
         @Operation(summary = "Get statistics by POI", description = "Retrieves all statistics for a specific point of interest")
         @ApiResponse(responseCode = "200", description = "Successfully retrieved statistics", content = @Content(schema = @Schema(implementation = PoiPlatformStatDTO.class)))
@@ -149,6 +151,7 @@ public class PoiPlatformStatController {
                                                 endDate));
         }
 
+        /* 
         @Operation(summary = "Get statistics by organization and date range", description = "Retrieves all statistics for a specific organization between two dates")
         @ApiResponse(responseCode = "200", description = "Successfully retrieved statistics", content = @Content(schema = @Schema(implementation = PoiPlatformStatDTO.class)))
         @GetMapping("/organization/{org_id}/date-range")
@@ -161,6 +164,7 @@ public class PoiPlatformStatController {
                                                 "Récupération des statistiques pour l'organisation {} entre {} et {}",
                                                 orgId, startDate, endDate));
         }
+        */
 
         @Operation(summary = "Delete a statistic", description = "Deletes a specific statistic by its ID")
         @ApiResponses(value = {
@@ -185,6 +189,7 @@ public class PoiPlatformStatController {
                                                 statId, response.getStatusCode()));
         }
 
+        /* 
         @Operation(summary = "Delete statistics by organization", description = "Deletes all statistics for a specific organization")
         @ApiResponses(value = {
                         @ApiResponse(responseCode = "204", description = "Statistics deleted successfully"),
@@ -205,6 +210,7 @@ public class PoiPlatformStatController {
                                                 "Suppression des statistiques pour l'organisation: {} - Status: {}",
                                                 orgId, response.getStatusCode()));
         }
+        */
 
         @Operation(summary = "Delete statistics by POI", description = "Deletes all statistics for a specific point of interest")
         @ApiResponses(value = {

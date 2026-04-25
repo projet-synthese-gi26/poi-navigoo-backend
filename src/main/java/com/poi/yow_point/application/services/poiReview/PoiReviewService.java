@@ -16,7 +16,7 @@ public interface PoiReviewService {
 
     Flux<PoiReviewDTO> getReviewsByUserId(UUID userId);
 
-    Flux<PoiReviewDTO> getReviewsByOrganizationId(UUID organizationId);
+    //Flux<PoiReviewDTO> getReviewsByOrganizationId(UUID organizationId);
 
     Mono<PoiReviewDTO> updateReview(UUID reviewId, PoiReviewDTO reviewDTO);
 

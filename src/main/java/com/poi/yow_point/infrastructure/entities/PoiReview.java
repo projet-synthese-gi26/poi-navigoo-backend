@@ -28,8 +28,10 @@ public class PoiReview {
     @Column("user_id")
     private UUID userId;
 
+    /* 
     @Column("organization_id")
     private UUID organizationId;
+    */
 
     @Column("platform_type")
     private String platformType; // Plateforme source du review

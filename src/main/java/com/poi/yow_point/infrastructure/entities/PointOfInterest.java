@@ -30,8 +30,10 @@ public class PointOfInterest {
     @Column("poi_id")
     private UUID poiId;
 
+    /* 
     @Column("organization_id")
     private UUID organizationId;
+    */
 
     @Column("created_by_user_id")
     private UUID createdByUserId;

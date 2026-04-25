@@ -24,10 +24,11 @@ public class PointOfInterestValidator implements Validator {
             errors.rejectValue("poiName", "poi.name.length", "POI name must be less than 100 characters");
         }
 
+        /* 
         // Validation de l'organisation
         if (dto.getOrganizationId() == null) {
             errors.rejectValue("organizationId", "organization.id.required", "Organization ID is required");
-        }
+        }*/
 
         // Validation des coordonnées géographiques
         if (dto.getLatitude() != null) {

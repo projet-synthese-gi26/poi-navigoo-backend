@@ -13,7 +13,7 @@ import java.util.UUID;
 @AllArgsConstructor
 public class PoiPlatformStatDTO {
     private UUID statId;
-    private UUID orgId;
+    //private UUID orgId;
     private UUID poiId;
     private String platformType;
     private LocalDate statDate;

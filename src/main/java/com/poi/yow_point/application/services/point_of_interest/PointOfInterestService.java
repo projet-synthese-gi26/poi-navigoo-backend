@@ -15,9 +15,9 @@ public interface PointOfInterestService {
 
     Mono<PointOfInterestDTO> findById(UUID poiId);
 
-    Flux<PointOfInterestDTO> findActiveByOrganizationId(UUID organizationId);
+    //Flux<PointOfInterestDTO> findActiveByOrganizationId(UUID organizationId);
 
-    Flux<PointOfInterestDTO> findByOrganizationId(UUID organizationId);
+    //Flux<PointOfInterestDTO> findByOrganizationId(UUID organizationId);
 
     Flux<PointOfInterestDTO> findByLocationWithinRadius(Double latitude, Double longitude, Double radiusKm);
 
@@ -37,11 +37,13 @@ public interface PointOfInterestService {
 
     Mono<Void> deletePoi(UUID poiId);
 
-    Mono<Long> countActiveByOrganizationId(UUID organizationId);
+    //Mono<Long> countActiveByOrganizationId(UUID organizationId);
 
     Flux<PointOfInterestDTO> findByCreatedByUserId(UUID userId);
 
-    Mono<Boolean> existsByNameAndOrganization(String name, UUID organizationId, UUID excludeId);
+    Mono<Boolean> existsByNameAndOrganization(String name, 
+        //UUID organizationId, 
+        UUID excludeId);
 
     Flux<PointOfInterestDTO> findAll();
 

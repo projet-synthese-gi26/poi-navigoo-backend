@@ -31,7 +31,6 @@ services:
     container_name: redis
     ports:
       - "6379:6379"
-    command: redis-server --requirepass test
 
   db:
     image: postgis/postgis:15-3.4
